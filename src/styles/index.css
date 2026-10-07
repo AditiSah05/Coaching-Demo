@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: #14213D;
+    background-color: #FBF6EC;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Fraunces', 'Playfair Display', serif;
+  }
+}
+
+/* Custom Italian Maritime Motifs & Ticket Styles */
+.arch-image {
+  border-radius: 120px 120px 20px 20px;
+}
+
+.arch-image-lg {
+  border-radius: 200px 200px 24px 24px;
+}
+
+.ticket-card {
+  position: relative;
+  border-radius: 24px;
+}
+
+.ticket-card::before,
+.ticket-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  background-color: #FBF6EC;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.ticket-card::before {
+  left: -12px;
+}
+
+.ticket-card::after {
+  right: -12px;
+}
+
+/* Maritime pattern background */
+.bg-maritime-pattern {
+  background-color: #0B2545;
+  background-image: radial-gradient(#13A0C9 0.75px, transparent 0.75px), radial-gradient(#13A0C9 0.75px, #0B2545 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.bg-ivory-pattern {
+  background-color: #FBF6EC;
+  background-image: radial-gradient(#E4572E 0.6px, transparent 0.6px);
+  background-size: 24px 24px;
+}
+
+/* Solid badge tag styling */
+.badge-solid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Hide scrollbars for smooth marquee */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animations */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 30s linear infinite;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 4s ease-in-out infinite;
+}
