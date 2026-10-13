@@ -2,156 +2,201 @@
 
 import React from 'react';
 import Link from "next/link";
-import { Compass, MapPin, Phone, Mail, Award, ArrowUpRight, Facebook, Instagram, Youtube, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, Mail, Navigation, MessageCircle, Facebook, Instagram, Youtube, ArrowUpRight, ArrowUp } from 'lucide-react';
 import { useData } from '../../context/DataContext';
+
+const explore = [
+  { label: 'About Academy', path: '/about' },
+  { label: 'Our Courses', path: '/courses' },
+  { label: 'Admission Form', path: '/admission' },
+  { label: 'Results & Toppers', path: '/results' },
+  { label: 'Study Materials', path: '/study-materials' },
+  { label: 'Downloadable Forms', path: '/forms' },
+  { label: 'Gallery', path: '/gallery' },
+  { label: 'Contact Us', path: '/contact' },
+];
+
+const programs = [
+  { label: 'IMU CET Preparation', path: '/courses/imu-cet-preparation' },
+  { label: 'DNS Sponsorship', path: '/courses/dns-sponsorship' },
+  { label: 'Diploma in Nautical Science', path: '/courses/diploma-in-nautical-science' },
+  { label: 'BSC Nautical Science', path: '/courses/bsc-nautical-science' },
+  { label: 'B.Tech Marine Engineering', path: '/courses/btech-marine-engineering' },
+];
+
+const FooterLink = ({ href, children }) => (
+  <Link
+    href={href}
+    className="group relative inline-flex items-center text-sm text-white/65 hover:text-gold transition-colors"
+  >
+    <span className="relative">
+      {children}
+      <span className="absolute left-0 -bottom-0.5 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+    </span>
+  </Link>
+);
+
+const Heading = ({ children }) => (
+  <h4 className="mb-6 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.25em] text-gold">
+    <span className="h-px w-6 bg-gold/60" />
+    {children}
+  </h4>
+);
+
+const ContactRow = ({ Icon, href, children, external }) => {
+  const body = (
+    <>
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold/10 text-gold ring-1 ring-gold/25 transition-colors group-hover:bg-gold group-hover:text-navy-deep">
+        <Icon className="h-4 w-4" />
+      </span>
+      <span className="text-sm leading-relaxed text-white/75 transition-colors group-hover:text-white break-words min-w-0">{children}</span>
+    </>
+  );
+  const cls = "group flex items-start gap-3";
+  return href ? (
+    <a href={href} className={cls} {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}>{body}</a>
+  ) : (
+    <div className={cls}>{body}</div>
+  );
+};
 
 export const Footer = () => {
   const { settings } = useData();
+  const phone = settings?.phonePrimary;
+  const address = settings?.address;
+  const links = settings?.socialLinks || {};
+  const socials = [
+    { key: 'whatsapp', Icon: MessageCircle, label: 'WhatsApp', hover: 'hover:bg-seagreen hover:border-seagreen' },
+    { key: 'instagram', Icon: Instagram, label: 'Instagram', hover: 'hover:bg-terracotta hover:border-terracotta' },
+    { key: 'facebook', Icon: Facebook, label: 'Facebook', hover: 'hover:bg-[#1877F2] hover:border-[#1877F2]' },
+    { key: 'youtube', Icon: Youtube, label: 'YouTube', hover: 'hover:bg-red-600 hover:border-red-600' },
+  ].filter((s) => links[s.key]);
 
   return (
-    <footer className="bg-navy-deep text-ivory relative overflow-hidden pt-16 pb-12 border-t-4 border-terracotta">
-      {/* Background Compass Rose Watermark */}
-      <div className="absolute right-[-100px] bottom-[-100px] opacity-5 pointer-events-none text-sea-blue">
-        <Compass className="w-[500px] h-[500px] animate-spin-slow" />
+    <footer className="relative text-white">
+      {/* Wave rising from the page into the footer */}
+      <div className="leading-none bg-ivory" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="block w-full h-12 md:h-20">
+          <path d="M0,50 C240,100 480,0 720,40 C960,80 1200,10 1440,50 L1440,90 L0,90 Z" fill="#0B2C4A" />
+          <path d="M0,62 C260,20 500,90 760,56 C1000,24 1220,80 1440,48 L1440,90 L0,90 Z" fill="#021527" />
+        </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-          
-          {/* Col 1: Institute Brand Story */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Pacific Marine Academy" className="w-12 h-12 rounded-full shrink-0 bg-white" />
-              <div>
-                <h3 className="font-serif text-2xl font-bold text-white">PACIFIC <span className="text-gold">MARINE</span></h3>
-                <p className="text-[11px] font-semibold text-sea-blue tracking-widest uppercase">Academy • Merchant Navy</p>
-              </div>
-            </div>
-            <p className="text-xs text-ivory/80 leading-relaxed">
-              India's premier Merchant Navy entrance coaching institute. Empowering young mariners with top-tier IMU-CET, DNS, and Shipping Sponsorship preparation under expert Master Mariners.
-            </p>
-            <div className="pt-2">
-              <span className="inline-flex items-center gap-2 bg-navy-light/60 px-3 py-1.5 rounded-full text-xs font-semibold text-gold border border-gold/30">
-                <Award className="w-4 h-4 text-gold" />
-                <span>IMU CET • DNS Sponsorship</span>
-              </span>
-            </div>
-          </div>
+      <div className="relative overflow-hidden bg-gradient-to-b from-navy-deep to-navy-dark">
+        {/* ambient glow */}
+        <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[70%] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl" aria-hidden="true" />
 
-          {/* Col 2: Quick Navigation */}
-          <div>
-            <h4 className="font-serif text-lg font-bold text-gold mb-4 pb-2 border-b border-sea-blue/20 flex items-center gap-2">
-              <span>Quick Links</span>
-            </h4>
-            <ul className="space-y-2.5 text-xs">
-              {[
-                { label: 'About Our Academy', path: '/about' },
-                { label: 'Merchant Navy Courses', path: '/courses' },
-                { label: 'Admission Process & Form', path: '/admission' },
-                { label: 'All-India Rank Results', path: '/results' },
-                { label: 'Free Study Materials', path: '/study-materials' },
-                { label: 'Downloadable Forms', path: '/forms' },
-                { label: 'Photo & Video Gallery', path: '/gallery' },
-                { label: 'Contact & Location', path: '/contact' }
-              ].map((item) => (
-                <li key={item.path}>
-                  <Link
-                    href={item.path}
-                    className="text-ivory/80 hover:text-sea-blue transition-colors flex items-center gap-2"
+        <div className="relative z-10 mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
+          {/* Main grid */}
+          <div className="grid grid-cols-1 gap-12 pb-14 pt-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-10">
+
+            {/* Brand */}
+            <div className="space-y-6 lg:col-span-4">
+              <Link href="/" className="inline-flex items-center gap-4">
+                <img src="/logo.png" alt="Pacific Marine Academy" className="h-16 w-16 shrink-0 rounded-full bg-white ring-2 ring-gold/70 ring-offset-4 ring-offset-navy-deep" />
+                <div>
+                  <h3 className="font-serif text-2xl font-bold leading-none tracking-tight">
+                    PACIFIC <span className="text-gold">MARINE</span>
+                  </h3>
+                  <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/55">Academy • Sikar</p>
+                </div>
+              </Link>
+
+              <p className="max-w-sm text-sm leading-relaxed text-white/65">
+                India's premier Merchant Navy entrance coaching institute. Expert Master Mariners guiding young cadets through IMU-CET, DNS sponsorship and shipping-company interviews.
+              </p>
+
+              <Link
+                href="/admission"
+                className="group inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-xs font-extrabold uppercase tracking-wider text-navy-deep transition-colors hover:bg-gold-hover"
+              >
+                Enrol Now
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </Link>
+
+              {socials.length > 0 && (
+                <div className="flex items-center gap-2.5 pt-1">
+                  {socials.map(({ key, Icon, label, hover }) => (
+                    <a
+                      key={key}
+                      href={links[key]}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={label}
+                      className={`flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/80 transition-colors hover:text-white ${hover}`}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Explore */}
+            <div className="lg:col-span-2">
+              <Heading>Explore</Heading>
+              <ul className="space-y-3.5">
+                {explore.map((l) => <li key={l.path}><FooterLink href={l.path}>{l.label}</FooterLink></li>)}
+              </ul>
+            </div>
+
+            {/* Programs */}
+            <div className="lg:col-span-3">
+              <Heading>Programs</Heading>
+              <ul className="space-y-3.5">
+                {programs.map((l) => <li key={l.path}><FooterLink href={l.path}>{l.label}</FooterLink></li>)}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div className="lg:col-span-3">
+              <Heading>Visit Us</Heading>
+              <div className="space-y-5">
+                {address && <ContactRow Icon={MapPin}>{address}</ContactRow>}
+                {phone && (
+                  <ContactRow Icon={Phone} href={`tel:${phone.replace(/\s/g, '')}`}>
+                    {[phone, settings?.phoneSecondary].filter(Boolean).join(' / ')}
+                  </ContactRow>
+                )}
+                {settings?.email && (
+                  <ContactRow Icon={Mail} href={`mailto:${settings.email}`}>{settings.email}</ContactRow>
+                )}
+                {address && (
+                  <ContactRow
+                    Icon={Navigation}
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+                    external
                   >
-                    <span className="text-gold font-bold">›</span>
-                    <span>{item.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 3: Programs & Coaching */}
-          <div>
-            <h4 className="font-serif text-lg font-bold text-gold mb-4 pb-2 border-b border-sea-blue/20">
-              Coaching Programs
-            </h4>
-            <ul className="space-y-2.5 text-xs text-ivory/80">
-              <li className="flex items-start gap-2">
-                <span className="text-sea-blue font-bold">⚓</span>
-                <span>IMU-CET Comprehensive Prep (Aug/Dec)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-sea-blue font-bold">⚓</span>
-                <span>DNS Shipping Sponsorship Coaching</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-sea-blue font-bold">⚓</span>
-                <span>G.P. Rating Entrance & Foundation</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-sea-blue font-bold">⚓</span>
-                <span>Marine Engineering (B.Tech) Entrance</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-sea-blue font-bold">⚓</span>
-                <span>Company Psychometric & Viva Prep</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-sea-blue font-bold">⚓</span>
-                <span>IMU-CET Super Fast Crash Course</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 4: Contact & Location */}
-          <div>
-            <h4 className="font-serif text-lg font-bold text-gold mb-4 pb-2 border-b border-sea-blue/20">
-              Campus Contact
-            </h4>
-            <div className="space-y-3 text-xs text-ivory/80">
-              <p className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-gold shrink-0 mt-0.5" />
-                <span>{settings?.address}</span>
-              </p>
-              <p className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-sea-blue shrink-0" />
-                <span>{[settings?.phonePrimary, settings?.phoneSecondary].filter(Boolean).join(" / ")}</span>
-              </p>
-              <p className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-gold shrink-0" />
-                <span>{settings?.email}</span>
-              </p>
-            </div>
-
-            {/* Social Links */}
-            <div className="mt-6 pt-4 border-t border-sea-blue/20">
-              <span className="text-[10px] uppercase tracking-wider text-sea-blue font-bold block mb-2">Connect With Us</span>
-              <div className="flex items-center gap-2">
-                {settings?.socialLinks?.facebook && <a href={settings.socialLinks.facebook} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-sea-blue hover:text-navy-deep flex items-center justify-center text-ivory transition-colors">
-                  <Facebook className="w-4 h-4" />
-                </a>}
-                {settings?.socialLinks?.instagram && <a href={settings.socialLinks.instagram} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-terracotta hover:text-white flex items-center justify-center text-ivory transition-colors">
-                  <Instagram className="w-4 h-4" />
-                </a>}
-                {settings?.socialLinks?.youtube && <a href={settings.socialLinks.youtube} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-red-600 hover:text-white flex items-center justify-center text-ivory transition-colors">
-                  <Youtube className="w-4 h-4" />
-                </a>}
+                    Get directions
+                  </ContactRow>
+                )}
               </div>
             </div>
-
           </div>
 
-        </div>
-
-        {/* Bottom Copyright Strip */}
-        <div className="pt-8 border-t border-sea-blue/20 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-ivory/60">
-          <p>© {new Date().getFullYear()} {settings?.instituteName}. All Rights Reserved. Developed by My Digital Desh.</p>
-          <div className="flex items-center gap-4">
-            <Link href="/admin/login" className="hover:text-gold flex items-center gap-1">
-              <span>Admin Portal</span> <ExternalLink className="w-3 h-3" />
-            </Link>
-            <span>•</span>
-            <span className="text-gold font-semibold">Sikar, Rajasthan</span>
+          {/* Bottom bar */}
+          <div className="relative border-t border-transparent pb-8 pt-6 [border-image:linear-gradient(to_right,transparent,rgba(191,168,136,0.5),transparent)_1]">
+            <div className="flex flex-col items-center justify-between gap-4 text-xs text-white/50 md:flex-row">
+              <p className="text-center md:text-left">
+                © {new Date().getFullYear()} {settings?.instituteName}. All Rights Reserved. Developed by{' '}
+                <a href="https://westmere.io" target="_blank" rel="noreferrer" className="text-white/70 underline underline-offset-2 transition-colors hover:text-gold">westmere</a>.
+              </p>
+              <div className="flex items-center gap-4">
+                <Link href="/admin/login" className="transition-colors hover:text-gold">Admin Portal</Link>
+                <span className="text-gold/40">•</span>
+                <span className="font-semibold text-gold">Sikar, Rajasthan</span>
+                <a
+                  href="#top"
+                  onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  aria-label="Back to top"
+                  className="ml-2 flex h-9 w-9 items-center justify-center rounded-full border border-gold/40 text-gold transition-colors hover:bg-gold hover:text-navy-deep"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </footer>
   );

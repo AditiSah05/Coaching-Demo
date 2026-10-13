@@ -1,22 +1,29 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Menu, X, Anchor, ShieldAlert, Award, Compass, ArrowRight, UserCheck, ChevronDown } from 'lucide-react';
+import { Phone, Menu, X, Anchor, ShieldAlert, Award, Compass, ArrowRight, ChevronDown } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  // Hero video shows through only on the home page, at the top of the page.
+  const transparent = pathname === '/' && !scrolled;
   const { settings } = useData();
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about', children: [
-      { name: 'About Institute', path: '/about' },
-    ] },
+    { name: 'About Us', path: '/about' },
     { name: 'Our Courses', path: '/courses', children: [
       { name: 'IMU CET Preparation', path: '/courses/imu-cet-preparation' },
       { name: 'DNS Sponsorship', path: '/courses/dns-sponsorship' },
@@ -41,9 +48,11 @@ export const Navbar = () => {
 
 
   return (
-    <header className="sticky top-0 z-50 bg-navy-deep/95 backdrop-blur-md text-ivory shadow-xl border-b border-gold/20">
+    <header className={`fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${
+      transparent ? 'bg-transparent' : 'bg-navy-deep/95 backdrop-blur-md shadow-xl'
+    }`}>
       {/* Main Navigation Bar */}
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
           {/* Logo Brand */}
@@ -71,7 +80,7 @@ export const Navbar = () => {
                   <Link
                     href={link.path}
                     className={`relative whitespace-nowrap px-2.5 py-2 rounded-full text-[12px] font-semibold uppercase tracking-[0.05em] transition-colors flex items-center gap-1 ${
-                      isActive ? 'text-gold bg-gold/10 ring-1 ring-gold/25' : 'text-ivory/85 hover:text-white hover:bg-white/5'
+                      isActive ? 'text-gold bg-gold/10 ring-1 ring-gold/25' : 'text-white hover:text-white hover:bg-white/5'
                     }`}
                   >
                     {link.name}
@@ -85,7 +94,7 @@ export const Navbar = () => {
                             key={c.path}
                             href={c.path}
                             className={`block whitespace-nowrap px-5 py-2.5 text-[13px] font-medium transition-colors border-l-2 border-transparent hover:border-gold hover:bg-white/5 hover:text-gold ${
-                              pathname === c.path ? 'text-gold border-gold' : 'text-ivory/90'
+                              pathname === c.path ? 'text-gold border-gold' : 'text-white'
                             }`}
                           >
                             {c.name}
@@ -103,7 +112,7 @@ export const Navbar = () => {
           <div className="hidden sm:flex items-center gap-3 shrink-0 whitespace-nowrap 2xl:pl-3 2xl:border-l 2xl:border-white/10">
             <a
               href={`tel:${settings?.phonePrimary}`}
-              className="flex items-center gap-2 text-xs font-bold text-ivory hover:text-gold transition-colors px-3.5 py-2.5 rounded-full border border-gold/40 hover:border-gold hover:bg-gold/5"
+              className="flex items-center gap-2 text-xs font-bold text-white hover:text-gold transition-colors px-3.5 py-2.5 rounded-full border border-gold/40 hover:border-gold hover:bg-gold/5"
             >
               <Phone className="w-3.5 h-3.5 text-gold" />
               <span>Call Us</span>
@@ -115,14 +124,6 @@ export const Navbar = () => {
             >
               <span>Enrol Now</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-
-            <Link
-              href="/admin/login"
-              title="Admin Portal"
-              className="p-2.5 rounded-full border border-sea-blue/50 text-sea-blue hover:bg-sea-blue hover:text-navy-deep transition-colors"
-            >
-              <UserCheck className="w-4 h-4" />
             </Link>
           </div>
 
@@ -136,7 +137,7 @@ export const Navbar = () => {
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-xl bg-navy-light text-ivory hover:text-gold transition-colors focus:outline-none"
+              className="p-2.5 rounded-xl bg-navy-light text-white hover:text-gold transition-colors focus:outline-none"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -153,7 +154,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="2xl:hidden bg-navy-dark border-t border-sea-blue/20 overflow-hidden"
+            className="relative 2xl:hidden bg-navy-dark border-t border-sea-blue/20 overflow-hidden"
           >
             <div className="px-4 pt-3 pb-6 space-y-1">
               <div className="px-3 py-2 text-xs font-bold text-sea-blue uppercase tracking-widest flex items-center gap-2 border-b border-navy-light mb-2">
@@ -174,7 +175,7 @@ export const Navbar = () => {
                       className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
                         isActive
                           ? 'bg-terracotta text-navy-deep font-bold'
-                          : 'text-ivory hover:bg-navy-light/60 hover:text-sea-blue'
+                          : 'text-white hover:bg-navy-light/60 hover:text-sea-blue'
                       }`}
                     >
                       <span>{link.name}</span>
@@ -187,7 +188,7 @@ export const Navbar = () => {
                             key={c.path}
                             href={c.path}
                             onClick={() => setMobileMenuOpen(false)}
-                            className="block px-3 py-2 rounded-lg text-xs font-semibold text-ivory/80 hover:bg-navy-light/60 hover:text-sea-blue"
+                            className="block px-3 py-2 rounded-lg text-xs font-semibold text-white hover:bg-navy-light/60 hover:text-sea-blue"
                           >
                             {c.name}
                           </Link>

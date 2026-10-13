@@ -26,7 +26,7 @@ export const AnnouncementBar = () => {
   );
 
   return (
-    <div className="marquee-pause relative bg-gradient-to-r from-navy-dark via-navy-light to-navy-dark text-white py-2.5 text-xs md:text-sm font-medium overflow-hidden">
+    <div className="marquee-pause relative text-white py-2.5 text-xs md:text-sm font-medium overflow-hidden">
       <div className="flex w-max animate-marquee">
         {group(false)}
         {group(true)}

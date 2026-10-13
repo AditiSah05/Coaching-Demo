@@ -18,7 +18,7 @@ export const PublicLayout = ({ children }) => {
     <div className="min-h-screen flex flex-col bg-ivory text-ink relative pb-16 md:pb-0">
       <Navbar />
       
-      <main className="flex-grow">
+      <main className={`flex-grow ${pathname === '/' ? '' : 'pt-20'}`}>
         <motion.div
           key={pathname}
           initial={{ opacity: 0, y: 10 }}
