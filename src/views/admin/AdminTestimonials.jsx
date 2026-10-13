@@ -26,7 +26,7 @@ export const AdminTestimonials = () => {
           <h1 className="font-serif text-2xl font-bold text-navy-deep">Student & Parent Reviews</h1>
           <p className="text-xs text-ink/70">Manage testimonials displayed on the homepage slider.</p>
         </div>
-        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-white font-bold px-4 py-2 rounded-xl text-xs uppercase">
+        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-navy-deep font-bold px-4 py-2 rounded-xl text-xs uppercase">
           <Plus className="w-4 h-4 inline" /> Add Review
         </button>
       </div>
@@ -36,7 +36,7 @@ export const AdminTestimonials = () => {
           <div key={t.id} className="bg-white p-4 rounded-2xl border flex flex-col justify-between">
             <div>
               <h4 className="font-serif font-bold text-navy-deep text-sm">{t.name}</h4>
-              <span className="text-[10px] text-terracotta font-semibold">{t.role}</span>
+              <span className="text-[10px] text-goldtext font-semibold">{t.role}</span>
               <p className="text-xs text-ink/70 italic mt-2">"{t.text}"</p>
             </div>
             <div className="mt-4 pt-2 border-t flex justify-end">
@@ -57,7 +57,7 @@ export const AdminTestimonials = () => {
               <input type="text" required placeholder="Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <input type="text" required placeholder="Role (e.g. DNS Cadet at Anglo-Eastern)" value={formData.role} onChange={e => setFormData({ ...formData, role: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <textarea rows="3" required placeholder="Review Text" value={formData.text} onChange={e => setFormData({ ...formData, text: e.target.value })} className="w-full p-2.5 border rounded-xl"></textarea>
-              <button type="submit" className="w-full bg-terracotta text-white font-bold py-3 rounded-xl uppercase">Save Review</button>
+              <button type="submit" className="w-full bg-terracotta text-navy-deep font-bold py-3 rounded-xl uppercase">Save Review</button>
             </form>
           </div>
         </div>

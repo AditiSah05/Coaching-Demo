@@ -23,7 +23,7 @@ export const AvailableForms = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#FBF6EC" />
+          <ScallopedBorder fillColor="#F8F5ED" />
         </div>
       </section>
 
@@ -38,7 +38,7 @@ export const AvailableForms = () => {
                 className="bg-white rounded-3xl p-6 border-2 border-navy-deep/10 shadow-chunky flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:border-sea-blue transition-colors"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-terracotta/10 text-terracotta flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-2xl bg-terracotta/10 text-goldtext flex items-center justify-center shrink-0">
                     <FileText className="w-6 h-6" />
                   </div>
 

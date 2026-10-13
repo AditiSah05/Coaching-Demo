@@ -56,7 +56,7 @@ export const StudyMaterials = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#FBF6EC" />
+          <ScallopedBorder fillColor="#F8F5ED" />
         </div>
       </section>
 
@@ -71,7 +71,7 @@ export const StudyMaterials = () => {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
                   selectedCategory === cat
-                    ? 'bg-terracotta text-white shadow-terracotta scale-105'
+                    ? 'bg-terracotta text-navy-deep shadow-terracotta scale-105'
                     : 'bg-ivory text-ink/70 hover:bg-sea-blue/10'
                 }`}
               >
@@ -139,7 +139,7 @@ export const StudyMaterials = () => {
                   
                   <button
                     onClick={() => handleDownloadClick(item)}
-                    className="bg-terracotta hover:bg-terracotta-hover text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-terracotta transition-transform active:scale-95"
+                    className="bg-terracotta hover:bg-terracotta-hover text-navy-deep text-xs font-bold px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-terracotta transition-transform active:scale-95"
                   >
                     <Lock className="w-3.5 h-3.5" />
                     <span>Unlock Material</span>
@@ -166,7 +166,7 @@ export const StudyMaterials = () => {
 
             {!leadUnlocked ? (
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-terracotta/20 text-terracotta flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-terracotta/20 text-goldtext flex items-center justify-center">
                   <Lock className="w-6 h-6" />
                 </div>
                 <div>
@@ -217,7 +217,7 @@ export const StudyMaterials = () => {
 
                   <button
                     type="submit"
-                    className="w-full bg-terracotta hover:bg-terracotta-hover text-white font-bold py-3.5 rounded-xl shadow-terracotta text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-2"
+                    className="w-full bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold py-3.5 rounded-xl shadow-terracotta text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-2"
                   >
                     <Download className="w-4 h-4" />
                     <span>Unlock & Download Now</span>

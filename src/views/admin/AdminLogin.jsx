@@ -46,7 +46,7 @@ export const AdminLogin = () => {
         <div className="bg-navy-light/60 p-4 rounded-2xl border-2 border-gold/40 space-y-2 text-xs">
           <div className="flex items-center justify-between">
             <span className="font-bold text-gold flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-terracotta" /> Demo Login Credentials
+              <ShieldCheck className="w-4 h-4 text-goldtext" /> Demo Login Credentials
             </span>
             <button
               onClick={handleAutofill}
@@ -107,7 +107,7 @@ export const AdminLogin = () => {
 
             <button
               type="submit"
-              className="w-full bg-terracotta hover:bg-terracotta-hover text-white font-bold py-3.5 rounded-xl shadow-terracotta text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-transform active:scale-95"
+              className="w-full bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold py-3.5 rounded-xl shadow-terracotta text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-transform active:scale-95"
             >
               <span>Login To Admin Panel</span>
               <ArrowRight className="w-4 h-4" />

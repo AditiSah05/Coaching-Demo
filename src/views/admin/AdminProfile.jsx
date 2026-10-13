@@ -36,7 +36,7 @@ export const AdminProfile = () => {
           </div>
           <div>
             <h3 className="font-serif font-bold text-base text-navy-deep">{session?.user?.name || 'Captain Administrator'}</h3>
-            <p className="text-terracotta font-semibold">{session?.user?.email || 'admin@pacificmarine.demo'}</p>
+            <p className="text-goldtext font-semibold">{session?.user?.email || 'admin@pacificmarine.demo'}</p>
           </div>
         </div>
 

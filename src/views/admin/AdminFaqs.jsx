@@ -26,7 +26,7 @@ export const AdminFaqs = () => {
           <h1 className="font-serif text-2xl font-bold text-navy-deep">Frequently Asked Questions Manager</h1>
           <p className="text-xs text-ink/70">Manage FAQ questions displayed on the homepage.</p>
         </div>
-        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-white font-bold px-4 py-2 rounded-xl text-xs uppercase">
+        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-navy-deep font-bold px-4 py-2 rounded-xl text-xs uppercase">
           <Plus className="w-4 h-4 inline" /> Add FAQ
         </button>
       </div>
@@ -53,7 +53,7 @@ export const AdminFaqs = () => {
             <form onSubmit={handleSubmit} className="space-y-3">
               <input type="text" required placeholder="Question" value={formData.question} onChange={e => setFormData({ ...formData, question: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <textarea rows="3" required placeholder="Answer" value={formData.answer} onChange={e => setFormData({ ...formData, answer: e.target.value })} className="w-full p-2.5 border rounded-xl"></textarea>
-              <button type="submit" className="w-full bg-terracotta text-white font-bold py-3 rounded-xl uppercase">Save FAQ</button>
+              <button type="submit" className="w-full bg-terracotta text-navy-deep font-bold py-3 rounded-xl uppercase">Save FAQ</button>
             </form>
           </div>
         </div>

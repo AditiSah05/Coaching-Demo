@@ -3,23 +3,15 @@
 import React, { useState } from 'react';
 import Link from "next/link";
 import { motion } from 'framer-motion';
-import { Anchor, Compass, Award, Users, BookOpen, ShieldCheck, ArrowRight, CheckCircle2, Star, Phone, Download, ChevronDown, ChevronUp, Sparkles, Play } from 'lucide-react';
+import { GraduationCap, MapPin, Anchor, Compass, Award, Users, BookOpen, ShieldCheck, ArrowRight, CheckCircle2, Star, Phone, Download, ChevronDown, ChevronUp, Sparkles, Play } from 'lucide-react';
 import { useData } from '../context/DataContext';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useCounter } from '../hooks/useCounter';
-import { ImageWithFallback, AvatarInitials } from '../components/common/ImageWithFallback';
+import { AvatarInitials } from '../components/common/ImageWithFallback';
+import { VideoBackground } from '../components/common/VideoBackground';
 import { ScallopedBorder } from '../components/common/ScallopedBorder';
 
 export const Home = () => {
-  const { settings, courses, toppers, testimonials, faqs, studyMaterials } = useData();
+  const { settings, courses, testimonials, faqs } = useData();
   const [openFaq, setOpenFaq] = useState(0);
-
-  // Counter Triggers
-  const statsReveal = useScrollReveal();
-  const countTrained = useCounter(settings?.stats?.studentsTrained || 5400, 2000, statsReveal.isInView);
-  const countSelections = useCounter(settings?.stats?.selections || 5120, 2000, statsReveal.isInView);
-  const countYears = useCounter(settings?.stats?.yearsExperience || 16, 1500, statsReveal.isInView);
-  const countSponsors = useCounter(settings?.stats?.partnerSponsors || 34, 1500, statsReveal.isInView);
 
   // Hero Headline Word Reveal
   const heroWords = (settings?.heroHeading || "Steer Your Future Towards High Seas Glory").split(" ");
@@ -28,8 +20,10 @@ export const Home = () => {
     <div className="overflow-hidden">
       
       {/* --- HERO SECTION --- */}
-      <section className="relative bg-navy-deep text-ivory pt-12 pb-24 md:pt-16 md:pb-32 overflow-hidden bg-maritime-pattern">
-        
+      <section className="relative bg-navy-deep text-ivory pt-12 pb-24 md:pt-16 md:pb-32 overflow-hidden">
+
+        <VideoBackground />
+
         {/* Floating Rotating Ship Wheel Motif */}
         <div className="absolute right-[-80px] top-[10%] opacity-10 text-sea-blue pointer-events-none">
           <Compass className="w-[450px] h-[450px] animate-spin-slow" />
@@ -41,15 +35,6 @@ export const Home = () => {
             {/* Hero Left Content */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               
-              <motion.div 
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 bg-navy-light/80 border border-sea-blue/40 px-4 py-2 rounded-full text-xs font-bold text-gold uppercase tracking-widest shadow-inner"
-              >
-                <Award className="w-4 h-4 text-terracotta" />
-                <span>#1 Merchant Navy Coaching Institute In India</span>
-              </motion.div>
-
               {/* Word-by-word Animated Headline */}
               <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white tracking-tight">
                 {heroWords.map((word, i) => (
@@ -58,7 +43,7 @@ export const Home = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.08, duration: 0.4 }}
-                    className={word.toLowerCase().includes('seas') || word.toLowerCase().includes('future') ? 'text-sea-blue italic' : ''}
+                    className={['merchant','navy'].includes(word.toLowerCase()) ? 'text-gold' : ''}
                   >
                     {word}{' '}
                   </motion.span>
@@ -73,35 +58,36 @@ export const Home = () => {
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <Link
                   href="/admission"
-                  className="w-full sm:w-auto bg-terracotta hover:bg-terracotta-hover text-white font-bold px-8 py-4 rounded-2xl shadow-terracotta flex items-center justify-center gap-3 transition-transform active:scale-95 text-sm uppercase tracking-wider"
+                  className="w-full sm:w-auto bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold px-8 py-4 rounded-2xl shadow-terracotta flex items-center justify-center gap-3 transition-transform active:scale-95 text-sm uppercase tracking-wider"
                 >
                   <Anchor className="w-5 h-5" />
-                  <span>Apply For 2026 Batch</span>
+                  <span>Register Now</span>
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
 
                 <Link
                   href="/study-materials"
-                  className="w-full sm:w-auto bg-sea-blue hover:bg-sea-dark text-navy-deep font-bold px-7 py-4 rounded-2xl shadow-sea flex items-center justify-center gap-2 transition-transform active:scale-95 text-sm"
+                  className="w-full sm:w-auto border-2 border-sea-blue/70 hover:bg-sea-blue/10 text-ivory font-bold px-7 py-4 rounded-2xl flex items-center justify-center gap-2 transition-transform active:scale-95 text-sm"
                 >
                   <Download className="w-5 h-5" />
-                  <span>Download Free Prospectus</span>
+                  <span>Free Study Materials</span>
                 </Link>
               </div>
 
               {/* Trust Badges */}
               <div className="pt-6 border-t border-sea-blue/20 grid grid-cols-3 gap-4 text-center lg:text-left">
-                <div>
-                  <span className="text-xl sm:text-2xl font-serif font-bold text-gold block">98.4%</span>
-                  <span className="text-[11px] text-ivory/70 uppercase font-semibold">Selection Rate</span>
-                </div>
-                <div>
-                  <span className="text-xl sm:text-2xl font-serif font-bold text-sea-blue block">DG Approved</span>
-                  <span className="text-[11px] text-ivory/70 uppercase font-semibold">Academy Partners</span>
-                </div>
-                <div>
-                  <span className="text-xl sm:text-2xl font-serif font-bold text-terracotta block">100%</span>
-                  <span className="text-[11px] text-ivory/70 uppercase font-semibold">Placement Support</span>
-                </div>
+                {[
+                  { Icon: Users, value: '354', label: 'Google Reviews', color: 'text-gold' },
+                  { Icon: GraduationCap, value: 'AIR 33', label: 'IMU CET 2026', color: 'text-sea-blue' },
+                  { Icon: MapPin, value: 'Sikar', label: 'Offline Campus', color: 'text-gold' },
+                ].map(({ Icon, value, label, color }, i) => (
+                  <div key={label} className={i > 0 ? 'lg:border-l lg:border-sea-blue/20 lg:pl-5' : ''}>
+                    <span className={`text-xl sm:text-2xl font-serif font-bold ${color} flex items-center justify-center lg:justify-start gap-2`}>
+                      <Icon className="w-5 h-5" /> {value}
+                    </span>
+                    <span className="text-[11px] text-ivory/70 uppercase font-semibold">{label}</span>
+                  </div>
+                ))}
               </div>
 
             </div>
@@ -112,43 +98,12 @@ export const Home = () => {
               <div className="relative mx-auto max-w-md lg:max-w-none">
                 {/* Arch-masked Hero Image */}
                 <div className="arch-image-lg overflow-hidden border-4 border-gold shadow-2xl bg-navy-dark">
-                  <ImageWithFallback
-                    src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80"
-                    alt="Merchant Navy Officer Bridge Training"
-                    aspectRatio="aspect-[4/5]"
-                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                  <img
+                    src="/images/about-academy-image-01.png"
+                    alt="Pacific Marine Academy cadets"
+                    className="w-full aspect-[4/5] object-cover transform hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-
-                {/* Floating Italian Ticket Badge 1 */}
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-6 -left-6 bg-ivory text-navy-deep p-4 rounded-2xl shadow-2xl border-2 border-sea-blue hidden sm:flex items-center gap-3 max-w-[220px]"
-                >
-                  <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold shrink-0">
-                    <Star className="w-6 h-6 fill-gold" />
-                  </div>
-                  <div>
-                    <span className="text-xs font-bold block text-navy-deep">AIR 04 Secured</span>
-                    <span className="text-[10px] text-ink/70">IMU-CET 2025 All-India Topper</span>
-                  </div>
-                </motion.div>
-
-                {/* Floating Badge 2 */}
-                <motion.div
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -bottom-6 -right-6 bg-terracotta text-white p-4 rounded-2xl shadow-terracotta flex items-center gap-3 border-2 border-white max-w-[220px]"
-                >
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-                    <Anchor className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <span className="text-xs font-bold block">Next Batch Starting</span>
-                    <span className="text-[10px] text-white/90">Seats Filling Fast • Enrol Now</span>
-                  </div>
-                </motion.div>
               </div>
 
             </div>
@@ -158,82 +113,23 @@ export const Home = () => {
 
         {/* Drifting Wave Bottom SVG */}
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#FBF6EC" />
+          <ScallopedBorder fillColor="#F8F5ED" />
         </div>
       </section>
 
-      {/* --- TOPPERS & ACHIEVERS MARQUEE TICKER --- */}
-      <section className="bg-ivory py-6 border-b border-navy-light/10">
-        <div className="max-w-7xl mx-auto px-4 mb-3 text-center">
-          <span className="text-xs font-bold uppercase tracking-widest text-terracotta flex items-center justify-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" /> All-India Toppers & Merchant Navy Selections
-          </span>
-        </div>
-        
-        <div className="overflow-hidden whitespace-nowrap flex no-scrollbar bg-navy-deep py-4 text-white">
-          <div className="inline-flex animate-[marquee_25s_linear_infinite] gap-8 px-4">
-            {toppers.concat(toppers).map((top, idx) => (
-              <div key={idx} className="inline-flex items-center gap-3 bg-navy-light/60 px-5 py-2.5 rounded-2xl border border-sea-blue/30 shrink-0">
-                <AvatarInitials initials={top.photo} name={top.name} color={top.color} size="w-9 h-9 text-xs" />
-                <div className="text-left">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-serif font-bold text-white">{top.name}</span>
-                    <span className="bg-gold text-ink text-[10px] font-bold px-1.5 py-0.5 rounded">{top.rank}</span>
-                  </div>
-                  <span className="text-[11px] text-sea-blue font-semibold block">{top.selection}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* --- LIVE STAT COUNTERS SECTION --- */}
-      <section ref={statsReveal.ref} className="py-16 bg-navy-deep text-white relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            
-            <div className="bg-navy-light/40 border-2 border-sea-blue/30 p-6 rounded-3xl relative overflow-hidden">
-              <span className="font-serif text-4xl sm:text-5xl font-extrabold text-gold block mb-1">
-                {countTrained.toLocaleString()}+
-              </span>
-              <span className="text-xs sm:text-sm uppercase tracking-wider text-ivory/80 font-bold block">
-                Cadets Trained
-              </span>
-              <span className="text-[10px] text-sea-blue mt-1 block">Since 2010</span>
-            </div>
-
-            <div className="bg-navy-light/40 border-2 border-terracotta/30 p-6 rounded-3xl relative overflow-hidden">
-              <span className="font-serif text-4xl sm:text-5xl font-extrabold text-terracotta block mb-1">
-                {countSelections.toLocaleString()}+
-              </span>
-              <span className="text-xs sm:text-sm uppercase tracking-wider text-ivory/80 font-bold block">
-                Selections & Sponsorships
-              </span>
-              <span className="text-[10px] text-gold mt-1 block">98.4% Success Rate</span>
-            </div>
-
-            <div className="bg-navy-light/40 border-2 border-sea-blue/30 p-6 rounded-3xl relative overflow-hidden">
-              <span className="font-serif text-4xl sm:text-5xl font-extrabold text-sea-blue block mb-1">
-                {countYears}+
-              </span>
-              <span className="text-xs sm:text-sm uppercase tracking-wider text-ivory/80 font-bold block">
-                Years of Excellence
-              </span>
-              <span className="text-[10px] text-ivory/60 mt-1 block">Master Mariner Led</span>
-            </div>
-
-            <div className="bg-navy-light/40 border-2 border-gold/30 p-6 rounded-3xl relative overflow-hidden">
-              <span className="font-serif text-4xl sm:text-5xl font-extrabold text-gold block mb-1">
-                {countSponsors}+
-              </span>
-              <span className="text-xs sm:text-sm uppercase tracking-wider text-ivory/80 font-bold block">
-                Partner Shipping Companies
-              </span>
-              <span className="text-[10px] text-terracotta mt-1 block">Anglo, Synergy, Fleet & MSC</span>
-            </div>
-
-          </div>
+      {/* --- WELCOME --- */}
+      <section className="py-16 bg-ivory text-ink">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+          <span className="badge-solid bg-terracotta/10 text-goldtext">Welcome to</span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">
+            Pacific Marine Academy – Your Gateway to the Merchant Navy
+          </h2>
+          <p className="text-sm text-ink/70 leading-relaxed">
+            At Pacific Marine Academy, we help aspiring cadets achieve their dream of joining the Merchant Navy with confidence. As one of the best IMU-CET coaching institutes in India, we offer a structured curriculum, expert faculty guidance, and personal mentorship to prepare you for IMU-CET, DNS sponsorship exams, and Merchant Navy interviews.
+          </p>
+          <p className="text-sm text-ink/70 leading-relaxed">
+            With our result-oriented approach, modern classrooms, and consistent record of high selection and sponsorship success rates, we ensure you are fully prepared to start your maritime career. Join the hundreds of successful students who trusted Pacific Marine Academy to launch their future at sea.
+          </p>
         </div>
       </section>
 
@@ -242,58 +138,32 @@ export const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="badge-solid bg-terracotta/10 text-terracotta mb-3">
+            <span className="badge-solid bg-terracotta/10 text-goldtext mb-3">
               <Compass className="w-3.5 h-3.5" /> Perché Scegliere Noi
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-deep tracking-tight mb-4">
-              Why Pacific Marine Academy Stand Out
+              Why choose Pacific Marine Academy?
             </h2>
             <p className="text-sm text-ink/70 leading-relaxed">
-              We do not just teach textbooks; we groom future Captains and Chief Engineers under authentic maritime discipline and world-class bridge simulation.
+              Expert faculty, structured study materials and regular mock tests to prepare you for IMU-CET, DNS courses and sponsorship interviews.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            {/* Card 1 */}
-            <div className="bg-white p-8 rounded-3xl border-2 border-navy-deep/10 shadow-chunky hover:-translate-y-2 transition-transform duration-300 relative group">
-              <div className="w-14 h-14 rounded-2xl bg-terracotta text-white flex items-center justify-center mb-6 shadow-terracotta group-hover:rotate-6 transition-transform">
-                <Anchor className="w-8 h-8" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { Icon: Award, color: 'bg-terracotta text-white', title: "India's Best IMU-CET Coaching", text: "Known for producing top IMU-CET rankers and sponsored candidates every year." },
+              { Icon: Anchor, color: 'bg-sea-blue text-navy-deep', title: "Expert & Experienced Faculty", text: "Learn from Merchant Navy professionals and subject experts who guide you step by step." },
+              { Icon: Compass, color: 'bg-gold text-navy-deep', title: "Years of Maritime Coaching Experience", text: "Covers IMU-CET syllabus, DNS Sponsorship, Interview Training & Personality Development." },
+              { Icon: BookOpen, color: 'bg-navy-deep text-gold', title: "Structured Curriculum & Complete Preparation", text: "Well-planned study schedule covering IMU-CET syllabus, DNS Sponsorship, Interview Training & Personality Development." },
+            ].map(({ Icon, color, title, text }) => (
+              <div key={title} className="bg-white p-8 rounded-3xl border-2 border-navy-deep/10 shadow-chunky hover:-translate-y-2 transition-transform duration-300 group">
+                <div className={`w-14 h-14 rounded-2xl ${color} flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform`}>
+                  <Icon className="w-8 h-8" />
+                </div>
+                <h3 className="font-serif text-xl font-bold text-navy-deep mb-3">{title}</h3>
+                <p className="text-xs text-ink/70 leading-relaxed">{text}</p>
               </div>
-              <h3 className="font-serif text-xl font-bold text-navy-deep mb-3">
-                Master Mariner Faculty
-              </h3>
-              <p className="text-xs text-ink/70 leading-relaxed">
-                Direct instruction from experienced Captains and Chief Engineers who have navigated international waters for decades.
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-white p-8 rounded-3xl border-2 border-sea-blue/30 shadow-chunky hover:-translate-y-2 transition-transform duration-300 relative group">
-              <div className="w-14 h-14 rounded-2xl bg-sea-blue text-navy-deep flex items-center justify-center mb-6 shadow-sea group-hover:rotate-6 transition-transform">
-                <Compass className="w-8 h-8" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-navy-deep mb-3">
-                Bridge & Engine Simulator
-              </h3>
-              <p className="text-xs text-ink/70 leading-relaxed">
-                Hands-on practical exposure in our full-mission RADAR, ECDIS, and marine diesel engine overhaul workshop.
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white p-8 rounded-3xl border-2 border-gold/40 shadow-chunky hover:-translate-y-2 transition-transform duration-300 relative group">
-              <div className="w-14 h-14 rounded-2xl bg-gold text-navy-deep flex items-center justify-center mb-6 shadow-md group-hover:rotate-6 transition-transform">
-                <Award className="w-8 h-8" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-navy-deep mb-3">
-                100% Sponsorship Guidance
-              </h3>
-              <p className="text-xs text-ink/70 leading-relaxed">
-                Dedicated psychometric test series and mock interview panels mimicking top shipping lines like Anglo-Eastern and Synergy.
-              </p>
-            </div>
-
+            ))}
           </div>
 
         </div>
@@ -309,7 +179,7 @@ export const Home = () => {
                 Programmi Formativi
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
-                Featured Merchant Navy Batches
+                Our Courses
               </h2>
             </div>
             <Link
@@ -321,41 +191,96 @@ export const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {courses.slice(0, 3).map((course) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {courses.map((course) => (
               <div key={course.id} className="bg-navy-light/50 rounded-3xl p-6 border border-sea-blue/20 flex flex-col justify-between hover:border-gold transition-colors">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="bg-terracotta text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                      {course.badge}
-                    </span>
+                    {course.badge && (
+                      <span className="bg-terracotta text-navy-deep text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        {course.badge}
+                      </span>
+                    )}
                     <span className="text-xs font-bold text-gold">{course.duration}</span>
                   </div>
                   <h3 className="font-serif text-xl font-bold text-white mb-2">{course.title}</h3>
                   <p className="text-xs text-ivory/70 line-clamp-3 mb-4 leading-relaxed">{course.description}</p>
                   
                   <div className="space-y-1.5 text-xs text-sea-blue mb-6">
-                    <p>✓ Mode: {course.mode}</p>
                     <p>✓ Target: {course.targetExam}</p>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-sea-blue/20 flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] text-ivory/60 block">Course Fee</span>
-                    <span className="font-serif text-xl font-bold text-gold">{course.fee}</span>
-                  </div>
+                <div className="pt-4 border-t border-sea-blue/20 flex items-center justify-between gap-3">
+                  <Link
+                    href={`/courses/${course.slug || course.id}`}
+                    className="text-gold text-xs font-bold hover:underline flex items-center gap-1"
+                  >
+                    Read More <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                   <Link
                     href={`/admission?course=${encodeURIComponent(course.title)}`}
                     className="bg-sea-blue hover:bg-sea-dark text-navy-deep text-xs font-bold px-4 py-2.5 rounded-xl transition-transform active:scale-95"
                   >
-                    Enrol Now
+                    Register Now
                   </Link>
                 </div>
               </div>
             ))}
           </div>
 
+        </div>
+      </section>
+
+      {/* --- OUR TEAM --- */}
+      <section className="py-20 bg-ivory text-ink">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="badge-solid bg-gold/20 text-ink mb-2">Our Team</span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">Meet The Founders</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              { img: '/images/home-image-11.jpg', name: 'Capt. Shubkaran Choudhary', role: 'Co-Founder of Pacific Marine Academy' },
+              { img: '/images/home-image-12.webp', name: 'Mahipal Singh Jhuriya', role: '2nd Engineer • Founder of Pacific Marine Academy' },
+            ].map((m) => (
+              <div key={m.name} className="bg-white rounded-3xl border-2 border-navy-deep/10 shadow-chunky overflow-hidden">
+                <img src={m.img} alt={m.name} className="w-full aspect-[4/5] object-cover object-top" />
+                <div className="p-6 text-center">
+                  <h3 className="font-serif text-xl font-bold text-navy-deep">{m.name}</h3>
+                  <p className="text-xs text-goldtext font-semibold mt-1">{m.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SPONSORED CADETS & AWARDS --- */}
+      <section className="py-20 bg-navy-deep text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div>
+            <div className="text-center mb-10">
+              <span className="badge-solid bg-sea-blue/20 text-sea-blue mb-2">Sponsored</span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">Our Sponsored Cadets</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              {[16, 15, 14, 13, 12, 11, 10, 9, 8].map((n) => (
+                <img key={n} src={`/images/pacifc-sporands-photos-24-${n}.jpeg`} alt="Pacific Marine Academy sponsored cadet" loading="lazy" className="w-full aspect-square object-cover rounded-2xl border border-sea-blue/20" />
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="text-center mb-10">
+              <span className="badge-solid bg-gold/20 text-gold mb-2">Recognition</span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">All Winning Awards</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {[13, 14, 15].map((n) => (
+                <img key={n} src={`/images/home-image-${n}.jpeg`} alt="Pacific Marine Academy award" loading="lazy" className="w-full aspect-[4/3] object-cover rounded-2xl border border-gold/30" />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -396,9 +321,9 @@ export const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="badge-solid bg-gold/20 text-gold mb-2">Testimonianze</span>
+            <span className="badge-solid bg-gold/20 text-gold mb-2">Excellent • Based on 354 Google reviews</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
-              What Cadets & Parents Say
+              Student's Feedback
             </h2>
           </div>
 
@@ -435,15 +360,15 @@ export const Home = () => {
             <div className="space-y-3 text-center lg:text-left">
               <span className="badge-solid bg-seagreen/20 text-seagreen">Materiale Gratuito</span>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-navy-deep">
-                Download Free IMU-CET Handbooks & Past Papers
+                Download Free IMU-CET Study Materials
               </h2>
               <p className="text-xs text-ink/70 max-w-xl">
-                Get instant access to solved previous year papers, physics formula handbooks, and sponsorship interview questions.
+                Sunday mock test, IMUCET 2024 paper, syllabus, seas/rivers/straits, countries/capitals/currencies, ports and shipping, and DNS/BSC/B.Tech notes.
               </p>
             </div>
             <Link
               href="/study-materials"
-              className="bg-terracotta hover:bg-terracotta-hover text-white font-bold px-8 py-4 rounded-2xl shadow-terracotta shrink-0 flex items-center gap-2 text-xs uppercase tracking-wider"
+              className="bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold px-8 py-4 rounded-2xl shadow-terracotta shrink-0 flex items-center gap-2 text-xs uppercase tracking-wider"
             >
               <Download className="w-4 h-4" />
               <span>Access Study Hub</span>
@@ -473,7 +398,7 @@ export const Home = () => {
                     className="w-full text-left p-5 font-serif text-sm sm:text-base font-bold text-navy-deep flex items-center justify-between gap-4"
                   >
                     <span>{faq.question}</span>
-                    {isOpen ? <ChevronUp className="w-5 h-5 text-terracotta shrink-0" /> : <ChevronDown className="w-5 h-5 text-sea-blue shrink-0" />}
+                    {isOpen ? <ChevronUp className="w-5 h-5 text-goldtext shrink-0" /> : <ChevronDown className="w-5 h-5 text-sea-blue shrink-0" />}
                   </button>
                   {isOpen && (
                     <div className="px-5 pb-5 text-xs text-ink/80 leading-relaxed border-t border-navy-deep/5 pt-3">
@@ -491,14 +416,14 @@ export const Home = () => {
       {/* --- FINAL CTA BANNER --- */}
       <section className="py-20 bg-navy-deep text-white text-center relative overflow-hidden bg-maritime-pattern">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
-          <div className="w-16 h-16 rounded-full bg-terracotta/20 text-terracotta mx-auto flex items-center justify-center border-2 border-terracotta">
+          <div className="w-16 h-16 rounded-full bg-terracotta/20 text-goldtext mx-auto flex items-center justify-center border-2 border-terracotta">
             <Anchor className="w-8 h-8 animate-bounce" />
           </div>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white">
             Ready To Set Sail On Your Merchant Navy Career?
           </h2>
           <p className="text-sm text-ivory/80 max-w-2xl mx-auto leading-relaxed">
-            Admissions open for upcoming batches. Speak to our Master Mariner counsellors or apply online today.
+            Register for the course you are interested in, or call us today.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Link

@@ -158,7 +158,7 @@ export const AdminAdmissions = () => {
               <p><strong>Contact:</strong> {selectedAdmission.email} | {selectedAdmission.phone}</p>
               <p><strong>Date of Birth:</strong> {selectedAdmission.dob}</p>
               <p><strong>PCM Aggregate:</strong> {selectedAdmission.pcmPercentage} | English: {selectedAdmission.englishPercentage}</p>
-              <p><strong>Course Name:</strong> <span className="text-terracotta font-bold">{selectedAdmission.courseName}</span></p>
+              <p><strong>Course Name:</strong> <span className="text-goldtext font-bold">{selectedAdmission.courseName}</span></p>
               <p><strong>Batch Preference:</strong> {selectedAdmission.batchPreference}</p>
               <p><strong>Hostel Required:</strong> {selectedAdmission.hostelRequired}</p>
             </div>
@@ -181,7 +181,7 @@ export const AdminAdmissions = () => {
               </button>
               <button
                 onClick={() => setSelectedAdmission(null)}
-                className="bg-terracotta text-white font-bold px-4 py-2 rounded-xl text-xs"
+                className="bg-terracotta text-navy-deep font-bold px-4 py-2 rounded-xl text-xs"
               >
                 Close
               </button>

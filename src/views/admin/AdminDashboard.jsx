@@ -45,9 +45,9 @@ export const AdminDashboard = () => {
           <div>
             <span className="text-xs font-bold text-ink/60 uppercase tracking-wider block">Direct Enquiries</span>
             <span className="font-serif text-3xl font-bold text-navy-deep block mt-1">{enquiries.length}</span>
-            <span className="text-[10px] text-terracotta font-semibold">Leads Pending Call</span>
+            <span className="text-[10px] text-goldtext font-semibold">Leads Pending Call</span>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-terracotta/20 text-terracotta flex items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-terracotta/20 text-goldtext flex items-center justify-center">
             <MessageSquare className="w-6 h-6" />
           </div>
         </div>
@@ -87,12 +87,12 @@ export const AdminDashboard = () => {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-              <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#14213D' }} />
-              <YAxis tick={{ fontSize: 12, fill: '#14213D' }} />
+              <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#0F2A3A' }} />
+              <YAxis tick={{ fontSize: 12, fill: '#0F2A3A' }} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#0B2545', color: '#FFF', borderRadius: '12px', border: 'none' }}
+                contentStyle={{ backgroundColor: '#062B40', color: '#FFF', borderRadius: '12px', border: 'none' }}
               />
-              <Bar dataKey="admissions" fill="#E4572E" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="admissions" fill="#F6C65B" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -105,7 +105,7 @@ export const AdminDashboard = () => {
         <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky space-y-4">
           <div className="flex items-center justify-between border-b pb-3">
             <h3 className="font-serif text-lg font-bold text-navy-deep">Recent Admission Forms</h3>
-            <Link href="/admin/admissions" className="text-xs text-terracotta font-bold flex items-center gap-1">
+            <Link href="/admin/admissions" className="text-xs text-goldtext font-bold flex items-center gap-1">
               <span>View All</span> <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -134,7 +134,7 @@ export const AdminDashboard = () => {
         <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky space-y-4">
           <div className="flex items-center justify-between border-b pb-3">
             <h3 className="font-serif text-lg font-bold text-navy-deep">Recent Contact Enquiries</h3>
-            <Link href="/admin/enquiries" className="text-xs text-terracotta font-bold flex items-center gap-1">
+            <Link href="/admin/enquiries" className="text-xs text-goldtext font-bold flex items-center gap-1">
               <span>View All</span> <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

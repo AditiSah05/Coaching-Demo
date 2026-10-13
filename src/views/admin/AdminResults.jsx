@@ -37,7 +37,7 @@ export const AdminResults = () => {
         </div>
         <button
           onClick={handleOpenAdd}
-          className="bg-terracotta text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 uppercase"
+          className="bg-terracotta text-navy-deep font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 uppercase"
         >
           <Plus className="w-4 h-4" /> Add Topper
         </button>
@@ -75,7 +75,7 @@ export const AdminResults = () => {
               <input type="text" required placeholder="Score (e.g. 190/200)" value={formData.score} onChange={e => setFormData({ ...formData, score: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <input type="text" required placeholder="Company Sponsorship / Academy" value={formData.selection} onChange={e => setFormData({ ...formData, selection: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <input type="text" required placeholder="Initials (e.g. RS)" value={formData.photo} onChange={e => setFormData({ ...formData, photo: e.target.value })} className="w-full p-2.5 border rounded-xl" />
-              <button type="submit" className="w-full bg-terracotta text-white font-bold py-3 rounded-xl uppercase">Save Topper</button>
+              <button type="submit" className="w-full bg-terracotta text-navy-deep font-bold py-3 rounded-xl uppercase">Save Topper</button>
             </form>
           </div>
         </div>

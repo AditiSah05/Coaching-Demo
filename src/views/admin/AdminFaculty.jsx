@@ -26,7 +26,7 @@ export const AdminFaculty = () => {
           <h1 className="font-serif text-2xl font-bold text-navy-deep">Faculty Roster Manager</h1>
           <p className="text-xs text-ink/70">Manage teaching Captains and Marine Engineers.</p>
         </div>
-        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-white font-bold px-4 py-2 rounded-xl text-xs uppercase">
+        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-navy-deep font-bold px-4 py-2 rounded-xl text-xs uppercase">
           <Plus className="w-4 h-4 inline" /> Add Faculty
         </button>
       </div>
@@ -36,7 +36,7 @@ export const AdminFaculty = () => {
           <div key={f.id} className="bg-white p-4 rounded-2xl border flex justify-between items-start">
             <div>
               <h4 className="font-serif font-bold text-navy-deep text-sm">{f.name}</h4>
-              <span className="text-xs text-terracotta font-semibold block">{f.role}</span>
+              <span className="text-xs text-goldtext font-semibold block">{f.role}</span>
               <p className="text-[11px] text-ink/60 mt-1">{f.specialization}</p>
             </div>
             <button onClick={() => handleDelete(f.id)} className="p-1.5 text-red-600 hover:bg-red-100 rounded">
@@ -57,7 +57,7 @@ export const AdminFaculty = () => {
               <input type="text" required placeholder="Qualification (e.g. Master Mariner FG)" value={formData.qualification} onChange={e => setFormData({ ...formData, qualification: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <input type="text" required placeholder="Specialization" value={formData.specialization} onChange={e => setFormData({ ...formData, specialization: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <input type="text" placeholder="Image Unsplash URL" value={formData.image} onChange={e => setFormData({ ...formData, image: e.target.value })} className="w-full p-2.5 border rounded-xl" />
-              <button type="submit" className="w-full bg-terracotta text-white font-bold py-3 rounded-xl uppercase">Save Faculty</button>
+              <button type="submit" className="w-full bg-terracotta text-navy-deep font-bold py-3 rounded-xl uppercase">Save Faculty</button>
             </form>
           </div>
         </div>

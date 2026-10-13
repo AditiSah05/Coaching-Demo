@@ -53,7 +53,7 @@ export const AdminLayout = ({ children }) => {
         <div className="p-6 border-b border-sea-blue/20 flex items-center gap-3">
           <img src="/logo.png" alt="Pacific Marine Academy" className="w-10 h-10 rounded-full shrink-0 bg-white" />
           <div>
-            <h2 className="font-serif font-bold text-lg text-white leading-tight">PMA ADMIN</h2>
+            <h2 className="font-serif font-bold text-lg text-white leading-tight">ADMIN PANEL</h2>
             <span className="text-[10px] text-sea-blue uppercase tracking-widest font-semibold block">Control Panel</span>
           </div>
         </div>
@@ -69,7 +69,7 @@ export const AdminLayout = ({ children }) => {
                 href={item.path}
                 className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
                   isActive
-                    ? 'bg-terracotta text-white font-bold shadow-terracotta'
+                    ? 'bg-terracotta text-navy-deep font-bold shadow-terracotta'
                     : 'text-ivory/80 hover:bg-navy-light/60 hover:text-sea-blue'
                 }`}
               >
@@ -114,7 +114,7 @@ export const AdminLayout = ({ children }) => {
         <header className="md:hidden bg-navy-dark text-white p-4 flex items-center justify-between border-b border-sea-blue/20 sticky top-0 z-40">
           <div className="flex items-center gap-2">
             <img src="/logo.png" alt="Pacific Marine Academy" className="w-8 h-8 rounded-full shrink-0 bg-white" />
-            <span className="font-serif font-bold text-base">PMA Admin</span>
+            <span className="font-serif font-bold text-base">Admin Panel</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export const AdminLayout = ({ children }) => {
                   href={item.path}
                   onClick={() => setMobileDrawerOpen(false)}
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold ${
-                    isActive ? 'bg-terracotta text-white font-bold' : 'text-ivory/80'
+                    isActive ? 'bg-terracotta text-navy-deep font-bold' : 'text-ivory/80'
                   }`}
                 >
                   <Icon className="w-4 h-4" />

@@ -55,7 +55,7 @@ export const Gallery = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#FBF6EC" />
+          <ScallopedBorder fillColor="#F8F5ED" />
         </div>
       </section>
 
@@ -106,7 +106,7 @@ export const Gallery = () => {
                 </div>
 
                 <div className="p-4 bg-white">
-                  <span className="bg-terracotta text-white text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">
+                  <span className="bg-terracotta text-navy-deep text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">
                     {item.category}
                   </span>
                   <h3 className="font-serif text-base font-bold text-navy-deep mt-1">{item.title}</h3>

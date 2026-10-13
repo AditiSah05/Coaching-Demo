@@ -41,7 +41,7 @@ export const AdminBanners = () => {
               id="admissionOpen"
               checked={formData.admissionOpen}
               onChange={(e) => setFormData({ ...formData, admissionOpen: e.target.checked })}
-              className="w-5 h-5 text-terracotta rounded"
+              className="w-5 h-5 text-goldtext rounded"
             />
             <label htmlFor="admissionOpen" className="font-bold text-navy-deep">
               Show Urgent Top Announcement Ribbon (Admission Open 2026-27)
@@ -70,7 +70,7 @@ export const AdminBanners = () => {
 
           <button
             type="submit"
-            className="bg-terracotta text-white font-bold px-6 py-3 rounded-xl uppercase shadow-terracotta flex items-center gap-2"
+            className="bg-terracotta text-navy-deep font-bold px-6 py-3 rounded-xl uppercase shadow-terracotta flex items-center gap-2"
           >
             <Save className="w-4 h-4" /> Save Announcement Settings
           </button>

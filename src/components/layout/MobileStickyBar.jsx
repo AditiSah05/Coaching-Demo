@@ -33,7 +33,7 @@ export const MobileStickyBar = () => {
 
         <Link
           href="/admission"
-          className="flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-terracotta text-white font-bold text-[11px] shadow-terracotta hover:bg-terracotta-hover active:scale-95 transition-transform"
+          className="flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-terracotta text-navy-deep font-bold text-[11px] shadow-terracotta hover:bg-terracotta-hover active:scale-95 transition-transform"
         >
           <FileText className="w-4 h-4 mb-0.5" />
           <span>Apply Online</span>

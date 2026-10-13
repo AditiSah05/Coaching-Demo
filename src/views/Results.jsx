@@ -38,7 +38,7 @@ export const Results = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#FBF6EC" />
+          <ScallopedBorder fillColor="#F8F5ED" />
         </div>
       </section>
 
@@ -53,7 +53,7 @@ export const Results = () => {
                 onClick={() => setSelectedYear(y)}
                 className={`px-6 py-2.5 rounded-xl text-xs font-serif font-bold transition-all ${
                   selectedYear === y
-                    ? 'bg-terracotta text-white shadow-terracotta scale-105'
+                    ? 'bg-terracotta text-navy-deep shadow-terracotta scale-105'
                     : 'bg-ivory text-ink/70 hover:bg-navy-deep/10'
                 }`}
               >
@@ -90,7 +90,7 @@ export const Results = () => {
                     <AvatarInitials initials={top.photo} name={top.name} color={top.color} size="w-14 h-14 text-base" />
                     <div>
                       <h3 className="font-serif text-lg font-bold text-navy-deep">{top.name}</h3>
-                      <span className="text-xs font-semibold text-terracotta">{top.batch}</span>
+                      <span className="text-xs font-semibold text-goldtext">{top.batch}</span>
                     </div>
                   </div>
 

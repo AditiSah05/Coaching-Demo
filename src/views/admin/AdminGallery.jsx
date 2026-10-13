@@ -39,7 +39,7 @@ export const AdminGallery = () => {
           <h1 className="font-serif text-2xl font-bold text-navy-deep">Photo & Video Gallery Manager</h1>
           <p className="text-xs text-ink/70">Upload photos via URL or base64 file upload.</p>
         </div>
-        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 uppercase">
+        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-navy-deep font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 uppercase">
           <Plus className="w-4 h-4" /> Add Photo
         </button>
       </div>
@@ -87,7 +87,7 @@ export const AdminGallery = () => {
               )}
 
               <input type="text" placeholder="Caption / Description" value={formData.caption} onChange={e => setFormData({ ...formData, caption: e.target.value })} className="w-full p-2.5 border rounded-xl" />
-              <button type="submit" className="w-full bg-terracotta text-white font-bold py-3 rounded-xl uppercase">Upload Image</button>
+              <button type="submit" className="w-full bg-terracotta text-navy-deep font-bold py-3 rounded-xl uppercase">Upload Image</button>
             </form>
           </div>
         </div>

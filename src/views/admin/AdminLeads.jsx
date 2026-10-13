@@ -31,7 +31,7 @@ export const AdminLeads = () => {
                 <tr key={lead.id} className="hover:bg-ivory transition-colors">
                   <td className="p-4 text-ink/50">{new Date(lead.downloadedAt).toLocaleString()}</td>
                   <td className="p-4 font-bold text-navy-deep">{lead.name}</td>
-                  <td className="p-4 font-bold text-terracotta">{lead.phone}</td>
+                  <td className="p-4 font-bold text-goldtext">{lead.phone}</td>
                   <td className="p-4 text-sea-blue">{lead.email || 'N/A'}</td>
                   <td className="p-4 font-semibold text-navy-deep">{lead.materialTitle}</td>
                 </tr>

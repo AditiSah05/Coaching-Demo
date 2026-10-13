@@ -15,7 +15,7 @@ export const AboutUs = () => {
       {/* Page Header */}
       <section className="bg-navy-deep text-ivory py-16 sm:py-20 relative bg-maritime-pattern">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="badge-solid bg-terracotta/20 text-terracotta mb-3">La Nostra Storia</span>
+          <span className="badge-solid bg-terracotta/20 text-goldtext mb-3">La Nostra Storia</span>
           <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mb-4">
             About Pacific Marine Academy
           </h1>
@@ -24,7 +24,7 @@ export const AboutUs = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#FBF6EC" />
+          <ScallopedBorder fillColor="#F8F5ED" />
         </div>
       </section>
 
@@ -44,7 +44,7 @@ export const AboutUs = () => {
               </div>
               <div className="mt-4 text-center">
                 <h3 className="font-serif text-lg font-bold text-navy-deep">Capt. Rajeshwar S. Salunkhe</h3>
-                <p className="text-xs font-semibold text-terracotta">Founder & Master Mariner (FG)</p>
+                <p className="text-xs font-semibold text-goldtext">Founder & Master Mariner (FG)</p>
                 <p className="text-[10px] text-ink/60">22 Years At Sea • 14 Years Maritime Educator</p>
               </div>
             </div>
@@ -75,7 +75,7 @@ export const AboutUs = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             <div className="bg-navy-light/40 p-8 rounded-3xl border border-sea-blue/20">
-              <div className="w-12 h-12 rounded-2xl bg-terracotta text-white flex items-center justify-center mb-4">
+              <div className="w-12 h-12 rounded-2xl bg-terracotta text-navy-deep flex items-center justify-center mb-4">
                 <Compass className="w-6 h-6" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-white mb-3">Our Mission</h3>
@@ -103,7 +103,7 @@ export const AboutUs = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="badge-solid bg-terracotta/10 text-terracotta mb-2">Docenti Esperti</span>
+            <span className="badge-solid bg-terracotta/10 text-goldtext mb-2">Docenti Esperti</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">
               Learn From Master Mariners & Engineers
             </h2>
@@ -122,7 +122,7 @@ export const AboutUs = () => {
                     />
                   </div>
                   <h3 className="font-serif text-base font-bold text-navy-deep mb-1">{member.name}</h3>
-                  <p className="text-xs font-semibold text-terracotta mb-2">{member.role}</p>
+                  <p className="text-xs font-semibold text-goldtext mb-2">{member.role}</p>
                   <p className="text-[11px] text-ink/70 mb-2">{member.qualification}</p>
                 </div>
                 <div className="pt-3 border-t border-navy-deep/5 text-[10px] text-sea-blue font-bold">
@@ -155,7 +155,7 @@ export const AboutUs = () => {
               { year: "2026", title: "Digital & Residential Expansion", desc: "Launched full hybrid learning platform with smart hostel facility." }
             ].map((milestone, idx) => (
               <div key={idx} className={`relative flex flex-col md:flex-row items-center gap-6 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                <div className="w-8 h-8 rounded-full bg-terracotta text-white font-bold text-xs flex items-center justify-center shrink-0 z-10 shadow-terracotta">
+                <div className="w-8 h-8 rounded-full bg-terracotta text-navy-deep font-bold text-xs flex items-center justify-center shrink-0 z-10 shadow-terracotta">
                   ⚓
                 </div>
                 <div className="bg-navy-light/50 p-6 rounded-2xl border border-sea-blue/20 w-full md:w-[45%]">

@@ -7,35 +7,36 @@ export default {
     extend: {
       colors: {
         navy: {
-          DEFAULT: '#0B2545',
-          deep: '#0B2545',
-          dark: '#07182D',
-          light: '#134074',
+          DEFAULT: '#062B40',
+          deep: '#062B40',
+          dark: '#041E2E',
+          light: '#0C4260',
         },
         sea: {
-          blue: '#13A0C9',
-          light: '#E6F6FB',
-          dark: '#0E7A9B',
+          blue: '#20C9B5',
+          light: '#E3F8F5',
+          dark: '#15A494',
         },
         terracotta: {
-          DEFAULT: '#E4572E',
-          hover: '#CD421A',
-          light: '#FDF0EC',
+          DEFAULT: '#F6C65B',
+          hover: '#E5B03F',
+          light: '#FEF6DD',
         },
         gold: {
-          DEFAULT: '#F2B632',
-          hover: '#E0A31B',
-          light: '#FEF8E9',
+          DEFAULT: '#F6C65B',
+          hover: '#E5B03F',
+          light: '#FEF6DD',
         },
         ivory: {
-          DEFAULT: '#FBF6EC',
+          DEFAULT: '#F8F5ED',
           card: '#FFFFFF',
-          dark: '#F3E8D3',
+          dark: '#EEE7D5',
         },
-        ink: '#14213D',
+        ink: '#0F2A3A',
+        goldtext: '#B8860B',
         seagreen: {
-          DEFAULT: '#2A9D8F',
-          light: '#EAF6F4',
+          DEFAULT: '#20A898',
+          light: '#E3F8F5',
         }
       },
       fontFamily: {
@@ -48,10 +49,10 @@ export default {
         '4xl': '36px',
       },
       boxShadow: {
-        'chunky': '0 10px 25px -5px rgba(11, 37, 69, 0.12), 0 8px 10px -6px rgba(11, 37, 69, 0.08)',
-        'chunky-lg': '0 20px 35px -10px rgba(11, 37, 69, 0.18), 0 10px 15px -8px rgba(11, 37, 69, 0.12)',
-        'terracotta': '0 10px 25px -5px rgba(228, 87, 46, 0.3)',
-        'sea': '0 10px 25px -5px rgba(19, 160, 201, 0.3)',
+        'chunky': '0 10px 25px -5px rgba(6, 43, 64, 0.12), 0 8px 10px -6px rgba(6, 43, 64, 0.08)',
+        'chunky-lg': '0 20px 35px -10px rgba(6, 43, 64, 0.18), 0 10px 15px -8px rgba(6, 43, 64, 0.12)',
+        'terracotta': '0 10px 25px -5px rgba(246, 198, 91, 0.35)',
+        'sea': '0 10px 25px -5px rgba(32, 201, 181, 0.3)',
       }
     },
   },

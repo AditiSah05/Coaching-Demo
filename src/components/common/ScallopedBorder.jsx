@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export const ScallopedBorder = ({ fillColor = '#0B2545', invert = false, className = '' }) => {
+export const ScallopedBorder = ({ fillColor = '#062B40', invert = false, className = '' }) => {
   return (
     <div className={`w-full overflow-hidden leading-none select-none ${className}`}>
       <svg
@@ -19,14 +19,14 @@ export const ScallopedBorder = ({ fillColor = '#0B2545', invert = false, classNa
   );
 };
 
-export const ItalianScallopPattern = ({ color = '#E4572E' }) => {
+export const ItalianScallopPattern = ({ color = '#F6C65B' }) => {
   return (
     <div className="w-full h-2 flex overflow-hidden">
       {[...Array(40)].map((_, i) => (
         <div 
           key={i} 
           className="flex-1 h-3 rounded-b-full"
-          style={{ backgroundColor: i % 2 === 0 ? color : '#13A0C9' }}
+          style={{ backgroundColor: i % 2 === 0 ? color : '#20C9B5' }}
         />
       ))}
     </div>

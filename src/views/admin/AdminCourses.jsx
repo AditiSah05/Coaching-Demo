@@ -119,7 +119,7 @@ export const AdminCourses = () => {
 
         <button
           onClick={handleOpenAdd}
-          className="bg-terracotta hover:bg-terracotta-hover text-white font-bold px-5 py-2.5 rounded-xl shadow-terracotta flex items-center gap-1.5 text-xs uppercase tracking-wider self-start sm:self-auto"
+          className="bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold px-5 py-2.5 rounded-xl shadow-terracotta flex items-center gap-1.5 text-xs uppercase tracking-wider self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" /> <span>Add New Course</span>
         </button>
@@ -157,7 +157,7 @@ export const AdminCourses = () => {
                   <td className="p-4 font-bold text-navy-deep">{course.title}</td>
                   <td className="p-4 text-sea-blue font-semibold">{course.category}</td>
                   <td className="p-4">{course.duration}</td>
-                  <td className="p-4 font-bold text-terracotta">{course.fee}</td>
+                  <td className="p-4 font-bold text-goldtext">{course.fee}</td>
                   <td className="p-4">
                     <span className="bg-gold/20 text-navy-deep font-bold px-2 py-0.5 rounded text-[10px]">
                       {course.badge}
@@ -307,7 +307,7 @@ export const AdminCourses = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-terracotta text-white font-bold text-xs uppercase tracking-wider shadow-terracotta"
+                  className="px-6 py-2.5 rounded-xl bg-terracotta text-navy-deep font-bold text-xs uppercase tracking-wider shadow-terracotta"
                 >
                   Save Course
                 </button>

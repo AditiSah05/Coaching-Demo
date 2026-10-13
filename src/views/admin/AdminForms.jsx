@@ -28,7 +28,7 @@ export const AdminForms = () => {
           <h1 className="font-serif text-2xl font-bold text-navy-deep">Available Forms Manager</h1>
           <p className="text-xs text-ink/70">Manage downloadable offline admission, medical formats, and hostel forms.</p>
         </div>
-        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 uppercase">
+        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-navy-deep font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 uppercase">
           <Plus className="w-4 h-4" /> Add New Form
         </button>
       </div>
@@ -62,7 +62,7 @@ export const AdminForms = () => {
                 <option value="Hostel">Hostel</option>
               </select>
               <textarea rows="3" placeholder="Description" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="w-full p-2.5 border rounded-xl"></textarea>
-              <button type="submit" className="w-full bg-terracotta text-white font-bold py-3 rounded-xl uppercase">Save Form</button>
+              <button type="submit" className="w-full bg-terracotta text-navy-deep font-bold py-3 rounded-xl uppercase">Save Form</button>
             </form>
           </div>
         </div>

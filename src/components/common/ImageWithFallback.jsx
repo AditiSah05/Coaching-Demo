@@ -21,7 +21,7 @@ export const ImageWithFallback = ({
         className={`${aspectRatio} ${className} bg-navy-deep text-ivory flex flex-col items-center justify-center p-4 border border-sea-blue/20 rounded-xl select-none`}
         style={{ width, height }}
       >
-        <div className="w-12 h-12 rounded-full bg-terracotta/20 flex items-center justify-center mb-2 text-terracotta">
+        <div className="w-12 h-12 rounded-full bg-terracotta/20 flex items-center justify-center mb-2 text-goldtext">
           <Anchor className="w-6 h-6 animate-pulse" />
         </div>
         <span className="text-xs font-semibold text-sea-blue uppercase tracking-wider text-center">Pacific Marine</span>

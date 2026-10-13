@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from "next/link";
-import { Compass, MapPin, Phone, Mail, Award, ArrowUpRight, Facebook, Instagram, Youtube, Linkedin, ExternalLink } from 'lucide-react';
+import { Compass, MapPin, Phone, Mail, Award, ArrowUpRight, Facebook, Instagram, Youtube, ExternalLink } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
 export const Footer = () => {
@@ -23,7 +23,7 @@ export const Footer = () => {
             <div className="flex items-center gap-3">
               <img src="/logo.png" alt="Pacific Marine Academy" className="w-12 h-12 rounded-full shrink-0 bg-white" />
               <div>
-                <h3 className="font-serif text-2xl font-bold text-white">PACIFIC <span className="text-terracotta">MARINE</span></h3>
+                <h3 className="font-serif text-2xl font-bold text-white">PACIFIC <span className="text-gold">MARINE</span></h3>
                 <p className="text-[11px] font-semibold text-sea-blue tracking-widest uppercase">Academy • Merchant Navy</p>
               </div>
             </div>
@@ -59,7 +59,7 @@ export const Footer = () => {
                     href={item.path}
                     className="text-ivory/80 hover:text-sea-blue transition-colors flex items-center gap-2"
                   >
-                    <span className="text-terracotta font-bold">›</span>
+                    <span className="text-gold font-bold">›</span>
                     <span>{item.label}</span>
                   </Link>
                 </li>
@@ -107,12 +107,12 @@ export const Footer = () => {
             </h4>
             <div className="space-y-3 text-xs text-ivory/80">
               <p className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-gold shrink-0 mt-0.5" />
                 <span>{settings?.address}</span>
               </p>
               <p className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-sea-blue shrink-0" />
-                <span>{settings?.phonePrimary} / {settings?.phoneSecondary}</span>
+                <span>{[settings?.phonePrimary, settings?.phoneSecondary].filter(Boolean).join(" / ")}</span>
               </p>
               <p className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-gold shrink-0" />
@@ -124,18 +124,15 @@ export const Footer = () => {
             <div className="mt-6 pt-4 border-t border-sea-blue/20">
               <span className="text-[10px] uppercase tracking-wider text-sea-blue font-bold block mb-2">Connect With Us</span>
               <div className="flex items-center gap-2">
-                <a href={settings?.socialLinks?.facebook} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-sea-blue hover:text-navy-deep flex items-center justify-center text-ivory transition-colors">
+                {settings?.socialLinks?.facebook && <a href={settings.socialLinks.facebook} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-sea-blue hover:text-navy-deep flex items-center justify-center text-ivory transition-colors">
                   <Facebook className="w-4 h-4" />
-                </a>
-                <a href={settings?.socialLinks?.instagram} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-terracotta hover:text-white flex items-center justify-center text-ivory transition-colors">
+                </a>}
+                {settings?.socialLinks?.instagram && <a href={settings.socialLinks.instagram} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-terracotta hover:text-white flex items-center justify-center text-ivory transition-colors">
                   <Instagram className="w-4 h-4" />
-                </a>
-                <a href={settings?.socialLinks?.youtube} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-red-600 hover:text-white flex items-center justify-center text-ivory transition-colors">
+                </a>}
+                {settings?.socialLinks?.youtube && <a href={settings.socialLinks.youtube} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-red-600 hover:text-white flex items-center justify-center text-ivory transition-colors">
                   <Youtube className="w-4 h-4" />
-                </a>
-                <a href={settings?.socialLinks?.linkedin} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-navy-light/60 hover:bg-sea-blue hover:text-navy-deep flex items-center justify-center text-ivory transition-colors">
-                  <Linkedin className="w-4 h-4" />
-                </a>
+                </a>}
               </div>
             </div>
 
@@ -145,13 +142,13 @@ export const Footer = () => {
 
         {/* Bottom Copyright Strip */}
         <div className="pt-8 border-t border-sea-blue/20 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-ivory/60">
-          <p>© {new Date().getFullYear()} {settings?.instituteName}. All Rights Reserved. Built with Italian Maritime Passion.</p>
+          <p>© {new Date().getFullYear()} {settings?.instituteName}. All Rights Reserved. Developed by My Digital Desh.</p>
           <div className="flex items-center gap-4">
             <Link href="/admin/login" className="hover:text-gold flex items-center gap-1">
               <span>Admin Portal</span> <ExternalLink className="w-3 h-3" />
             </Link>
             <span>•</span>
-            <span className="text-terracotta font-semibold">Benvenuti a bordo</span>
+            <span className="text-gold font-semibold">Benvenuti a bordo</span>
           </div>
         </div>
 

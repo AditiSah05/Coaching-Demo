@@ -96,7 +96,7 @@ export const AdminSettings = () => {
           <textarea rows="2" value={formData.heroSubheading} onChange={e => setFormData({ ...formData, heroSubheading: e.target.value })} className="w-full p-2.5 border rounded-xl"></textarea>
         </div>
 
-        <button type="submit" className="bg-terracotta text-white font-bold px-6 py-3 rounded-xl uppercase shadow-terracotta flex items-center gap-2">
+        <button type="submit" className="bg-terracotta text-navy-deep font-bold px-6 py-3 rounded-xl uppercase shadow-terracotta flex items-center gap-2">
           <Save className="w-4 h-4" /> Save All Settings
         </button>
 

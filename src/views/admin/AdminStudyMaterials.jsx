@@ -28,7 +28,7 @@ export const AdminStudyMaterials = () => {
           <h1 className="font-serif text-2xl font-bold text-navy-deep">Free Study Materials Hub</h1>
           <p className="text-xs text-ink/70">Upload or edit downloadable handbooks, past papers and videos.</p>
         </div>
-        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 uppercase">
+        <button onClick={() => setModalOpen(true)} className="bg-terracotta text-navy-deep font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 uppercase">
           <Plus className="w-4 h-4" /> Add Material
         </button>
       </div>
@@ -63,7 +63,7 @@ export const AdminStudyMaterials = () => {
               </select>
               <input type="text" required placeholder="File Size (e.g. 4.8 MB)" value={formData.size} onChange={e => setFormData({ ...formData, size: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <textarea rows="3" placeholder="Preview Summary" value={formData.previewText} onChange={e => setFormData({ ...formData, previewText: e.target.value })} className="w-full p-2.5 border rounded-xl"></textarea>
-              <button type="submit" className="w-full bg-terracotta text-white font-bold py-3 rounded-xl uppercase">Save Material</button>
+              <button type="submit" className="w-full bg-terracotta text-navy-deep font-bold py-3 rounded-xl uppercase">Save Material</button>
             </form>
           </div>
         </div>

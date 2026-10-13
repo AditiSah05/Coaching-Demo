@@ -5,8 +5,8 @@
 @layer base {
   body {
     font-family: 'Poppins', sans-serif;
-    color: #14213D;
-    background-color: #FBF6EC;
+    color: #0F2A3A;
+    background-color: #F8F5ED;
     overflow-x: hidden;
   }
 
@@ -36,7 +36,7 @@
   top: 50%;
   width: 24px;
   height: 24px;
-  background-color: #FBF6EC;
+  background-color: #F8F5ED;
   border-radius: 50%;
   transform: translateY(-50%);
 }
@@ -51,15 +51,15 @@
 
 /* Maritime pattern background */
 .bg-maritime-pattern {
-  background-color: #0B2545;
-  background-image: radial-gradient(#13A0C9 0.75px, transparent 0.75px), radial-gradient(#13A0C9 0.75px, #0B2545 0.75px);
+  background-color: #062B40;
+  background-image: radial-gradient(#20C9B5 0.75px, transparent 0.75px), radial-gradient(#20C9B5 0.75px, #062B40 0.75px);
   background-size: 30px 30px;
   background-position: 0 0, 15px 15px;
 }
 
 .bg-ivory-pattern {
-  background-color: #FBF6EC;
-  background-image: radial-gradient(#E4572E 0.6px, transparent 0.6px);
+  background-color: #F8F5ED;
+  background-image: radial-gradient(#F6C65B 0.6px, transparent 0.6px);
   background-size: 24px 24px;
 }
 
