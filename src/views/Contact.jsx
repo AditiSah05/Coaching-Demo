@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, MessageCircle, Send, CheckCircle2, Facebook, Instagram, Youtube, Linkedin } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, MessageCircle, Send, CheckCircle2, Facebook, Instagram, Youtube } from 'lucide-react';
 import { useData } from '../context/DataContext';
 import { ScallopedBorder } from '../components/common/ScallopedBorder';
 
@@ -39,7 +39,7 @@ export const Contact = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#FBF6EC" />
+          <ScallopedBorder fillColor="#F8F5ED" />
         </div>
       </section>
 
@@ -58,7 +58,7 @@ export const Contact = () => {
 
                 <div className="space-y-3 text-xs">
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-terracotta/10 text-goldtext flex items-center justify-center shrink-0">
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
@@ -74,7 +74,7 @@ export const Contact = () => {
                     <div>
                       <span className="font-bold text-navy-deep block">Phone Helplines:</span>
                       <a href={`tel:${settings?.phonePrimary}`} className="text-sea-blue font-bold hover:underline block">{settings?.phonePrimary}</a>
-                      <a href={`tel:${settings?.phoneSecondary}`} className="text-ink/70 hover:underline block">{settings?.phoneSecondary}</a>
+                      {settings?.phoneSecondary && <a href={`tel:${settings.phoneSecondary}`} className="text-ink/70 hover:underline block">{settings.phoneSecondary}</a>}
                     </div>
                   </div>
 
@@ -84,7 +84,7 @@ export const Contact = () => {
                     </div>
                     <div>
                       <span className="font-bold text-navy-deep block">Email Desk:</span>
-                      <a href={`mailto:${settings?.email}`} className="text-terracotta font-semibold hover:underline">{settings?.email}</a>
+                      <a href={`mailto:${settings?.email}`} className="text-goldtext font-semibold hover:underline">{settings?.email}</a>
                     </div>
                   </div>
 
@@ -94,8 +94,8 @@ export const Contact = () => {
                     </div>
                     <div>
                       <span className="font-bold text-navy-deep block">Campus Operating Hours:</span>
-                      <span className="text-ink/70">Monday - Saturday: 08:00 AM - 07:00 PM</span>
-                      <span className="text-ink/70 block">Sunday: 09:00 AM - 02:00 PM</span>
+                      <span className="text-ink/70">Monday - Saturday: 09:00 AM - 07:00 PM</span>
+                      <span className="text-ink/70 block">Sunday: Closed</span>
                     </div>
                   </div>
                 </div>
@@ -195,7 +195,7 @@ export const Contact = () => {
 
                     <button
                       type="submit"
-                      className="w-full bg-terracotta hover:bg-terracotta-hover text-white font-bold py-3.5 rounded-xl shadow-terracotta text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+                      className="w-full bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold py-3.5 rounded-xl shadow-terracotta text-xs uppercase tracking-wider flex items-center justify-center gap-2"
                     >
                       <Send className="w-4 h-4" />
                       <span>Submit Enquiry</span>

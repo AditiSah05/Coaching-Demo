@@ -1,21 +1,21 @@
 export const initialSeedData = {
   settings: {
     instituteName: "Pacific Marine Academy",
-    tagline: "Eccellenza Marittima • Merchant Navy Entrance Coaching Institute",
-    phonePrimary: "+91 98765 43210",
-    phoneSecondary: "+91 98765 43211",
-    whatsapp: "+91 98765 43210",
-    email: "admissions@pacificmarine.edu.in",
-    address: "Naval Harbour Road, Sector 15, Vashi, Navi Mumbai, Maharashtra 400703",
-    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.7876800722374!2d73.00030587588383!3d19.073083352061266!2m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c13400000001%3A0x6333333333333333!2sNavi%20Mumbai!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+    tagline: "IMU CET Coaching • DNS Sponsorship • Merchant Navy Interview Preparation",
+    phonePrimary: "+91 8426074109",
+    phoneSecondary: "",
+    whatsapp: "+91 8426074109",
+    email: "pacificmarineacademy2022@gmail.com",
+    address: "2nd Floor, Above PNB Bank, Nawalgarh Road, Sikar, Rajasthan 332001",
+    mapEmbedUrl: "https://www.google.com/maps?q=Pacific+Marine+Academy+Nawalgarh+Road+Sikar+Rajasthan+332001&output=embed",
     socialLinks: {
-      facebook: "https://facebook.com/pacificmarineacademy",
-      instagram: "https://instagram.com/pacificmarineacademy",
-      youtube: "https://youtube.com/c/pacificmarineacademy",
-      linkedin: "https://linkedin.com/company/pacificmarineacademy"
+      facebook: "",
+      instagram: "",
+      youtube: "",
+      whatsapp: "https://wa.me/918426074109"
     },
-    heroHeading: "Steer Your Future Towards High Seas Glory",
-    heroSubheading: "India's premier Merchant Navy entrance coaching institute. Comprehensive preparation for IMU-CET, DNS, G.P. Rating, Deck & Engine Cadet sponsorships with 98.4% selection rate.",
+    heroHeading: "India's Best Offline Merchant Navy Coaching",
+    heroSubheading: "At Pacific Marine Academy, Sikar, we help aspiring cadets join the Merchant Navy with confidence: a structured curriculum, expert faculty guidance and personal mentorship for IMU-CET, DNS sponsorship exams and Merchant Navy interviews.",
     stats: {
       studentsTrained: 5400,
       selections: 5120,
@@ -25,107 +25,146 @@ export const initialSeedData = {
   },
   banners: {
     admissionOpen: true,
-    bannerText: "⚓ Admissions Open for 2026-27 Merchant Navy Batches! Limited Seats Available • Free Counselling Available",
+    bannerText: "🚢 Free One on One Mentorship with Merchant Navy Officer",
     secondaryNotice: "IMU-CET Special Crash Course Batch Starting 15th Of Next Month. Register Now!"
   },
   courses: [
     {
-      id: "course-1",
-      title: "IMU-CET Ranker Prep Course",
-      category: "Entrance Exam",
-      duration: "6 Months",
-      mode: "Offline & Online Hybrid",
-      fee: "₹48,000",
-      featured: true,
-      description: "Complete preparation for Indian Maritime University Common Entrance Test (IMU-CET). Covers Mathematics, Physics, Chemistry, English, and General Aptitude with weekly Mock Tests.",
-      eligibility: "10+2 with PCM (min 60%) and English (min 50%)",
-      targetExam: "IMU-CET Aug / Dec Cycles",
-      badge: "Best Seller",
-      syllabus: [
-        "Physics: Mechanics, Thermodynamics, Waves & Electromagnetism",
-        "Mathematics: Calculus, Algebra, Vectors & Coordinate Geometry",
-        "Chemistry: Physical, Organic & Inorganic Chemistry",
-        "English Communication & Nautical Vocabulary",
-        "General Knowledge, Maritime Awareness & Logical Reasoning",
-        "15 Full-length Computer Based Mock Exams (CBT Pattern)"
-      ]
+      "id": "course-1",
+      "slug": "imu-cet-preparation",
+      "title": "IMU CET Preparation",
+      "category": "Entrance Exam",
+      "duration": "",
+      "badge": "Core Course",
+      "image": "/images/home-image-06.webp",
+      "description": "Pacific Marine Academy's IMU CET Preparation Course is a comprehensive, results-oriented program for the Indian Maritime University Common Entrance Test, the computer-based, multiple-choice gateway to undergraduate and postgraduate maritime courses. It also prepares students for DNS sponsorship exams.",
+      "eligibility": "10+2 level syllabus (Physics, Chemistry, Mathematics) plus English and General Aptitude",
+      "targetExam": "IMU CET and DNS sponsorship exams",
+      "syllabus": [
+        "Physics: mechanics, thermodynamics, electricity and magnetism",
+        "Chemistry: fuels, lubricants and chemicals used on board",
+        "Mathematics: calculus, algebra and geometry",
+        "English: grammar, vocabulary and comprehension",
+        "General Aptitude: logical reasoning, critical thinking and general knowledge"
+      ],
+      "highlights": [
+        "Structured classroom sessions led by master mariners and naval officers",
+        "Detailed notes, textbooks and practice questions aligned to IMU CET and sponsorship exam patterns",
+        "Regular mock tests that simulate the actual exam environment",
+        "Dedicated interview training with mock interviews by industry professionals",
+        "Career counselling from application to choosing the right course and college, with support until the first job at sea"
+      ],
+      "fee": "Contact the academy for fees",
+      "mode": "Offline",
+      "featured": true
     },
     {
-      id: "course-2",
-      title: "DNS & Sponsorship Exam Coaching",
-      category: "Deck Cadets",
-      duration: "4 Months",
-      mode: "Regular Classroom / Residential",
-      fee: "₹55,000",
-      featured: true,
-      description: "Dedicated coaching for Shipping Company Sponsorship tests (Anglo-Eastern, Synergy, Fleet Management, Great Eastern, MSC, Executive Ship Management).",
-      eligibility: "10+2 PCM Passed / Appearing (Max age 21 years)",
-      targetExam: "Company Sponsorship Exams & Interviews",
-      badge: "100% Sponsorship Guidance",
-      syllabus: [
-        "Company-specific Psychometric Test Preparation",
-        "Technical Deck Knowledge & Aptitude",
-        "Personal Interview Training with Retired Master Mariners",
-        "DG Shipping Medical Guidance & Sight Standard Checks",
-        "Group Discussion & Maritime Technical Viva"
-      ]
+      "id": "course-2",
+      "slug": "dns-sponsorship",
+      "title": "DNS Sponsorship",
+      "category": "Deck Cadets",
+      "duration": "",
+      "badge": "Sponsorship",
+      "image": "/images/home-image-07.webp",
+      "description": "A specialised program for the DNS sponsorship exam. Sponsorship is a job offer from a shipping company such as Maersk, Anglo-Eastern or Great Eastern Shipping, secured before joining the one-year Diploma in Nautical Science, guaranteeing a sea training berth and a job after training.",
+      "eligibility": "10+2 with PCM (45% average) and meeting DGS age and vision standards",
+      "targetExam": "Shipping-company sponsorship exams (written and interview)",
+      "syllabus": [
+        "Physics",
+        "Chemistry",
+        "Mathematics",
+        "English",
+        "General Aptitude"
+      ],
+      "highlights": [
+        "Written exam coaching tailored to the patterns of various shipping companies",
+        "Interview training with mock interviews on technical and HR questions",
+        "Guidance for psychological tests and merchant navy medical examinations",
+        "Structured study materials and a full test series",
+        "Mentorship from professionals with extensive maritime experience"
+      ],
+      "fee": "Contact the academy for fees",
+      "mode": "Offline",
+      "featured": true
     },
     {
-      id: "course-3",
-      title: "G.P. Rating Entrance & Foundation",
-      category: "Pre-Sea Training",
-      duration: "3 Months",
-      mode: "Offline",
-      fee: "₹35,000",
-      featured: false,
-      description: "Foundation preparation for General Purpose Rating (G.P. Rating) pre-sea training entry in top D.G. Shipping approved academies.",
-      eligibility: "10th Pass with 40% aggregate and 40% in English",
-      targetExam: "GP Rating Entrance & Medical Standard Prep",
-      badge: "Job Oriented",
-      syllabus: [
-        "Basic Navigation & Seamanship Fundamentals",
-        "Marine Engine Room Workshop Basics",
-        "English Oral & Written Communication",
-        "Physical Fitness & Swimming Guidance"
-      ]
+      "id": "course-3",
+      "slug": "diploma-in-nautical-science",
+      "title": "Diploma in Nautical Science",
+      "category": "Deck Cadets",
+      "duration": "1 year + 18 months onboard",
+      "badge": "Deck Officer Path",
+      "image": "/images/home-image-08.webp",
+      "description": "The Diploma in Nautical Science (DNS) is a one-year pre-sea training course, the first step for aspiring deck officers. After pre-sea training at an approved college, cadets complete 18 months of onboard training, then earn a B.Sc. in Applied Nautical Science from the Indian Maritime University and become eligible for the Second Mate's Certificate of Competency.",
+      "eligibility": "10+2 from a recognised board with 45% average in PCM, or a B.Sc. with Physics, Chemistry and Mathematics. Age up to 25. No colour blindness, 6/6 vision in each eye, no eye glasses.",
+      "targetExam": "IMU CET and sponsorship exams for admission to approved maritime colleges",
+      "syllabus": [
+        "Seamanship: rope work, anchoring and handling vessels",
+        "Safety: SOLAS, MARPOL, fire fighting, first aid and survival techniques",
+        "Bridge watch-keeping, cargo handling and ship maintenance (onboard phase)"
+      ],
+      "highlights": [
+        "Curriculum aligned with Directorate General of Shipping (DGS) standards",
+        "Coaching and guidance to secure admission into a reputable maritime college",
+        "Preparation for sponsorship exams and interviews"
+      ],
+      "fee": "Contact the academy for fees",
+      "mode": "Offline",
+      "featured": true
     },
     {
-      id: "course-4",
-      title: "Engine Cadet (B.Tech Marine Engineering Prep)",
-      category: "Engine Cadets",
-      duration: "6 Months",
-      mode: "Offline / Online",
-      fee: "₹50,000",
-      featured: false,
-      description: "Specialized coaching for marine engineering entrance examinations, thermodynamics, mechanical engineering basics, and sponsorship interview rounds.",
-      eligibility: "10+2 PCM (min 60%) or Diploma in Mech/Elec Engg",
-      targetExam: "IMU-CET Marine Engg Entrance & Company Sponsorships",
-      badge: "High Demand",
-      syllabus: [
-        "Applied Mechanics & Fluid Dynamics",
-        "Marine Diesel Engines & Auxiliary Machinery Basics",
-        "Physics & Mathematics Deep Dive",
-        "Sponsorship Interview Viva Preparation"
-      ]
+      "id": "course-4",
+      "slug": "bsc-nautical-science",
+      "title": "BSC Nautical Science",
+      "category": "Deck Cadets",
+      "duration": "3 years",
+      "badge": "Degree",
+      "image": "/images/home-image-09.webp",
+      "description": "A Bachelor of Science in Nautical Science is an undergraduate program covering the theoretical and practical aspects of operating a ship, designed to train future deck officers. It is a full-time, three-year residential course approved by the DG of Shipping, Government of India, followed by one year of sea training and the Second Mate's certificate.",
+      "eligibility": "10+2 from a recognised board with 45% average in PCM. Age up to 25 (30 for SC/ST). No colour blindness, 6/6 vision, no eye glasses.",
+      "targetExam": "IMU CET",
+      "syllabus": [
+        "Navigation: celestial, electronic (GPS, radar) and chart work",
+        "Seamanship: ropework, ship handling, anchoring and mooring",
+        "Marine Engineering: marine engines, ship machinery and maintenance",
+        "Meteorology: weather patterns and forecasting",
+        "Cargo Operations: handling, stowage and securing",
+        "Marine Law and Regulations: maritime law, safety and pollution prevention"
+      ],
+      "highlights": [
+        "Third Officer certificate path after sea training",
+        "Progression to Chief Officer and Captain with experience"
+      ],
+      "fee": "Contact the academy for fees",
+      "mode": "Offline",
+      "featured": true
     },
     {
-      id: "course-5",
-      title: "IMU-CET Super Fast Crash Course",
-      category: "Crash Course",
-      duration: "45 Days",
-      mode: "Intensive Classroom",
-      fee: "₹28,000",
-      featured: true,
-      description: "High-intensity revision batch designed for students taking the upcoming IMU-CET exam. Includes daily 6 hours of classes, 5000+ MCQs, and topic tests.",
-      eligibility: "10+2 PCM Passed/Appearing",
-      targetExam: "Immediate Upcoming IMU-CET",
-      badge: "Fast Track",
-      syllabus: [
-        "Rapid revision of 11th & 12th PCM topics",
-        "Shortcut methods & formula handbooks",
-        "Daily practice papers (DPP) & speed tests",
-        "Complete English & Aptitude practice"
-      ]
+      "id": "course-5",
+      "slug": "btech-marine-engineering",
+      "title": "B.Tech Marine Engineering",
+      "category": "Engine Cadets",
+      "duration": "4 years",
+      "badge": "Engine Side",
+      "image": "/images/home-image-10.webp",
+      "description": "A four-year undergraduate course and the gateway for aspiring engineers to join the merchant navy on the engine side, aligned with the STCW convention. Graduates join a ship as Junior or Trainee Engineer and can progress to Second Engineer and Chief Engineer.",
+      "eligibility": "10+2 with Physics, Chemistry and Mathematics, minimum 45% aggregate (some colleges require 60% in PCM) and 50% in English in 10th or 12th. Age up to 25 and merchant navy eyesight and fitness standards.",
+      "targetExam": "IMU CET",
+      "syllabus": [
+        "Marine Machinery Systems",
+        "Marine Internal Combustion Engines",
+        "Marine Boilers and Marine Steam Plants",
+        "Naval Architecture",
+        "Applied Thermodynamics and Fluid Mechanics",
+        "Simulator-based training on shipboard operations"
+      ],
+      "highlights": [
+        "Preparation for IMU CET, a key entrance exam for B.Tech Marine Engineering",
+        "Mock interviews and guidance for company sponsorship exams"
+      ],
+      "fee": "Contact the academy for fees",
+      "mode": "Offline",
+      "featured": true
     }
   ],
   toppers: [
@@ -376,55 +415,99 @@ export const initialSeedData = {
   ],
   testimonials: [
     {
-      id: "test-1",
-      name: "Captain Sameer V. Kulkarni",
-      role: "Parent of Cadet Rohan Kulkarni (AIR 04)",
-      text: "As a Master Mariner myself, I was very particular about where to send my son for coaching. Pacific Marine Academy has the most disciplined environment, unmatched faculty, and genuine guidance.",
-      rating: 5,
-      location: "Pune, Maharashtra"
+      "id": "test-1",
+      "name": "CDT Rudra Kashyap",
+      "role": "Google Review",
+      "text": "I am from gaya district of bihar and visited pacific marine academy......i can say that i got all the things here which i was looking for an offline academy...... Discipline.... faculty....hostel....office staff...classroom ..... everything fine",
+      "rating": 5
     },
     {
-      id: "test-2",
-      name: "Karan B. Thakur",
-      role: "DNS Cadet at Anglo-Eastern",
-      text: "The mock interviews conducted by Capt. Salunkhe were identical to the real Anglo-Eastern panel. I passed with top marks and secured my sponsorship easily.",
-      rating: 5,
-      location: "Jaipur, Rajasthan"
+      "id": "test-2",
+      "name": "NIRVED SINGH",
+      "role": "Google Review",
+      "text": "My nephew take admission in Pacific marine academy as my friend son also study in this coaching as faculty is very cooperative",
+      "rating": 5
     },
     {
-      id: "test-3",
-      name: "Neha & Rajesh Sharma",
-      role: "Parents of Cadet Ananya Sharma",
-      text: "Safe hostel facility, excelente food, and 24/7 library access. The academy kept us updated every week on Ananya's test scores.",
-      rating: 5,
-      location: "Chandigarh"
+      "id": "test-3",
+      "name": "Aryan Muwal",
+      "role": "Google Review",
+      "text": "My friend dipesh thori studied from pacific marine academy i consider this is a proper settled merchant navy coachinh in india",
+      "rating": 5
+    },
+    {
+      "id": "test-4",
+      "name": "AJEET KUMAR SINGH",
+      "role": "Google Review",
+      "text": "My son is studying in this institution, Thanks to the pacific team for the overall support. I recommend you all aspirants to join this coaching",
+      "rating": 5
+    },
+    {
+      "id": "test-5",
+      "name": "Rahul jangra 001",
+      "role": "Google Review",
+      "text": "Best imucet coaching in india",
+      "rating": 5
+    },
+    {
+      "id": "test-6",
+      "name": "Anil Verma",
+      "role": "Google Review",
+      "text": "Thanks pacific marine academy for ur guidance in imucet exam",
+      "rating": 5
+    },
+    {
+      "id": "test-7",
+      "name": "Expert Air Solutions",
+      "role": "Google Review",
+      "text": "I am here from sikar.....thanks god that we have India's best dns sponsorship coaching in my city only otherwise 80% of students here are from other states.......Thanks pacific for guidance and interview preparation to my brother",
+      "rating": 5
+    },
+    {
+      "id": "test-8",
+      "name": "mohit kuri",
+      "role": "Google Review",
+      "text": "This is a good coaching for imucet preparation in jaipur and sikar.",
+      "rating": 5
+    },
+    {
+      "id": "test-9",
+      "name": "Piyush Bakshi",
+      "role": "Google Review",
+      "text": "I am from yamuna nagar hariyana and stuying in pacific marine academy for imucet preparation and dns sponsorship",
+      "rating": 5
     }
   ],
   faqs: [
     {
-      id: "faq-1",
-      question: "What is IMU-CET and why is it mandatory for Merchant Navy?",
-      answer: "IMU-CET (Indian Maritime University Common Entrance Test) is the national entrance examination required for admission into B.Sc. Nautical Science, Diploma in Nautical Science (DNS), and B.Tech Marine Engineering across all DG Shipping approved institutes in India."
+      "id": "faq-1",
+      "question": "What is IMU CET?",
+      "answer": "IMU CET (Indian Maritime University Common Entrance Test) is a computer-based, multiple-choice exam that is the gateway to numerous undergraduate and postgraduate maritime courses. The undergraduate syllabus is based on the 10+2 level: Physics, Chemistry, Mathematics, English and General Aptitude."
     },
     {
-      id: "faq-2",
-      question: "What is the age limit and educational qualification required?",
-      answer: "For DNS & B.Sc Nautical Science: Candidate must have passed 10+2 with Physics, Chemistry, and Mathematics (PCM) with a minimum of 60% aggregate and at least 50% in English (10th or 12th). Age should be between 17 to 25 years on the day of course commencement."
+      "id": "faq-2",
+      "question": "What is DNS Sponsorship?",
+      "answer": "DNS Sponsorship is essentially a job offer from a shipping company such as Maersk, Anglo-Eastern or Great Eastern Shipping. Clearing the sponsorship exam and interview secures a seat in the one-year Diploma in Nautical Science and guarantees a job with the company after training."
     },
     {
-      id: "faq-3",
-      question: "What is Shipping Company Sponsorship and how does PMA help?",
-      answer: "Sponsorship means a reputed shipping company (like Anglo-Eastern, Synergy, Fleet, MSC) selects you BEFORE your pre-sea training and guarantees your 18-month sea time onboard their ships. PMA provides specialized coaching for company sponsorship written tests, psychometrics, and mock viva panels."
+      "id": "faq-3",
+      "question": "What are the eligibility criteria for DNS and B.Sc. Nautical Science?",
+      "answer": "Pass in 10+2 from a recognised board with 45% average in PCM (Physics, Chemistry, Mathematics). Age limit is up to 25 years (30 for SC/ST in B.Sc. Nautical Science). No colour blindness and 6/6 vision in each eye; eye glasses are not permitted."
     },
     {
-      id: "faq-4",
-      question: "Are hostel facilities available for outstation students?",
-      answer: "Yes! PMA provides separate, fully-furnished residential hostel facilities for male and female cadets with nutritious mess food, Wi-Fi, study rooms, and 24/7 security near the academy campus."
+      "id": "faq-4",
+      "question": "What are the eligibility criteria for B.Tech Marine Engineering?",
+      "answer": "Candidates must have passed class XII with Physics, Chemistry and Mathematics and scored an aggregate of 45%, and the age should not be more than 25 years."
     },
     {
-      id: "faq-5",
-      question: "Is eye vision standard strict for Merchant Navy?",
-      answer: "Yes. For Deck Cadets (Nautical Science), 6/6 vision in both eyes without color blindness is mandatory. For Engine Cadets, up to 6/12 with glasses may be permitted as per DG Shipping rules. We assist students with pre-medical evaluation."
+      "id": "faq-5",
+      "question": "Do you help with interviews and sponsorship?",
+      "answer": "Yes. The academy provides dedicated interview training with mock interviews, guidance for psychological tests and medical examinations, and career counselling with support until a student secures the first job at sea."
+    },
+    {
+      "id": "faq-6",
+      "question": "Where is Pacific Marine Academy located?",
+      "answer": "2nd Floor, Above PNB Bank, Nawalgarh Road, Sikar, Rajasthan 332001. Call +91 8426074109 or email pacificmarineacademy2022@gmail.com."
     }
   ],
   admissions: [

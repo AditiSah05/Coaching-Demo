@@ -8,7 +8,7 @@ import { useData } from '../context/DataContext';
 
 export const AdmissionForm = () => {
   const { courses, api } = useData();
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const preSelectedCourse = searchParams.get('course') || '';
 
   const [step, setStep] = useState(1);
@@ -117,7 +117,7 @@ export const AdmissionForm = () => {
             <div>
               <span className="badge-solid bg-seagreen text-white mb-2">Application Submitted Successfully</span>
               <h1 className="font-serif text-3xl font-extrabold text-navy-deep">Admission Acknowledgement Receipt</h1>
-              <p className="text-xs text-ink/70 mt-1">Pacific Marine Academy • Naval Harbour Road, Navi Mumbai</p>
+              <p className="text-xs text-ink/70 mt-1">Pacific Marine Academy • Nawalgarh Road, Sikar, Rajasthan</p>
             </div>
 
             <div className="bg-navy-deep text-white p-6 rounded-2xl text-left space-y-3 font-mono text-xs">
@@ -161,7 +161,7 @@ export const AdmissionForm = () => {
               </button>
               <Link
                 href="/"
-                className="w-full sm:w-auto bg-terracotta text-white font-bold px-6 py-3 rounded-xl text-xs uppercase text-center"
+                className="w-full sm:w-auto bg-terracotta text-navy-deep font-bold px-6 py-3 rounded-xl text-xs uppercase text-center"
               >
                 Back To Home
               </Link>
@@ -179,7 +179,7 @@ export const AdmissionForm = () => {
         
         {/* Title */}
         <div className="text-center mb-8">
-          <span className="badge-solid bg-terracotta/20 text-terracotta mb-2">Modulo di Ammissione</span>
+          <span className="badge-solid bg-terracotta/20 text-goldtext mb-2">Modulo di Ammissione</span>
           <h1 className="font-serif text-3xl sm:text-4xl font-extrabold text-navy-deep">
             Online Cadet Admission Portal
           </h1>
@@ -190,7 +190,7 @@ export const AdmissionForm = () => {
         <div className="bg-white p-4 rounded-2xl border border-navy-deep/10 shadow-sm mb-8">
           <div className="flex items-center justify-between text-xs font-bold text-navy-deep mb-2">
             <span>Step {step} of 5</span>
-            <span className="text-terracotta">
+            <span className="text-goldtext">
               {step === 1 && '1. Personal Info'}
               {step === 2 && '2. Academic Qualifications'}
               {step === 3 && '3. Course & Batch'}
@@ -215,7 +215,7 @@ export const AdmissionForm = () => {
             {step === 1 && (
               <div className="space-y-4">
                 <h3 className="font-serif text-xl font-bold text-navy-deep border-b pb-2 flex items-center gap-2">
-                  <Anchor className="w-5 h-5 text-terracotta" /> Personal Information
+                  <Anchor className="w-5 h-5 text-goldtext" /> Personal Information
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -303,7 +303,7 @@ export const AdmissionForm = () => {
             {step === 2 && (
               <div className="space-y-4">
                 <h3 className="font-serif text-xl font-bold text-navy-deep border-b pb-2 flex items-center gap-2">
-                  <FileCheck className="w-5 h-5 text-terracotta" /> Academic Eligibility & Marks
+                  <FileCheck className="w-5 h-5 text-goldtext" /> Academic Eligibility & Marks
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -377,7 +377,7 @@ export const AdmissionForm = () => {
             {step === 3 && (
               <div className="space-y-4">
                 <h3 className="font-serif text-xl font-bold text-navy-deep border-b pb-2 flex items-center gap-2">
-                  <Anchor className="w-5 h-5 text-terracotta" /> Course & Batch Selection
+                  <Anchor className="w-5 h-5 text-goldtext" /> Course & Batch Selection
                 </h3>
 
                 <div className="space-y-4">
@@ -434,7 +434,7 @@ export const AdmissionForm = () => {
             {step === 4 && (
               <div className="space-y-4">
                 <h3 className="font-serif text-xl font-bold text-navy-deep border-b pb-2 flex items-center gap-2">
-                  <Upload className="w-5 h-5 text-terracotta" /> Marksheet / Photo Document Preview
+                  <Upload className="w-5 h-5 text-goldtext" /> Marksheet / Photo Document Preview
                 </h3>
 
                 <div className="border-2 border-dashed border-sea-blue/40 p-6 rounded-2xl bg-ivory text-center space-y-3">
@@ -473,12 +473,12 @@ export const AdmissionForm = () => {
                   <p><strong>Father's Name:</strong> {formData.fatherName}</p>
                   <p><strong>Contact:</strong> {formData.email} | {formData.phone}</p>
                   <p><strong>Academic PCM:</strong> {formData.pcmPercentage} | English: {formData.englishPercentage}</p>
-                  <p><strong>Selected Program:</strong> <span className="text-terracotta font-bold">{formData.courseName}</span></p>
+                  <p><strong>Selected Program:</strong> <span className="text-goldtext font-bold">{formData.courseName}</span></p>
                   <p><strong>Batch & Hostel:</strong> {formData.batchPreference} | Hostel: {formData.hostelRequired}</p>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs text-navy-deep font-semibold">
-                  <input type="checkbox" required defaultChecked id="declaration" className="w-4 h-4 text-terracotta rounded" />
+                  <input type="checkbox" required defaultChecked id="declaration" className="w-4 h-4 text-goldtext rounded" />
                   <label htmlFor="declaration">I hereby declare that all information provided is accurate as per my certificates.</label>
                 </div>
               </div>
@@ -500,7 +500,7 @@ export const AdmissionForm = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="bg-terracotta hover:bg-terracotta-hover text-white font-bold px-8 py-3 rounded-xl text-xs flex items-center gap-1.5 uppercase shadow-terracotta"
+                  className="bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold px-8 py-3 rounded-xl text-xs flex items-center gap-1.5 uppercase shadow-terracotta"
                 >
                   <span>Continue Next</span>
                   <ArrowRight className="w-4 h-4" />

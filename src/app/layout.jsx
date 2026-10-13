@@ -2,14 +2,14 @@ import '../styles/index.css';
 import { Providers } from '../components/Providers';
 
 export const metadata = {
-  title: 'Pacific Marine Academy | #1 Merchant Navy Entrance Coaching Institute',
-  description: "Pacific Marine Academy is India's leading Merchant Navy entrance coaching institute for IMU-CET, Deck Cadet, Engine Cadet, and Pre-Sea training preparation. 100% Guidance & High Selection Rate.",
-  keywords: 'Merchant Navy Coaching, IMU CET Prep, Deck Officer Course, GP Rating Entrance, Maritime Academy',
+  title: 'Best IMU CET Coaching in Sikar | Pacific Marine Academy',
+  description: "Pacific Marine Academy, Sikar: IMU CET coaching, DNS sponsorship preparation and Merchant Navy interview training for aspiring cadets.",
+  keywords: 'IMU CET coaching Sikar, DNS sponsorship, Merchant Navy coaching, Diploma in Nautical Science, BSC Nautical Science, B.Tech Marine Engineering',
   openGraph: {
-    title: 'Pacific Marine Academy - Merchant Navy Entrance Coaching',
-    description: "Join India's premier maritime academy. Expert captains, simulator training, and proven 98.4% selection rate.",
+    title: 'Pacific Marine Academy - Best IMU CET Coaching in Sikar',
+    description: "India's best offline Merchant Navy coaching: IMU CET, DNS sponsorship and interview preparation.",
     type: 'website',
-    images: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80'],
+    images: ['/images/about-academy-image-01.png'],
   },
 };
 

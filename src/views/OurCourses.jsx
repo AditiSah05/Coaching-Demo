@@ -12,7 +12,7 @@ export const OurCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [openSyllabus, setOpenSyllabus] = useState({});
 
-  const categories = ['All', 'Entrance Exam', 'Deck Cadets', 'Pre-Sea Training', 'Engine Cadets', 'Crash Course'];
+  const categories = ['All', ...new Set(courses.map(c => c.category))];
 
   const filteredCourses = selectedCategory === 'All'
     ? courses
@@ -37,7 +37,7 @@ export const OurCourses = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#FBF6EC" />
+          <ScallopedBorder fillColor="#F8F5ED" />
         </div>
       </section>
 
@@ -45,7 +45,7 @@ export const OurCourses = () => {
       <section className="py-8 bg-white border-b border-navy-deep/10 sticky top-20 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-terracotta flex items-center gap-1 shrink-0 mr-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-goldtext flex items-center gap-1 shrink-0 mr-2">
               <Filter className="w-3.5 h-3.5" /> Filter:
             </span>
             {categories.map((cat) => (
@@ -83,15 +83,19 @@ export const OurCourses = () => {
                     <div className="lg:col-span-8 space-y-4">
                       
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="bg-terracotta text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                          {course.badge}
-                        </span>
+                        {course.badge && (
+                          <span className="bg-terracotta text-navy-deep text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            {course.badge}
+                          </span>
+                        )}
                         <span className="bg-sea-blue/20 text-navy-deep text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                           {course.category}
                         </span>
-                        <span className="text-xs font-bold text-ink/70 flex items-center gap-1 ml-auto">
-                          <Clock className="w-3.5 h-3.5 text-gold" /> {course.duration}
-                        </span>
+                        {course.duration && (
+                          <span className="text-xs font-bold text-ink/70 flex items-center gap-1 ml-auto">
+                            <Clock className="w-3.5 h-3.5 text-gold" /> {course.duration}
+                          </span>
+                        )}
                       </div>
 
                       <h2 className="font-serif text-2xl sm:text-3xl font-bold text-navy-deep">
@@ -119,15 +123,20 @@ export const OurCourses = () => {
                     <div className="lg:col-span-4 bg-navy-deep text-white p-6 rounded-2xl flex flex-col justify-between space-y-6">
                       
                       <div>
-                        <span className="text-[10px] uppercase tracking-wider text-sea-blue font-bold block mb-1">Total Course Fee</span>
-                        <span className="font-serif text-3xl font-bold text-gold block">{course.fee}</span>
-                        <span className="text-[10px] text-ivory/60 block mt-1">Includes Books, Test Series & Mock Vivas</span>
+                        <span className="text-[10px] uppercase tracking-wider text-sea-blue font-bold block mb-1">Course Fee</span>
+                        <span className="font-serif text-xl font-bold text-gold block">{course.fee}</span>
                       </div>
 
                       <div className="space-y-2">
                         <Link
+                          href={`/courses/${course.slug || course.id}`}
+                          className="w-full bg-navy-light text-white hover:text-gold font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
+                        >
+                          <span>View Details</span>
+                        </Link>
+                        <Link
                           href={`/admission?course=${encodeURIComponent(course.title)}`}
-                          className="w-full bg-terracotta hover:bg-terracotta-hover text-white font-bold py-3 px-4 rounded-xl shadow-terracotta flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-transform active:scale-95"
+                          className="w-full bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold py-3 px-4 rounded-xl shadow-terracotta flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-transform active:scale-95"
                         >
                           <span>Enrol In This Batch</span>
                           <ArrowRight className="w-4 h-4" />
@@ -150,10 +159,10 @@ export const OurCourses = () => {
                   {isAccordionOpen && (
                     <div className="bg-navy-dark text-white p-6 border-t border-sea-blue/20">
                       <h4 className="font-serif text-sm font-bold text-gold mb-3 flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-terracotta" /> Detailed Module Syllabus:
+                        <BookOpen className="w-4 h-4 text-goldtext" /> Detailed Module Syllabus:
                       </h4>
                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-ivory/80">
-                        {course.syllabus.map((item, idx) => (
+                        {(course.syllabus || []).map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2 bg-navy-light/40 p-2.5 rounded-xl border border-sea-blue/10">
                             <CheckCircle2 className="w-4 h-4 text-sea-blue shrink-0 mt-0.5" />
                             <span>{item}</span>
