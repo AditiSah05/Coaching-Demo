@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 
 export const ScallopedBorder = ({ fillColor = '#0B2545', invert = false, className = '' }) => {

@@ -1,5 +1,7 @@
+"use client";
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from "next/link";
 import { Phone, MessageCircle, FileText } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
@@ -30,7 +32,7 @@ export const MobileStickyBar = () => {
         </a>
 
         <Link
-          to="/admission"
+          href="/admission"
           className="flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-terracotta text-white font-bold text-[11px] shadow-terracotta hover:bg-terracotta-hover active:scale-95 transition-transform"
         >
           <FileText className="w-4 h-4 mb-0.5" />

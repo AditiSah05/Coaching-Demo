@@ -1,12 +1,15 @@
+"use client";
+
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from 'framer-motion';
-import { Anchor, Phone, Menu, X, ShieldAlert, Award, Compass, ArrowRight, UserCheck } from 'lucide-react';
+import { Phone, Menu, X, ShieldAlert, Award, Compass, ArrowRight, UserCheck } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
   const { settings, banners } = useData();
 
   const navLinks = [
@@ -32,7 +35,7 @@ export const Navbar = () => {
             </span>
             <span className="truncate">{banners.bannerText}</span>
           </div>
-          <Link to="/admission" className="hidden lg:flex items-center gap-1 font-bold underline hover:text-gold text-xs shrink-0">
+          <Link href="/admission" className="hidden lg:flex items-center gap-1 font-bold underline hover:text-gold text-xs shrink-0">
             Apply Now <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -43,10 +46,8 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           
           {/* Logo Brand */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-2xl bg-sea-blue flex items-center justify-center text-navy-deep shadow-sea transition-transform group-hover:rotate-12">
-              <Anchor className="w-7 h-7 stroke-[2.5]" />
-            </div>
+          <Link href="/" className="flex items-center gap-3 group">
+            <img src="/logo.png" alt="Pacific Marine Academy" className="w-12 h-12 rounded-full shrink-0 bg-white transition-transform group-hover:rotate-12" />
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
                 <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-sea-blue transition-colors">
@@ -63,11 +64,11 @@ export const Navbar = () => {
           {/* Desktop Navigation Links */}
           <nav className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) => {
-              const isActive = location.pathname === link.path;
+              const isActive = pathname === link.path;
               return (
                 <Link
                   key={link.path}
-                  to={link.path}
+                  href={link.path}
                   className={`relative px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
                     isActive ? 'text-gold font-bold' : 'text-ivory/90 hover:text-sea-blue'
                   }`}
@@ -96,7 +97,7 @@ export const Navbar = () => {
             </a>
             
             <Link
-              to="/admission"
+              href="/admission"
               className="bg-terracotta hover:bg-terracotta-hover text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-terracotta flex items-center gap-1.5 transition-transform active:scale-95 uppercase tracking-wide"
             >
               <span>Enrol Now</span>
@@ -104,7 +105,7 @@ export const Navbar = () => {
             </Link>
 
             <Link
-              to="/admin/login"
+              href="/admin/login"
               title="Admin Portal"
               className="p-2 rounded-xl bg-navy-light/40 hover:bg-navy-light text-sea-blue transition-colors border border-sea-blue/30"
             >
@@ -115,7 +116,7 @@ export const Navbar = () => {
           {/* Mobile Menu Toggle Button */}
           <div className="flex items-center gap-2 xl:hidden">
             <Link
-              to="/admin/login"
+              href="/admin/login"
               className="p-2 rounded-lg bg-navy-light text-sea-blue text-xs font-bold"
             >
               Admin
@@ -146,7 +147,7 @@ export const Navbar = () => {
                 <span>Benvenuti A Bordo • Navigation</span>
               </div>
               {navLinks.map((link, idx) => {
-                const isActive = location.pathname === link.path;
+                const isActive = pathname === link.path;
                 return (
                   <motion.div
                     key={link.path}
@@ -155,7 +156,7 @@ export const Navbar = () => {
                     transition={{ delay: idx * 0.04 }}
                   >
                     <Link
-                      to={link.path}
+                      href={link.path}
                       onClick={() => setMobileMenuOpen(false)}
                       className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
                         isActive
@@ -179,7 +180,7 @@ export const Navbar = () => {
                   <span>Call Academy</span>
                 </a>
                 <Link
-                  to="/admission"
+                  href="/admission"
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gold text-ink font-bold text-xs"
                 >

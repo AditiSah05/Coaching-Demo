@@ -1,12 +1,17 @@
+"use client";
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getAdminSession, loginAdmin as apiLogin, logoutAdmin as apiLogout } from '../services/api';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [session, setSession] = useState(() => getAdminSession());
+  const [session, setSession] = useState(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    setSession(getAdminSession());
+    setReady(true);
     const handleAuthChange = () => {
       setSession(getAdminSession());
     };
@@ -28,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ session, isAuthenticated: !!session, login, logout }}>
+    <AuthContext.Provider value={{ session, ready, isAuthenticated: !!session, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

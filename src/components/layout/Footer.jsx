@@ -1,6 +1,8 @@
+"use client";
+
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Anchor, Compass, MapPin, Phone, Mail, Award, ArrowUpRight, Facebook, Instagram, Youtube, Linkedin, ExternalLink } from 'lucide-react';
+import Link from "next/link";
+import { Compass, MapPin, Phone, Mail, Award, ArrowUpRight, Facebook, Instagram, Youtube, Linkedin, ExternalLink } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
 export const Footer = () => {
@@ -19,9 +21,7 @@ export const Footer = () => {
           {/* Col 1: Institute Brand Story */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-terracotta flex items-center justify-center text-white shadow-terracotta">
-                <Anchor className="w-7 h-7" />
-              </div>
+              <img src="/logo.png" alt="Pacific Marine Academy" className="w-12 h-12 rounded-full shrink-0 bg-white" />
               <div>
                 <h3 className="font-serif text-2xl font-bold text-white">PACIFIC <span className="text-terracotta">MARINE</span></h3>
                 <p className="text-[11px] font-semibold text-sea-blue tracking-widest uppercase">Academy • Merchant Navy</p>
@@ -56,7 +56,7 @@ export const Footer = () => {
               ].map((item) => (
                 <li key={item.path}>
                   <Link
-                    to={item.path}
+                    href={item.path}
                     className="text-ivory/80 hover:text-sea-blue transition-colors flex items-center gap-2"
                   >
                     <span className="text-terracotta font-bold">›</span>
@@ -147,7 +147,7 @@ export const Footer = () => {
         <div className="pt-8 border-t border-sea-blue/20 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-ivory/60">
           <p>© {new Date().getFullYear()} {settings?.instituteName}. All Rights Reserved. Built with Italian Maritime Passion.</p>
           <div className="flex items-center gap-4">
-            <Link to="/admin/login" className="hover:text-gold flex items-center gap-1">
+            <Link href="/admin/login" className="hover:text-gold flex items-center gap-1">
               <span>Admin Portal</span> <ExternalLink className="w-3 h-3" />
             </Link>
             <span>•</span>

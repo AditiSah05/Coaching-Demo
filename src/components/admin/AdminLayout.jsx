@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
-import { Link, Outlet, useLocation, useNavigate, Navigate } from 'react-router-dom';
+"use client";
+
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useState, useEffect } from 'react';
 import { 
-  Anchor, LayoutDashboard, BookOpen, UserCheck, HelpCircle, 
+  LayoutDashboard, BookOpen, UserCheck, HelpCircle, 
   Award, FileText, Image, MessageSquare, Users, Megaphone, 
   Settings, User, LogOut, Menu, X, ExternalLink, ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 
-export const AdminLayout = () => {
-  const { isAuthenticated, session, logout } = useAuth();
+export const AdminLayout = ({ children }) => {
+  const { isAuthenticated, ready, session, logout } = useAuth();
   const { settings } = useData();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
-  // Protected Route Check
-  if (!isAuthenticated) {
-    return <Navigate to="/admin/login" replace />;
-  }
+  // Protected Route Check (session loads from localStorage after mount)
+  useEffect(() => {
+    if (ready && !isAuthenticated) router.replace('/admin/login');
+  }, [ready, isAuthenticated, router]);
+
+  if (!isAuthenticated) return null;
 
   const menuItems = [
     { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
@@ -46,9 +51,7 @@ export const AdminLayout = () => {
         
         {/* Brand */}
         <div className="p-6 border-b border-sea-blue/20 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-terracotta flex items-center justify-center text-white shadow-terracotta">
-            <Anchor className="w-6 h-6" />
-          </div>
+          <img src="/logo.png" alt="Pacific Marine Academy" className="w-10 h-10 rounded-full shrink-0 bg-white" />
           <div>
             <h2 className="font-serif font-bold text-lg text-white leading-tight">PMA ADMIN</h2>
             <span className="text-[10px] text-sea-blue uppercase tracking-widest font-semibold block">Control Panel</span>
@@ -59,11 +62,11 @@ export const AdminLayout = () => {
         <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto no-scrollbar">
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path;
+            const isActive = pathname === item.path;
             return (
               <Link
                 key={item.path}
-                to={item.path}
+                href={item.path}
                 className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
                   isActive
                     ? 'bg-terracotta text-white font-bold shadow-terracotta'
@@ -94,7 +97,7 @@ export const AdminLayout = () => {
           </div>
 
           <Link
-            to="/"
+            href="/"
             target="_blank"
             className="flex items-center justify-center gap-1.5 w-full py-2 bg-sea-blue/20 text-sea-blue hover:bg-sea-blue hover:text-navy-deep rounded-xl text-[11px] font-bold transition-colors"
           >
@@ -110,14 +113,12 @@ export const AdminLayout = () => {
         {/* Mobile Header Bar */}
         <header className="md:hidden bg-navy-dark text-white p-4 flex items-center justify-between border-b border-sea-blue/20 sticky top-0 z-40">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-terracotta flex items-center justify-center text-white">
-              <Anchor className="w-5 h-5" />
-            </div>
+            <img src="/logo.png" alt="Pacific Marine Academy" className="w-8 h-8 rounded-full shrink-0 bg-white" />
             <span className="font-serif font-bold text-base">PMA Admin</span>
           </div>
 
           <div className="flex items-center gap-2">
-            <Link to="/" className="text-xs text-sea-blue underline">Site</Link>
+            <Link href="/" className="text-xs text-sea-blue underline">Site</Link>
             <button
               onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
               className="p-2 rounded-lg bg-navy-light text-white"
@@ -132,11 +133,11 @@ export const AdminLayout = () => {
           <div className="md:hidden bg-navy-dark text-white p-4 space-y-1 border-b border-sea-blue/20 max-h-[70vh] overflow-y-auto">
             {menuItems.map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.path;
+              const isActive = pathname === item.path;
               return (
                 <Link
                   key={item.path}
-                  to={item.path}
+                  href={item.path}
                   onClick={() => setMobileDrawerOpen(false)}
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold ${
                     isActive ? 'bg-terracotta text-white font-bold' : 'text-ivory/80'
@@ -159,7 +160,7 @@ export const AdminLayout = () => {
 
         {/* Main Body */}
         <main className="flex-1 p-4 sm:p-8 overflow-y-auto">
-          <Outlet />
+          {children}
         </main>
 
       </div>

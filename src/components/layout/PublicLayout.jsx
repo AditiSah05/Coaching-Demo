@@ -1,14 +1,16 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import React from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { MobileStickyBar } from './MobileStickyBar';
 import { MessageCircle } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
-export const PublicLayout = () => {
-  const location = useLocation();
+export const PublicLayout = ({ children }) => {
+  const pathname = usePathname();
   const { settings } = useData();
   const whatsappClean = (settings?.whatsapp || '').replace(/[^0-9]/g, '');
 
@@ -17,17 +19,14 @@ export const PublicLayout = () => {
       <Navbar />
       
       <main className="flex-grow">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
-          >
-            <Outlet />
-          </motion.div>
-        </AnimatePresence>
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          {children}
+        </motion.div>
       </main>
 
       <Footer />

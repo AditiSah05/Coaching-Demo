@@ -56,6 +56,8 @@ export const getAdminSession = () => {
   }
 };
 
+export const getAll = () => getDB();
+
 // --- SITE SETTINGS & BANNERS ---
 export const getSettings = () => getDB().settings;
 export const updateSettings = (newSettings) => {

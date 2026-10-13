@@ -23,13 +23,13 @@ A modern, responsive React web application and admin management dashboard for **
 
 ## Tech Stack
 
-- **Frontend**: React 18 + Vite (Plain JSX)
-- **Routing**: React Router v6
+- **Frontend**: Next.js 16 (App Router) + React 19 (Plain JSX)
+- **Routing**: Next.js file-based routing (`src/app`)
 - **Styling**: Tailwind CSS v3 with custom Italian Maritime solid color palette
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Analytics**: Recharts
-- **Deployment Ready**: `vercel.json` included for single-page routing and caching
+- **Deployment Ready**: deploy to Vercel as-is (no rewrites needed)
 
 ## Getting Started
 
@@ -42,10 +42,10 @@ A modern, responsive React web application and admin management dashboard for **
    ```bash
    npm run dev
    ```
-   Open `http://localhost:5173` in your browser.
+   Open `http://localhost:3000` in your browser.
 
 3. **Admin Panel**:
-   Navigate to `http://localhost:5173/#/admin` or `http://localhost:5173/admin`.
+   Navigate to `http://localhost:3000/admin`.
    - **Email**: `admin@pacificmarine.demo`
    - **Password**: `Admin@123`
 
