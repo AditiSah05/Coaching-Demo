@@ -10,7 +10,7 @@ import { useData } from '../../context/DataContext';
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { settings, banners } = useData();
+  const { settings } = useData();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -42,22 +42,6 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-navy-deep/95 backdrop-blur-md text-ivory shadow-xl border-b border-gold/20">
-      {/* Top Announcement Ribbon */}
-      {banners?.admissionOpen && (
-        <div className="bg-gradient-to-r from-[#0A4A55] via-[#0E6270] to-[#0A4A55] text-white py-2 px-4 text-xs md:text-sm font-medium flex items-center justify-between overflow-hidden border-b border-sea-blue/20">
-          <div className="flex items-center gap-2.5 mx-auto truncate">
-            <Anchor className="w-4 h-4 text-gold shrink-0 hidden sm:block" />
-            <span className="bg-gold text-navy-deep font-extrabold px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider">
-              Urgent
-            </span>
-            <span className="truncate">{banners.bannerText}</span>
-          </div>
-          <Link href="/admission" className="hidden lg:flex items-center gap-1 font-bold text-gold hover:text-white text-xs shrink-0 underline-offset-4 hover:underline">
-            Apply Now <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-      )}
-
       {/* Main Navigation Bar */}
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
@@ -87,18 +71,11 @@ export const Navbar = () => {
                   <Link
                     href={link.path}
                     className={`relative whitespace-nowrap px-2.5 py-2 rounded-full text-[12px] font-semibold uppercase tracking-[0.05em] transition-colors flex items-center gap-1 ${
-                      isActive ? 'text-gold bg-gold/10' : 'text-ivory/85 hover:text-white hover:bg-white/5'
+                      isActive ? 'text-gold bg-gold/10 ring-1 ring-gold/25' : 'text-ivory/85 hover:text-white hover:bg-white/5'
                     }`}
                   >
                     {link.name}
                     {link.children && <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />}
-                    {isActive && (
-                      <motion.div
-                        layoutId="navIndicator"
-                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-gold rounded-full"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                      />
-                    )}
                   </Link>
                   {link.children && (
                     <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity absolute left-0 top-full pt-2 z-50">
@@ -134,7 +111,7 @@ export const Navbar = () => {
             
             <Link
               href="/admission"
-              className="bg-gradient-to-r from-sea-blue to-[#2FE0CB] hover:brightness-110 text-navy-deep text-xs font-extrabold px-4 py-2.5 rounded-full shadow-sea flex items-center gap-1.5 transition-transform active:scale-95 uppercase tracking-wide"
+              className="bg-gradient-to-r from-sea-blue to-[#D4BE9E] hover:brightness-110 text-navy-deep text-xs font-extrabold px-4 py-2.5 rounded-full shadow-sea flex items-center gap-1.5 transition-transform active:scale-95 uppercase tracking-wide"
             >
               <span>Enrol Now</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -180,7 +157,7 @@ export const Navbar = () => {
           >
             <div className="px-4 pt-3 pb-6 space-y-1">
               <div className="px-3 py-2 text-xs font-bold text-sea-blue uppercase tracking-widest flex items-center gap-2 border-b border-navy-light mb-2">
-                <span>Benvenuti A Bordo • Navigation</span>
+                <span>Menu</span>
               </div>
               {navLinks.map((link, idx) => {
                 const isActive = isActiveLink(link);

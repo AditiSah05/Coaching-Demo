@@ -110,7 +110,7 @@ export const AdmissionForm = () => {
         <div className="max-w-3xl mx-auto px-4">
           <div className="bg-white rounded-3xl p-8 sm:p-12 border-4 border-seagreen shadow-2xl text-center space-y-6 print:border-none print:shadow-none">
             
-            <div className="w-20 h-20 bg-seagreen/20 text-seagreen rounded-full flex items-center justify-center mx-auto border-2 border-seagreen">
+            <div className="w-20 h-20 bg-seagreen/20 text-seagreen rounded-full flex items-center justify-center mx-auto border border-seagreen">
               <CheckCircle2 className="w-10 h-10" />
             </div>
 
@@ -207,7 +207,7 @@ export const AdmissionForm = () => {
         </div>
 
         {/* Main Form Container */}
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-navy-deep/10 shadow-chunky">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-navy-deep/10 shadow-chunky">
           
           <form onSubmit={handleSubmit} className="space-y-6">
 
@@ -437,7 +437,7 @@ export const AdmissionForm = () => {
                   <Upload className="w-5 h-5 text-goldtext" /> Marksheet / Photo Document Preview
                 </h3>
 
-                <div className="border-2 border-dashed border-sea-blue/40 p-6 rounded-2xl bg-ivory text-center space-y-3">
+                <div className="border border-dashed border-sea-blue/40 p-6 rounded-2xl bg-ivory text-center space-y-3">
                   <Upload className="w-8 h-8 text-sea-blue mx-auto" />
                   <p className="text-xs font-bold text-navy-deep">Upload 10th / 12th Marksheet Proof (Optional)</p>
                   <p className="text-[10px] text-ink/60">Stores preview securely in your application record</p>

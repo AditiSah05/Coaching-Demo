@@ -33,7 +33,7 @@ export const Footer = () => {
             <div className="pt-2">
               <span className="inline-flex items-center gap-2 bg-navy-light/60 px-3 py-1.5 rounded-full text-xs font-semibold text-gold border border-gold/30">
                 <Award className="w-4 h-4 text-gold" />
-                <span>Viaggio Per l'Eccellenza</span>
+                <span>IMU CET • DNS Sponsorship</span>
               </span>
             </div>
           </div>
@@ -148,7 +148,7 @@ export const Footer = () => {
               <span>Admin Portal</span> <ExternalLink className="w-3 h-3" />
             </Link>
             <span>•</span>
-            <span className="text-gold font-semibold">Benvenuti a bordo</span>
+            <span className="text-gold font-semibold">Sikar, Rajasthan</span>
           </div>
         </div>
 

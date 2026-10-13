@@ -28,7 +28,7 @@ export const OurCourses = () => {
       {/* Header */}
       <section className="bg-navy-deep text-ivory py-16 relative bg-maritime-pattern">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="badge-solid bg-gold/20 text-gold mb-3">Offerta Formativa</span>
+          <span className="badge-solid bg-gold/20 text-gold mb-3">Programmes</span>
           <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mb-4">
             Merchant Navy Entrance Courses
           </h1>
@@ -37,7 +37,7 @@ export const OurCourses = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F8F5ED" />
+          <ScallopedBorder fillColor="#F4F2ED" />
         </div>
       </section>
 
@@ -75,7 +75,7 @@ export const OurCourses = () => {
               return (
                 <div
                   key={course.id}
-                  className="bg-white rounded-3xl border-2 border-navy-deep/10 shadow-chunky overflow-hidden transition-all hover:border-sea-blue"
+                  className="bg-white rounded-3xl border border-navy-deep/10 shadow-chunky overflow-hidden transition-all hover:border-sea-blue"
                 >
                   <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     

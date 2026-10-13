@@ -24,14 +24,14 @@ export const AboutUs = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F8F5ED" />
+          <ScallopedBorder fillColor="#F4F2ED" />
         </div>
       </section>
 
       {/* Director's Message Card */}
       <section className="py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border-2 border-navy-deep/10 shadow-chunky grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-navy-deep/10 shadow-chunky grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div className="lg:col-span-4">
               <div className="arch-image overflow-hidden border-4 border-gold shadow-lg bg-navy-dark">
@@ -111,9 +111,9 @@ export const AboutUs = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {faculty.map((member) => (
-              <div key={member.id} className="bg-white rounded-3xl border-2 border-navy-deep/10 p-5 shadow-chunky text-center flex flex-col justify-between">
+              <div key={member.id} className="bg-white rounded-3xl border border-navy-deep/10 p-5 shadow-chunky text-center flex flex-col justify-between">
                 <div>
-                  <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4 border-2 border-sea-blue">
+                  <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4 border border-sea-blue">
                     <ImageWithFallback
                       src={member.image}
                       alt={member.name}

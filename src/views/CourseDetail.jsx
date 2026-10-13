@@ -32,7 +32,7 @@ export const CourseDetail = ({ slug }) => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-8">
             {course.image && (
-              <img src={course.image} alt={course.title} className="w-full rounded-3xl border-2 border-navy-deep/10 shadow-chunky object-cover max-h-80" />
+              <img src={course.image} alt={course.title} className="w-full rounded-3xl border border-navy-deep/10 shadow-chunky object-cover max-h-80" />
             )}
             <p className="text-sm text-ink/80 leading-relaxed">{course.description}</p>
 

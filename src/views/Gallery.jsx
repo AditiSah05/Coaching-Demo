@@ -55,7 +55,7 @@ export const Gallery = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F8F5ED" />
+          <ScallopedBorder fillColor="#F4F2ED" />
         </div>
       </section>
 
@@ -89,7 +89,7 @@ export const Gallery = () => {
               <div
                 key={item.id}
                 onClick={() => openLightbox(idx)}
-                className="break-inside-avoid bg-white rounded-3xl overflow-hidden border-2 border-navy-deep/10 shadow-chunky cursor-pointer group relative"
+                className="break-inside-avoid bg-white rounded-3xl overflow-hidden border border-navy-deep/10 shadow-chunky cursor-pointer group relative"
               >
                 <div className="relative overflow-hidden">
                   <ImageWithFallback

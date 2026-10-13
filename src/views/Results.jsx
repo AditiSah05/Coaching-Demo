@@ -38,7 +38,7 @@ export const Results = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F8F5ED" />
+          <ScallopedBorder fillColor="#F4F2ED" />
         </div>
       </section>
 
@@ -79,7 +79,7 @@ export const Results = () => {
             {filteredToppers.map((top) => (
               <div
                 key={top.id}
-                className="bg-white rounded-3xl p-6 border-2 border-navy-deep/10 shadow-chunky relative flex flex-col justify-between hover:-translate-y-1 transition-transform"
+                className="bg-white rounded-3xl p-6 border border-navy-deep/10 shadow-chunky relative flex flex-col justify-between hover:-translate-y-1 transition-transform"
               >
                 <div className="absolute -top-4 right-6 bg-gold text-navy-deep font-serif font-extrabold text-xs px-3 py-1.5 rounded-full shadow-md">
                   {top.rank}
@@ -143,7 +143,7 @@ export const Results = () => {
             </div>
           </div>
 
-          <div className="bg-ivory rounded-3xl border-2 border-navy-deep/10 overflow-hidden shadow-chunky">
+          <div className="bg-ivory rounded-3xl border border-navy-deep/10 overflow-hidden shadow-chunky">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>

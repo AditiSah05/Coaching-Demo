@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { GraduationCap, MapPin, Anchor, Compass, Award, Users, BookOpen, ShieldCheck, ArrowRight, CheckCircle2, Star, Phone, Download, ChevronDown, ChevronUp, Sparkles, Play } from 'lucide-react';
 import { useData } from '../context/DataContext';
 import { AvatarInitials } from '../components/common/ImageWithFallback';
+import { AnnouncementBar } from '../components/layout/AnnouncementBar';
 import { VideoBackground } from '../components/common/VideoBackground';
 import { ScallopedBorder } from '../components/common/ScallopedBorder';
 
@@ -24,11 +25,6 @@ export const Home = () => {
 
         <VideoBackground />
 
-        {/* Floating Rotating Ship Wheel Motif */}
-        <div className="absolute right-[-80px] top-[10%] opacity-10 text-sea-blue pointer-events-none">
-          <Compass className="w-[450px] h-[450px] animate-spin-slow" />
-        </div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -36,7 +32,7 @@ export const Home = () => {
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               
               {/* Word-by-word Animated Headline */}
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white tracking-tight">
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-7xl font-semibold leading-[1.05] text-white tracking-tight">
                 {heroWords.map((word, i) => (
                   <motion.span
                     key={i}
@@ -67,7 +63,7 @@ export const Home = () => {
 
                 <Link
                   href="/study-materials"
-                  className="w-full sm:w-auto border-2 border-sea-blue/70 hover:bg-sea-blue/10 text-ivory font-bold px-7 py-4 rounded-2xl flex items-center justify-center gap-2 transition-transform active:scale-95 text-sm"
+                  className="w-full sm:w-auto border border-sea-blue/70 hover:bg-sea-blue/10 text-ivory font-bold px-7 py-4 rounded-2xl flex items-center justify-center gap-2 transition-transform active:scale-95 text-sm"
                 >
                   <Download className="w-5 h-5" />
                   <span>Free Study Materials</span>
@@ -113,9 +109,11 @@ export const Home = () => {
 
         {/* Drifting Wave Bottom SVG */}
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F8F5ED" />
+          <ScallopedBorder fillColor="#F4F2ED" />
         </div>
       </section>
+
+      <AnnouncementBar />
 
       {/* --- WELCOME --- */}
       <section className="py-16 bg-ivory text-ink">
@@ -139,9 +137,9 @@ export const Home = () => {
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="badge-solid bg-terracotta/10 text-goldtext mb-3">
-              <Compass className="w-3.5 h-3.5" /> Perché Scegliere Noi
+              <Compass className="w-3.5 h-3.5" /> Why Us
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-deep tracking-tight mb-4">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-navy-deep tracking-tight mb-4">
               Why choose Pacific Marine Academy?
             </h2>
             <p className="text-sm text-ink/70 leading-relaxed">
@@ -156,7 +154,7 @@ export const Home = () => {
               { Icon: Compass, color: 'bg-gold text-navy-deep', title: "Years of Maritime Coaching Experience", text: "Covers IMU-CET syllabus, DNS Sponsorship, Interview Training & Personality Development." },
               { Icon: BookOpen, color: 'bg-navy-deep text-gold', title: "Structured Curriculum & Complete Preparation", text: "Well-planned study schedule covering IMU-CET syllabus, DNS Sponsorship, Interview Training & Personality Development." },
             ].map(({ Icon, color, title, text }) => (
-              <div key={title} className="bg-white p-8 rounded-3xl border-2 border-navy-deep/10 shadow-chunky hover:-translate-y-2 transition-transform duration-300 group">
+              <div key={title} className="bg-white p-8 rounded-3xl border border-navy-deep/10 shadow-chunky hover:-translate-y-2 transition-transform duration-300 group">
                 <div className={`w-14 h-14 rounded-2xl ${color} flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform`}>
                   <Icon className="w-8 h-8" />
                 </div>
@@ -176,7 +174,7 @@ export const Home = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
               <span className="badge-solid bg-sea-blue/20 text-sea-blue mb-2">
-                Programmi Formativi
+                Programmes
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
                 Our Courses
@@ -234,7 +232,7 @@ export const Home = () => {
 
       {/* --- OUR TEAM --- */}
       <section className="py-20 bg-ivory text-ink">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="badge-solid bg-gold/20 text-ink mb-2">Our Team</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">Meet The Founders</h2>
@@ -244,7 +242,7 @@ export const Home = () => {
               { img: '/images/home-image-11.jpg', name: 'Capt. Shubkaran Choudhary', role: 'Co-Founder of Pacific Marine Academy' },
               { img: '/images/home-image-12.webp', name: 'Mahipal Singh Jhuriya', role: '2nd Engineer • Founder of Pacific Marine Academy' },
             ].map((m) => (
-              <div key={m.name} className="bg-white rounded-3xl border-2 border-navy-deep/10 shadow-chunky overflow-hidden">
+              <div key={m.name} className="bg-white rounded-3xl border border-navy-deep/10 shadow-chunky overflow-hidden">
                 <img src={m.img} alt={m.name} className="w-full aspect-[4/5] object-cover object-top" />
                 <div className="p-6 text-center">
                   <h3 className="font-serif text-xl font-bold text-navy-deep">{m.name}</h3>
@@ -289,7 +287,7 @@ export const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="badge-solid bg-gold/20 text-ink mb-2">Il Tuo Percorso</span>
+            <span className="badge-solid bg-gold/20 text-ink mb-2">Your Path</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">
               5 Steps To Join The Merchant Navy
             </h2>
@@ -303,7 +301,7 @@ export const Home = () => {
               { step: "04", title: "Sponsorship & CET", desc: "Crack All-India entrance exam & secure shipping company sponsorship." },
               { step: "05", title: "Pre-Sea & Placement", desc: "Join DG Approved academy & sail on international merchant ships!" }
             ].map((item, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 relative text-center shadow-chunky">
+              <div key={idx} className="bg-white p-6 rounded-3xl border border-navy-deep/10 relative text-center shadow-chunky">
                 <span className="w-10 h-10 rounded-full bg-navy-deep text-gold font-serif font-bold text-sm flex items-center justify-center mx-auto mb-4">
                   {item.step}
                 </span>
@@ -356,9 +354,9 @@ export const Home = () => {
       {/* --- FREE STUDY MATERIAL TEASER --- */}
       <section className="py-16 bg-ivory text-ink border-t border-b border-navy-light/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border-2 border-sea-blue/30 shadow-chunky flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-sea-blue/30 shadow-chunky flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="space-y-3 text-center lg:text-left">
-              <span className="badge-solid bg-seagreen/20 text-seagreen">Materiale Gratuito</span>
+              <span className="badge-solid bg-seagreen/20 text-seagreen">Free Material</span>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-navy-deep">
                 Download Free IMU-CET Study Materials
               </h2>
@@ -382,7 +380,7 @@ export const Home = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-12">
-            <span className="badge-solid bg-navy-deep/10 text-navy-deep mb-2">Domande Frequenti</span>
+            <span className="badge-solid bg-navy-deep/10 text-navy-deep mb-2">FAQ</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">
               Frequently Asked Questions
             </h2>
@@ -416,7 +414,7 @@ export const Home = () => {
       {/* --- FINAL CTA BANNER --- */}
       <section className="py-20 bg-navy-deep text-white text-center relative overflow-hidden bg-maritime-pattern">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
-          <div className="w-16 h-16 rounded-full bg-terracotta/20 text-goldtext mx-auto flex items-center justify-center border-2 border-terracotta">
+          <div className="w-16 h-16 rounded-full bg-terracotta/20 text-goldtext mx-auto flex items-center justify-center border border-terracotta">
             <Anchor className="w-8 h-8 animate-bounce" />
           </div>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white">

@@ -56,7 +56,7 @@ export const StudyMaterials = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F8F5ED" />
+          <ScallopedBorder fillColor="#F4F2ED" />
         </div>
       </section>
 
@@ -102,7 +102,7 @@ export const StudyMaterials = () => {
             {filteredMaterials.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-3xl p-6 border-2 border-navy-deep/10 shadow-chunky flex flex-col justify-between hover:border-sea-blue transition-colors"
+                className="bg-white rounded-3xl p-6 border border-navy-deep/10 shadow-chunky flex flex-col justify-between hover:border-sea-blue transition-colors"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">

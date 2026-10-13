@@ -87,12 +87,12 @@ export const AdminDashboard = () => {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-              <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#0F2A3A' }} />
-              <YAxis tick={{ fontSize: 12, fill: '#0F2A3A' }} />
+              <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#3A3A3A' }} />
+              <YAxis tick={{ fontSize: 12, fill: '#3A3A3A' }} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#062B40', color: '#FFF', borderRadius: '12px', border: 'none' }}
+                contentStyle={{ backgroundColor: '#021527', color: '#FFF', borderRadius: '12px', border: 'none' }}
               />
-              <Bar dataKey="admissions" fill="#F6C65B" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="admissions" fill="#BFA888" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

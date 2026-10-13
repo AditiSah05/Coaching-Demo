@@ -1,6 +1,6 @@
 import { initialSeedData } from '../data/seedData';
 
-const STORAGE_KEY = 'pma_data_v6';
+const STORAGE_KEY = 'pma_data_v7';
 const AUTH_KEY = 'pma_auth_session';
 
 // Helper to initialize and retrieve DB

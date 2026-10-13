@@ -25,7 +25,7 @@ export const initialSeedData = {
   },
   banners: {
     admissionOpen: true,
-    bannerText: "🚢 Free One on One Mentorship with Merchant Navy Officer",
+    bannerText: "Free One on One Mentorship with Merchant Navy Officer",
     secondaryNotice: "IMU-CET Special Crash Course Batch Starting 15th Of Next Month. Register Now!"
   },
   courses: [

@@ -39,7 +39,7 @@ export const Contact = () => {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F8F5ED" />
+          <ScallopedBorder fillColor="#F4F2ED" />
         </div>
       </section>
 
@@ -51,7 +51,7 @@ export const Contact = () => {
             {/* Left: Contact Info Cards */}
             <div className="lg:col-span-5 space-y-6">
               
-              <div className="bg-white rounded-3xl p-6 border-2 border-navy-deep/10 shadow-chunky space-y-4">
+              <div className="bg-white rounded-3xl p-6 border border-navy-deep/10 shadow-chunky space-y-4">
                 <h3 className="font-serif text-xl font-bold text-navy-deep border-b pb-2">
                   Campus Headquarters
                 </h3>
@@ -122,7 +122,7 @@ export const Contact = () => {
 
             {/* Right: Interactive Enquiry Form */}
             <div className="lg:col-span-7">
-              <div className="bg-white rounded-3xl p-8 border-2 border-navy-deep/10 shadow-chunky">
+              <div className="bg-white rounded-3xl p-8 border border-navy-deep/10 shadow-chunky">
                 
                 {!submitted ? (
                   <form onSubmit={handleSubmit} className="space-y-4">

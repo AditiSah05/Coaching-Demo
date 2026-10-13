@@ -8,7 +8,7 @@ export const NotFound = () => {
   return (
     <div className="bg-navy-deep text-ivory min-h-screen flex items-center justify-center p-4 text-center bg-maritime-pattern">
       <div className="max-w-md space-y-6">
-        <div className="w-20 h-20 rounded-full bg-terracotta/20 text-goldtext flex items-center justify-center mx-auto border-2 border-terracotta animate-pulse">
+        <div className="w-20 h-20 rounded-full bg-terracotta/20 text-goldtext flex items-center justify-center mx-auto border border-terracotta animate-pulse">
           <Anchor className="w-10 h-10" />
         </div>
 
