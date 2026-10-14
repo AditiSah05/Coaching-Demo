@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 
 const posters = [16, 15, 14, 13, 12, 11, 10, 9, 8].map((n) => `/images/pacifc-sporands-photos-24-${n}.jpeg`);
-const awards = [13, 14, 15].map((n) => `/images/home-image-${n}.jpeg`);
 
 const Heading = ({ children }) => (
   <div className="text-center">
@@ -90,16 +89,6 @@ export const SponsoredCadets = () => {
           </div>
           <button onClick={() => slide(-1)} aria-label="Previous posters" className="absolute left-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/50 bg-white/95 text-navy-deep shadow-chunky transition-colors hover:bg-gold-light sm:flex"><ChevronLeft className="h-6 w-6" /></button>
           <button onClick={() => slide(1)} aria-label="Next posters" className="absolute right-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/50 bg-white/95 text-navy-deep shadow-chunky transition-colors hover:bg-gold-light sm:flex"><ChevronRight className="h-6 w-6" /></button>
-        </div>
-
-        {/* Awards: small source images, so kept at their natural size to stay sharp */}
-        <div className="mt-20">
-          <Heading>All <span className="text-goldtext">Winning</span> Awards</Heading>
-          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 sm:grid-cols-3 gap-5">
-            {awards.map((src) => (
-              <img key={src} src={src} alt="Pacific Marine Academy award" loading="lazy" className="aspect-[4/3] w-full rounded-2xl border border-gold/40 object-cover shadow-chunky transition-transform duration-300 hover:-translate-y-1" />
-            ))}
-          </div>
         </div>
       </div>
 

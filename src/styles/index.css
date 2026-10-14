@@ -37,11 +37,15 @@ body::after {
 }
 
 .animate-marquee { animation: marquee 40s linear infinite; }
+.animate-marquee-slow { animation: marquee 90s linear infinite; }
+.animate-marquee-reverse { animation: marquee 80s linear infinite reverse; }
+.marquee-pause:hover .animate-marquee-slow,
+.marquee-pause:hover .animate-marquee-reverse { animation-play-state: paused; }
 .marquee-pause:hover .animate-marquee { animation-play-state: paused; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .animate-spin-slow, .animate-float, .animate-marquee { animation: none; }
+  .animate-spin-slow, .animate-float, .animate-marquee, .animate-marquee-slow, .animate-marquee-reverse { animation: none; }
 }
 
 /* Custom Italian Maritime Motifs & Ticket Styles */

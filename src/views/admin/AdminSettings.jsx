@@ -15,6 +15,11 @@ export const AdminSettings = () => {
     email: settings?.email || '',
     address: settings?.address || '',
     mapEmbedUrl: settings?.mapEmbedUrl || '',
+    mapDirectionsUrl: settings?.mapDirectionsUrl || '',
+    youtubeChannelUrl: settings?.youtubeChannelUrl || '',
+    youtubeShortsText: (settings?.youtubeShorts || []).join('\n'),
+    googleReviewsUrl: settings?.googleReviewsUrl || '',
+    googleWriteReviewUrl: settings?.googleWriteReviewUrl || '',
     heroHeading: settings?.heroHeading || '',
     heroSubheading: settings?.heroSubheading || '',
     stats: {
@@ -29,7 +34,8 @@ export const AdminSettings = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    api.updateSettings(formData);
+    const { youtubeShortsText, ...rest } = formData;
+    api.updateSettings({ ...rest, youtubeShorts: youtubeShortsText.split('\n').map((l) => l.trim()).filter(Boolean) });
     setToast('Site settings updated live across website!');
     setTimeout(() => setToast(''), 3000);
   };
@@ -94,6 +100,26 @@ export const AdminSettings = () => {
         <div>
           <label className="block font-bold text-navy-deep mb-1">Hero Subheading</label>
           <textarea rows="2" value={formData.heroSubheading} onChange={e => setFormData({ ...formData, heroSubheading: e.target.value })} className="w-full p-2.5 border rounded-xl"></textarea>
+        </div>
+
+        <div>
+          <label className="block font-bold text-navy-deep mb-1">YouTube Shorts (one link per line)</label>
+          <textarea rows="4" placeholder="https://www.youtube.com/shorts/xxxxxxxxxxx" value={formData.youtubeShortsText} onChange={e => setFormData({ ...formData, youtubeShortsText: e.target.value })} className="w-full p-2.5 border rounded-xl"></textarea>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label className="block font-bold text-navy-deep mb-1">YouTube Channel Link</label>
+            <input type="url" value={formData.youtubeChannelUrl} onChange={e => setFormData({ ...formData, youtubeChannelUrl: e.target.value })} className="w-full p-2.5 border rounded-xl" />
+          </div>
+          <div>
+            <label className="block font-bold text-navy-deep mb-1">Google Reviews Link</label>
+            <input type="url" value={formData.googleReviewsUrl} onChange={e => setFormData({ ...formData, googleReviewsUrl: e.target.value })} className="w-full p-2.5 border rounded-xl" />
+          </div>
+          <div>
+            <label className="block font-bold text-navy-deep mb-1">Google "Write a Review" Link</label>
+            <input type="url" value={formData.googleWriteReviewUrl} onChange={e => setFormData({ ...formData, googleWriteReviewUrl: e.target.value })} className="w-full p-2.5 border rounded-xl" />
+          </div>
         </div>
 
         <button type="submit" className="bg-terracotta text-navy-deep font-bold px-6 py-3 rounded-xl uppercase shadow-terracotta flex items-center gap-2">

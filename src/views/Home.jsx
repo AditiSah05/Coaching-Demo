@@ -9,6 +9,11 @@ import { AvatarInitials } from '../components/common/ImageWithFallback';
 import { AnnouncementBar } from '../components/layout/AnnouncementBar';
 import { SponsoredCadets } from '../components/home/SponsoredCadets';
 import { CoursesShowcase } from '../components/home/CoursesShowcase';
+import { AdmissionSteps } from '../components/home/AdmissionSteps';
+import { YouTubeShorts } from '../components/home/YouTubeShorts';
+import { Faq } from '../components/home/Faq';
+import { FreeMaterials } from '../components/home/FreeMaterials';
+import { Testimonials } from '../components/home/Testimonials';
 import { StatsBand } from '../components/home/StatsBand';
 import { HeroPhoto } from '../components/common/HeroPhoto';
 import { VideoBackground } from '../components/common/VideoBackground';
@@ -318,140 +323,21 @@ export const Home = () => {
 
       <SponsoredCadets />
 
-      {/* --- 5-STEP ADMISSION PROCESS JOURNEY --- */}
-      <section className="py-20 bg-ivory text-ink">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="badge-solid bg-gold/20 text-ink mb-2">Your Path</span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">
-              5 Steps To Join The Merchant Navy
-            </h2>
-          </div>
+      <AdmissionSteps />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            {[
-              { step: "01", title: "Free Counselling", desc: "Speak with Master Mariners & evaluate eligibility (Age, PCM %, Vision)." },
-              { step: "02", title: "Submit Application", desc: "Fill online admission form and upload academic marksheets." },
-              { step: "03", title: "Entrance Prep", desc: "Join classroom/online batch for IMU-CET & Company Sponsorship." },
-              { step: "04", title: "Sponsorship & CET", desc: "Crack All-India entrance exam & secure shipping company sponsorship." },
-              { step: "05", title: "Pre-Sea & Placement", desc: "Join DG Approved academy & sail on international merchant ships!" }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-3xl border border-navy-deep/10 relative text-center shadow-chunky">
-                <span className="w-10 h-10 rounded-full bg-navy-deep text-gold font-serif font-bold text-sm flex items-center justify-center mx-auto mb-4">
-                  {item.step}
-                </span>
-                <h3 className="font-serif text-base font-bold text-navy-deep mb-2">{item.title}</h3>
-                <p className="text-xs text-ink/70 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
+      <YouTubeShorts shorts={settings?.youtubeShorts} channelUrl={settings?.youtubeChannelUrl} limit={10} />
 
-        </div>
-      </section>
+      <Testimonials items={testimonials} reviewsUrl={settings?.googleReviewsUrl} writeUrl={settings?.googleWriteReviewUrl} />
 
-      {/* --- TESTIMONIALS SLIDER --- */}
-      <section className="py-20 bg-white text-ink">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="badge-solid text-goldtext mb-2">Excellent • Based on 354 Google reviews</span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">
-              Student's Feedback
-            </h2>
-          </div>
+      <FreeMaterials />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((item) => (
-              <div key={item.id} className="bg-ivory p-8 rounded-3xl border border-navy-light/10 shadow-chunky relative flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-1 text-gold mb-4">
-                    {[...Array(item.rating || 5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-gold" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-ink/75 italic leading-relaxed mb-6">"{item.text}"</p>
-                </div>
-
-                <div className="pt-4 border-t border-navy-light/10 flex items-center gap-3">
-                  <AvatarInitials initials={item.name.substring(0, 2)} color="bg-terracotta" size="w-10 h-10 text-xs" />
-                  <div>
-                    <h4 className="font-serif text-sm font-bold text-navy-deep">{item.name}</h4>
-                    <span className="text-[10px] text-goldtext block">{item.role}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* --- FREE STUDY MATERIAL TEASER --- */}
-      <section className="py-16 bg-ivory text-ink border-t border-b border-navy-light/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-sea-blue/30 shadow-chunky flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="space-y-3 text-center lg:text-left">
-              <span className="badge-solid bg-seagreen/20 text-seagreen">Free Material</span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-navy-deep">
-                Download Free IMU-CET Study Materials
-              </h2>
-              <p className="text-xs text-ink/70 max-w-xl">
-                Sunday mock test, IMUCET 2024 paper, syllabus, seas/rivers/straits, countries/capitals/currencies, ports and shipping, and DNS/BSC/B.Tech notes.
-              </p>
-            </div>
-            <Link
-              href="/study-materials"
-              className="bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold px-8 py-4 rounded-2xl shadow-terracotta shrink-0 flex items-center gap-2 text-xs uppercase tracking-wider"
-            >
-              <Download className="w-4 h-4" />
-              <span>Access Study Hub</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* --- FAQ ACCORDION --- */}
-      <section className="py-20 bg-ivory text-ink">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center mb-12">
-            <span className="badge-solid bg-navy-deep/10 text-navy-deep mb-2">FAQ</span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">
-              Frequently Asked Questions
-            </h2>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div key={faq.id} className="bg-white rounded-2xl border border-navy-deep/10 overflow-hidden shadow-sm">
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full text-left p-5 font-serif text-sm sm:text-base font-bold text-navy-deep flex items-center justify-between gap-4"
-                  >
-                    <span>{faq.question}</span>
-                    {isOpen ? <ChevronUp className="w-5 h-5 text-goldtext shrink-0" /> : <ChevronDown className="w-5 h-5 text-sea-blue shrink-0" />}
-                  </button>
-                  {isOpen && (
-                    <div className="px-5 pb-5 text-xs text-ink/80 leading-relaxed border-t border-navy-deep/5 pt-3">
-                      {faq.answer}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-      </section>
+      <Faq faqs={faqs} phone={settings?.phonePrimary} whatsapp={settings?.whatsapp} />
 
       {/* --- FINAL CTA BANNER --- */}
       <section className="py-20 bg-ivory-dark text-ink text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
           <div className="w-16 h-16 rounded-full bg-white text-goldtext mx-auto flex items-center justify-center border border-gold shadow-chunky">
-            <Anchor className="w-8 h-8 animate-bounce" />
+            <Anchor className="w-8 h-8" />
           </div>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-navy-deep">
             Ready To Set Sail On Your Merchant Navy Career?

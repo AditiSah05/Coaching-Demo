@@ -79,8 +79,8 @@ export const Navbar = () => {
                 <div key={link.path} className="relative group">
                   <Link
                     href={link.path}
-                    className={`relative whitespace-nowrap px-2.5 py-2 rounded-full text-[12px] font-semibold uppercase tracking-[0.05em] transition-colors flex items-center gap-1 ${
-                      isActive ? 'text-gold bg-gold/10 ring-1 ring-gold/25' : 'text-white hover:text-white hover:bg-white/5'
+                    className={`relative whitespace-nowrap px-2.5 py-2 text-[12px] font-semibold uppercase tracking-[0.05em] transition-colors flex items-center gap-1 after:absolute after:inset-x-2.5 after:bottom-0 after:h-0.5 after:origin-left after:rounded-full after:bg-gold after:transition-transform after:duration-300 ${
+                      isActive ? 'text-gold after:scale-x-100' : 'text-white after:scale-x-0 hover:after:scale-x-100'
                     }`}
                   >
                     {link.name}

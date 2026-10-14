@@ -164,7 +164,7 @@ export const Footer = () => {
                 {address && (
                   <ContactRow
                     Icon={Navigation}
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+                    href={settings?.mapDirectionsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
                     external
                   >
                     Get directions
