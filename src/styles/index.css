@@ -146,3 +146,7 @@ body::after {
 .animate-float {
   animation: floatSlow 4s ease-in-out infinite;
 }
+
+/* Printing: one clean A4 page, colours kept where used */
+@page { size: A4; margin: 14mm; }
+@media print { html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #fff !important; } }

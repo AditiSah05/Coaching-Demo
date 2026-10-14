@@ -48,7 +48,7 @@ export const Navbar = () => {
 
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${
+    <header className={`print:hidden fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${
       transparent ? 'bg-transparent' : 'bg-navy-deep/95 backdrop-blur-md shadow-xl'
     }`}>
       {/* Main Navigation Bar */}

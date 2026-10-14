@@ -15,10 +15,10 @@ export const PublicLayout = ({ children }) => {
   const whatsappClean = (settings?.whatsapp || '').replace(/[^0-9]/g, '');
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory text-ink relative pb-16 md:pb-0">
+    <div className="min-h-screen flex flex-col bg-ivory text-ink relative pb-16 md:pb-0 print:pb-0">
       <Navbar />
       
-      <main className={`flex-grow ${pathname === '/' ? '' : 'pt-20'}`}>
+      <main className={`flex-grow ${pathname === '/' ? '' : 'pt-20 print:pt-0'}`}>
         <motion.div
           key={pathname}
           initial={{ opacity: 0, y: 10 }}
@@ -38,7 +38,7 @@ export const PublicLayout = ({ children }) => {
         target="_blank"
         rel="noreferrer"
         aria-label="Chat on WhatsApp"
-        className="hidden md:flex fixed bottom-6 right-6 z-40 w-14 h-14 bg-seagreen text-white rounded-full items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group"
+        className="hidden md:flex print:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-seagreen text-white rounded-full items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group"
       >
         <MessageCircle className="w-7 h-7" />
         <span className="absolute right-16 bg-navy-dark text-white text-xs font-bold px-3 py-1.5 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">

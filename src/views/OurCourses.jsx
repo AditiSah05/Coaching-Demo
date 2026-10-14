@@ -2,184 +2,190 @@
 
 import React, { useState } from 'react';
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Anchor, Clock, BookOpen, CheckCircle2, ChevronDown, ChevronUp, ArrowRight, Filter, Shield } from 'lucide-react';
+import { Check, Clock, MapPin, Minus, Plus } from 'lucide-react';
 import { useData } from '../context/DataContext';
-import { ScallopedBorder } from '../components/common/ScallopedBorder';
+
+// One-line orientation for each route. Unknown categories (added in admin) simply get no blurb.
+const routeNotes = {
+  'Entrance Exam': 'The IMU CET is the gateway exam to maritime courses. Start here if you have not cleared it yet.',
+  'Deck Cadets': 'Train to become a deck officer, responsible for navigating and running the ship.',
+  'Engine Cadets': 'Train to run and maintain the ship’s engines and machinery.',
+};
+
+const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
+
+const List = ({ items }) => (
+  <ul className="space-y-3">
+    {items.map((item) => (
+      <li key={item} className="flex items-start gap-3 text-[15px] leading-relaxed text-ink/80">
+        <Check className="mt-1 h-4 w-4 shrink-0 text-goldtext" />
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+const Fact = ({ label, children }) => (
+  <div>
+    <dt className="text-sm font-semibold text-navy-deep">{label}</dt>
+    <dd className="mt-1 text-[15px] leading-relaxed text-ink/75">{children}</dd>
+  </div>
+);
+
+const CourseRow = ({ course, open, onToggle }) => {
+  const panelId = `course-panel-${course.id}`;
+  return (
+    <article className={`group border-b border-navy-deep/15 transition-colors duration-300 ${open ? 'bg-white' : 'hover:bg-white/60'}`}>
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className={`flex w-full items-start gap-5 px-5 py-7 text-left sm:px-8 ${focusRing}`}
+      >
+        <span className="min-w-0 flex-1">
+          <span className="block font-serif text-[1.65rem] font-semibold leading-tight text-navy-deep sm:text-[2.1rem]">
+            {course.title}
+          </span>
+          <span className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1.5 text-sm text-ink/65">
+            {course.duration && (
+              <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4 text-goldtext" />{course.duration}</span>
+            )}
+            {course.mode && (
+              <span className="inline-flex items-center gap-1.5"><MapPin className="h-4 w-4 text-goldtext" />{course.mode} classes in Sikar</span>
+            )}
+          </span>
+          {!open && course.eligibility && (
+            <span className="mt-4 block max-w-2xl text-[15px] leading-relaxed text-ink/70 line-clamp-2">
+              <span className="font-semibold text-navy-deep">Eligibility: </span>{course.eligibility}
+            </span>
+          )}
+        </span>
+
+        <span className="flex shrink-0 items-center gap-4 pt-1">
+          {course.badge && (
+            <span className="hidden rounded-full bg-terracotta px-3.5 py-1.5 text-xs font-semibold text-navy-deep sm:inline-block">{course.badge}</span>
+          )}
+          <span className={`flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-300 ${open ? 'border-navy-deep bg-navy-deep text-white' : 'border-navy-deep/25 text-navy-deep group-hover:border-gold group-hover:bg-gold-light'}`}>
+            {open ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+          </span>
+        </span>
+      </button>
+
+      <div id={panelId} inert={!open} className={`grid transition-[grid-template-rows] duration-300 ease-out ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+        <div className="overflow-hidden">
+          <div className="grid gap-10 px-5 pb-10 pt-2 sm:px-8 lg:grid-cols-5">
+            <div className="lg:col-span-2">
+              <p className="text-[15px] leading-[1.8] text-ink/80">{course.description}</p>
+              <dl className="mt-7 space-y-5 border-t border-navy-deep/10 pt-6">
+                {course.eligibility && <Fact label="Who can join">{course.eligibility}</Fact>}
+                {course.targetExam && <Fact label="Prepares you for">{course.targetExam}</Fact>}
+                {course.fee && <Fact label="Fee">{course.fee}</Fact>}
+              </dl>
+            </div>
+
+            <div className="space-y-8 lg:col-span-3">
+              {course.syllabus?.length > 0 && (
+                <div>
+                  <h3 className="font-serif text-xl font-semibold text-navy-deep">What you study</h3>
+                  <div className="mt-4"><List items={course.syllabus} /></div>
+                </div>
+              )}
+              {course.highlights?.length > 0 && (
+                <div>
+                  <h3 className="font-serif text-xl font-semibold text-navy-deep">What you get</h3>
+                  <div className="mt-4"><List items={course.highlights} /></div>
+                </div>
+              )}
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Link
+                  href={`/admission?course=${encodeURIComponent(course.title)}`}
+                  className={`rounded-full bg-navy-deep px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-light ${focusRing}`}
+                >
+                  Enrol in this course
+                </Link>
+                <Link
+                  href={`/courses/${course.slug || course.id}`}
+                  className={`rounded-full border border-navy-deep/25 px-7 py-3.5 text-sm font-semibold text-navy-deep transition-colors hover:border-gold hover:bg-gold-light ${focusRing}`}
+                >
+                  Course page
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+};
 
 export const OurCourses = () => {
-  const { courses } = useData();
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [openSyllabus, setOpenSyllabus] = useState({});
+  const { courses, settings } = useData();
+  const [openId, setOpenId] = useState(courses[0]?.id ?? null);
 
-  const categories = ['All', ...new Set(courses.map(c => c.category))];
-
-  const filteredCourses = selectedCategory === 'All'
-    ? courses
-    : courses.filter(c => c.category === selectedCategory);
-
-  const toggleAccordion = (id) => {
-    setOpenSyllabus(prev => ({ ...prev, [id]: !prev[id] }));
-  };
+  // Group by category, keeping the order in which categories first appear.
+  const groups = [];
+  courses.forEach((c) => {
+    const name = c.category || 'Courses';
+    let g = groups.find((x) => x.name === name);
+    if (!g) groups.push((g = { name, items: [] }));
+    g.items.push(c);
+  });
 
   return (
-    <div className="bg-ivory text-ink min-h-screen">
-      
-      {/* Header */}
-      <section className="bg-navy-deep text-ivory py-16 relative bg-maritime-pattern">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="badge-solid bg-gold/20 text-gold mb-3">Programmes</span>
-          <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mb-4">
-            Merchant Navy Entrance Courses
+    <div className="min-h-screen bg-ivory text-ink">
+      <header className="border-b border-navy-deep/10">
+        <div className="mx-auto grid max-w-7xl items-end gap-8 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-20">
+          <h1 className="font-serif text-5xl font-semibold leading-[1.02] tracking-tight text-navy-deep sm:text-6xl lg:col-span-7 lg:text-7xl">
+            Courses for the Merchant Navy
           </h1>
-          <p className="text-sm text-ivory/80 max-w-2xl mx-auto leading-relaxed">
-            Rigorous coaching programs engineered by Master Mariners for IMU-CET, DNS, G.P. Rating, and Shipping Sponsorships.
+          <p className="max-w-md text-lg leading-relaxed text-ink/70 lg:col-span-5">
+            Coaching planned by master mariners for the IMU CET, DNS sponsorship exams and the degree routes to sea.
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F4F2ED" />
-        </div>
-      </section>
+      </header>
 
-      {/* Category Filter Tabs */}
-      <section className="py-8 bg-white border-b border-navy-deep/10 sticky top-20 z-30 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-goldtext flex items-center gap-1 shrink-0 mr-2">
-              <Filter className="w-3.5 h-3.5" /> Filter:
-            </span>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                  selectedCategory === cat
-                    ? 'bg-navy-deep text-gold shadow-md scale-105'
-                    : 'bg-ivory text-ink/70 hover:bg-sea-blue/10 hover:text-navy-deep'
-                }`}
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {groups.map((g) => (
+          <section key={g.name} className="grid gap-6 py-12 lg:grid-cols-12 lg:gap-10 lg:py-16">
+            <div className="lg:col-span-3">
+              <div className="lg:sticky lg:top-28">
+                <h2 className="font-serif text-3xl font-semibold text-navy-deep">{g.name}</h2>
+                {routeNotes[g.name] && <p className="mt-3 max-w-xs text-[15px] leading-relaxed text-ink/65">{routeNotes[g.name]}</p>}
+              </div>
+            </div>
+            <div className="border-t border-navy-deep/15 lg:col-span-9">
+              {g.items.map((c) => (
+                <CourseRow key={c.id} course={c} open={openId === c.id} onToggle={() => setOpenId(openId === c.id ? null : c.id)} />
+              ))}
+            </div>
+          </section>
+        ))}
+
+        <section className="grid items-center gap-8 border-t border-navy-deep/15 py-16 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <h2 className="font-serif text-3xl font-semibold leading-tight text-navy-deep sm:text-4xl">Not sure which course fits you?</h2>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink/70">
+              Call us or send your details through the admission form, and we will help you choose.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+            {settings?.phonePrimary && (
+              <a
+                href={`tel:${settings.phonePrimary.replace(/\s/g, '')}`}
+                className={`rounded-full bg-navy-deep px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-light ${focusRing}`}
               >
-                {cat}
-              </button>
-            ))}
+                Call {settings.phonePrimary}
+              </a>
+            )}
+            <Link
+              href="/admission"
+              className={`rounded-full border border-navy-deep/25 px-7 py-3.5 text-sm font-semibold text-navy-deep transition-colors hover:border-gold hover:bg-gold-light ${focusRing}`}
+            >
+              Fill the admission form
+            </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Course List Cards */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="space-y-8">
-            {filteredCourses.map((course) => {
-              const isAccordionOpen = !!openSyllabus[course.id];
-              return (
-                <div
-                  key={course.id}
-                  className="bg-white rounded-3xl border border-navy-deep/10 shadow-chunky overflow-hidden transition-all hover:border-sea-blue"
-                >
-                  <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    
-                    {/* Course Details Main */}
-                    <div className="lg:col-span-8 space-y-4">
-                      
-                      <div className="flex flex-wrap items-center gap-2">
-                        {course.badge && (
-                          <span className="bg-terracotta text-navy-deep text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                            {course.badge}
-                          </span>
-                        )}
-                        <span className="bg-sea-blue/20 text-navy-deep text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                          {course.category}
-                        </span>
-                        {course.duration && (
-                          <span className="text-xs font-bold text-ink/70 flex items-center gap-1 ml-auto">
-                            <Clock className="w-3.5 h-3.5 text-gold" /> {course.duration}
-                          </span>
-                        )}
-                      </div>
-
-                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-navy-deep">
-                        {course.title}
-                      </h2>
-
-                      <p className="text-xs sm:text-sm text-ink/70 leading-relaxed">
-                        {course.description}
-                      </p>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-ivory p-4 rounded-2xl border border-navy-deep/5">
-                        <div>
-                          <span className="font-bold text-navy-deep block">Eligibility Criteria:</span>
-                          <span className="text-ink/80">{course.eligibility}</span>
-                        </div>
-                        <div>
-                          <span className="font-bold text-navy-deep block">Target Exam / Goal:</span>
-                          <span className="text-sea-blue font-semibold">{course.targetExam}</span>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    {/* Pricing & CTA */}
-                    <div className="lg:col-span-4 bg-navy-deep text-white p-6 rounded-2xl flex flex-col justify-between space-y-6">
-                      
-                      <div>
-                        <span className="text-[10px] uppercase tracking-wider text-sea-blue font-bold block mb-1">Course Fee</span>
-                        <span className="font-serif text-xl font-bold text-gold block">{course.fee}</span>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Link
-                          href={`/courses/${course.slug || course.id}`}
-                          className="w-full bg-navy-light text-white hover:text-gold font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
-                        >
-                          <span>View Details</span>
-                        </Link>
-                        <Link
-                          href={`/admission?course=${encodeURIComponent(course.title)}`}
-                          className="w-full bg-terracotta hover:bg-terracotta-hover text-navy-deep font-bold py-3 px-4 rounded-xl shadow-terracotta flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-transform active:scale-95"
-                        >
-                          <span>Enrol In This Batch</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </Link>
-
-                        <button
-                          onClick={() => toggleAccordion(course.id)}
-                          className="w-full bg-navy-light text-sea-blue hover:text-white py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
-                        >
-                          <span>{isAccordionOpen ? 'Hide Full Syllabus' : 'View Detailed Syllabus'}</span>
-                          {isAccordionOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                        </button>
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                  {/* Syllabus Accordion Drawer */}
-                  {isAccordionOpen && (
-                    <div className="bg-navy-dark text-white p-6 border-t border-sea-blue/20">
-                      <h4 className="font-serif text-sm font-bold text-gold mb-3 flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-goldtext" /> Detailed Module Syllabus:
-                      </h4>
-                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-ivory/80">
-                        {(course.syllabus || []).map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2 bg-navy-light/40 p-2.5 rounded-xl border border-sea-blue/10">
-                            <CheckCircle2 className="w-4 h-4 text-sea-blue shrink-0 mt-0.5" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-      </section>
-
+        </section>
+      </main>
     </div>
   );
 };

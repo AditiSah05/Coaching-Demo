@@ -11,7 +11,7 @@ export const MobileStickyBar = () => {
   const whatsappClean = (settings?.whatsapp || '').replace(/[^0-9]/g, '');
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-navy-dark/95 backdrop-blur-md border-t-2 border-sea-blue/30 p-2 shadow-2xl">
+    <div className="print:hidden md:hidden fixed bottom-0 left-0 right-0 z-40 bg-navy-dark/95 backdrop-blur-md border-t-2 border-sea-blue/30 p-2 shadow-2xl">
       <div className="grid grid-cols-3 gap-2 max-w-md mx-auto">
         <a
           href={`tel:${settings?.phonePrimary}`}

@@ -73,7 +73,7 @@ export const Footer = () => {
   ].filter((s) => links[s.key]);
 
   return (
-    <footer className="relative text-white">
+    <footer className="relative text-white print:hidden">
       {/* Wave rising from the page into the footer */}
       <div className="leading-none bg-ivory" aria-hidden="true">
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="block w-full h-12 md:h-20">
