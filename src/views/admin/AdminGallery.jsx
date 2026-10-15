@@ -8,7 +8,7 @@ export const AdminGallery = () => {
   const { gallery, api } = useData();
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    title: '', category: 'Simulator', image: '', caption: ''
+    title: '', category: 'Felicitation', image: '', caption: ''
   });
 
   const handleFileUpload = (e) => {
@@ -69,11 +69,9 @@ export const AdminGallery = () => {
             <form onSubmit={handleSubmit} className="space-y-3 text-xs">
               <input type="text" required placeholder="Photo Title" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <select value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full p-2.5 border rounded-xl">
-                <option value="Simulator">Simulator</option>
-                <option value="Classroom">Classroom</option>
-                <option value="Events">Events</option>
-                <option value="Ship Visits">Ship Visits</option>
-                <option value="Campus">Campus</option>
+                <option value="Felicitation">Felicitation</option>
+                <option value="Classrooms">Classrooms</option>
+                <option value="Mentors & Counselling">Mentors &amp; Counselling</option>
               </select>
 
               <div>
