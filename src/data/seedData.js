@@ -60,7 +60,7 @@ export const initialSeedData = {
     ],
     email: "pacificmarineacademy2022@gmail.com",
     address: "2nd Floor, Above PNB Bank, Nawalgarh Road, Sikar, Rajasthan 332001",
-    mapEmbedUrl: "https://maps.google.com/maps?q=27.6306716,75.1597784&z=17&output=embed",
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500!2d75.1597784!3d27.6306716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396cbba67caf1641%3A0x8e05085acbde7012!2sPacific%20Marine%20Academy!5e0!3m2!1sen!2sin!4v1790000000000!5m2!1sen!2sin",
     mapDirectionsUrl: "https://www.google.com/maps/dir/?api=1&destination=27.6306716,75.1597784",
     googleMapsPlaceUrl: "https://www.google.com/maps/place/Pacific+Marine+Academy/@27.6306716,75.1597784,17z",
     socialLinks: {
@@ -336,54 +336,74 @@ export const initialSeedData = {
   ],
   studyMaterials: [
     {
-      id: "sm-1",
-      title: "IMU-CET Mathematics Formula & Shortcut Handbook 2026",
-      category: "Notes",
-      type: "PDF Document",
-      size: "4.8 MB",
-      downloadUrl: "#download-formula-book",
-      previewText: "Comprehensive formula sheet covering Calculus, 3D Geometry, Algebra, and Probability with solved shortcut tricks for IMU-CET.",
-      downloadsCount: 1420
+      "id": "sm-1",
+      "title": "IMUCET Sunday Mock Test",
+      "category": "IMU CET",
+      "type": "Mock test",
+      "size": "",
+      "downloadUrl": "https://drive.google.com/file/d/1NoNazLQZCLBO4lgt_6zC-ieoVUCLKeVF/view",
+      "previewText": "",
+      "downloadsCount": 0
     },
     {
-      id: "sm-2",
-      title: "IMU-CET 10 Previous Years Solved Question Papers (2015-2025)",
-      category: "Previous Papers",
-      type: "PDF Document",
-      size: "12.4 MB",
-      downloadUrl: "#download-past-papers",
-      previewText: "Authentic past entrance exam paper questions with step-by-step solutions and answer keys.",
-      downloadsCount: 3250
+      "id": "sm-2",
+      "title": "IMUCET 2024 Paper",
+      "category": "IMU CET",
+      "type": "Past paper",
+      "size": "",
+      "downloadUrl": "https://drive.google.com/file/d/1DrgB-eWFwXjJHJvOVWybUCohsIdb5Xbt/view",
+      "previewText": "",
+      "downloadsCount": 0
     },
     {
-      id: "sm-3",
-      title: "Shipping Sponsorship Technical Interview Viva Questions & Answers",
-      category: "Notes",
-      type: "PDF Document",
-      size: "3.2 MB",
-      downloadUrl: "#download-interview-guide",
-      previewText: "Top 150 nautical and engineering viva questions asked by Anglo-Eastern, Synergy, Fleet, and ESM selection boards.",
-      downloadsCount: 2890
+      "id": "sm-3",
+      "title": "IMUCET Syllabus",
+      "category": "IMU CET",
+      "type": "Syllabus",
+      "size": "",
+      "downloadUrl": "https://drive.google.com/file/d/13nH9UnFHSee6-t09KpccJ-gVi9PGF9uk/view",
+      "previewText": "",
+      "downloadsCount": 0
     },
     {
-      id: "sm-4",
-      title: "Complete Merchant Navy General Aptitude & English Practice Workbook",
-      category: "Practice Sets",
-      type: "PDF Document",
-      size: "6.1 MB",
-      downloadUrl: "#download-aptitude-set",
-      previewText: "Over 800+ solved practice MCQs covering maritime terminology, grammar, comprehension, and spatial reasoning.",
-      downloadsCount: 1980
+      "id": "sm-4",
+      "title": "Seas, Rivers & Straits",
+      "category": "General Knowledge",
+      "type": "Notes",
+      "size": "",
+      "downloadUrl": "https://drive.google.com/file/d/1JNRDaQ7zs3GmWHeUCjGz9jgNiKYRRkrL/view",
+      "previewText": "",
+      "downloadsCount": 0
     },
     {
-      id: "sm-5",
-      title: "Physics Mechanics & Electromagnetism Concept Lecture Series",
-      category: "Videos",
-      type: "Video Lecture",
-      size: "YouTube Embed",
-      downloadUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      previewText: "Full video lecture on Newton's laws of motion applied to naval vessels and fluid mechanics for IMU-CET.",
-      downloadsCount: 4500
+      "id": "sm-5",
+      "title": "Countries, Capitals & Currencies",
+      "category": "General Knowledge",
+      "type": "Notes",
+      "size": "",
+      "downloadUrl": "https://drive.google.com/file/d/1x1-wPeDR78r3oiN9B5URdrAdy91pAzEl/view",
+      "previewText": "",
+      "downloadsCount": 0
+    },
+    {
+      "id": "sm-6",
+      "title": "Ports & Shipping",
+      "category": "General Knowledge",
+      "type": "Notes",
+      "size": "",
+      "downloadUrl": "https://drive.google.com/file/d/18DZaX3pqCYtlR_qevl963OF4-gXGLx7b/view",
+      "previewText": "",
+      "downloadsCount": 0
+    },
+    {
+      "id": "sm-7",
+      "title": "DNS / BSc / B.Tech",
+      "category": "Course Notes",
+      "type": "Notes",
+      "size": "",
+      "downloadUrl": "https://drive.google.com/file/d/18cE4Qc3FkwK6_slf9_oYBb_Wpyy1_21p/view",
+      "previewText": "",
+      "downloadsCount": 0
     }
   ],
   availableForms: [
@@ -426,46 +446,131 @@ export const initialSeedData = {
   ],
   gallery: [
     {
-      id: "gal-1",
-      title: "Navigational Simulator Training Room",
-      category: "Simulator",
-      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
-      caption: "Cadets practicing RADAR & ECDIS bridge simulation under guidance of Master Mariners."
+      "id": "gal-1",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g01.jpg",
+      "caption": "9 in Top 1000 and 26 in Top 4000 on the academy's IMU-CET 2023 results board.",
+      "featured": true
     },
     {
-      id: "gal-2",
-      title: "Interactive Smart Classroom",
-      category: "Classroom",
-      image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80",
-      caption: "Daily interactive problem solving and CBT practice session."
+      "id": "gal-2",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g04.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
     },
     {
-      id: "gal-3",
-      title: "Annual Passing Out Ceremony & Topper Awards",
-      category: "Events",
-      image: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1200&q=80",
-      caption: "Felicitation of All-India Rank holders by Chief Guest Captains."
+      "id": "gal-3",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g06.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
     },
     {
-      id: "gal-4",
-      title: "Port Trust & Container Ship Industrial Visit",
-      category: "Ship Visits",
-      image: "https://images.unsplash.com/photo-1516214104703-d870798883c5?auto=format&fit=crop&w=1200&q=80",
-      caption: "Cadets getting firsthand exposure to vessel mooring and deck operations at JNPT Port."
+      "id": "gal-4",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g07.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
     },
     {
-      id: "gal-5",
-      title: "Marine Engine Workshop & Auxiliaries Lab",
-      category: "Campus",
-      image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
-      caption: "Hands-on overhaul of marine pumps, diesel generators, and valve assemblies."
+      "id": "gal-5",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g08.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
     },
     {
-      id: "gal-6",
-      title: "Maritime Parade & Physical Fitness Training",
-      category: "Events",
-      image: "https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=1200&q=80",
-      caption: "Morning discipline drill and stamina conditioning for DG Shipping physical tests."
+      "id": "gal-6",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g10.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
+    },
+    {
+      "id": "gal-7",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g11.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
+    },
+    {
+      "id": "gal-8",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g12.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
+    },
+    {
+      "id": "gal-9",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g13.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
+    },
+    {
+      "id": "gal-10",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g14.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
+    },
+    {
+      "id": "gal-11",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g15.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
+    },
+    {
+      "id": "gal-12",
+      "title": "IMU CET toppers felicitated",
+      "category": "Felicitation",
+      "image": "/images/gallery/g16.jpg",
+      "caption": "Students honoured at a felicitation ceremony at Pacific Marine Academy, in front of the IMU-CET results board."
+    },
+    {
+      "id": "gal-13",
+      "title": "Classroom session",
+      "category": "Classrooms",
+      "image": "/images/gallery/g02.jpg",
+      "caption": "A full classroom of students at Pacific Marine Academy, Sikar."
+    },
+    {
+      "id": "gal-14",
+      "title": "Classroom session",
+      "category": "Classrooms",
+      "image": "/images/gallery/g17.jpg",
+      "caption": "A full classroom of students at Pacific Marine Academy, Sikar."
+    },
+    {
+      "id": "gal-15",
+      "title": "Classroom session",
+      "category": "Classrooms",
+      "image": "/images/gallery/g18.jpg",
+      "caption": "A full classroom of students at Pacific Marine Academy, Sikar."
+    },
+    {
+      "id": "gal-16",
+      "title": "Counselling and mentorship",
+      "category": "Mentors & Counselling",
+      "image": "/images/gallery/g03.jpg",
+      "caption": "Students with mentors and officers at the academy, getting guidance on Merchant Navy careers."
+    },
+    {
+      "id": "gal-17",
+      "title": "Counselling and mentorship",
+      "category": "Mentors & Counselling",
+      "image": "/images/gallery/g05.jpg",
+      "caption": "Students with mentors and officers at the academy, getting guidance on Merchant Navy careers."
+    },
+    {
+      "id": "gal-18",
+      "title": "Counselling and mentorship",
+      "category": "Mentors & Counselling",
+      "image": "/images/gallery/g09.jpg",
+      "caption": "Students with mentors and officers at the academy, getting guidance on Merchant Navy careers."
     }
   ],
   testimonials: [
