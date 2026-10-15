@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import Link from "next/link";
 import { MapPin, Phone, Mail, Navigation, MessageCircle, Facebook, Instagram, Youtube, ArrowUpRight, ArrowUp } from 'lucide-react';
 import { useData } from '../../context/DataContext';
@@ -62,6 +63,8 @@ const ContactRow = ({ Icon, href, children, external }) => {
 
 export const Footer = () => {
   const { settings } = useData();
+  // On the Contact page a full-width map sits above the footer; let the wave rise over it.
+  const overMap = usePathname() === '/contact';
   const phone = settings?.phonePrimary;
   const address = settings?.address;
   const links = settings?.socialLinks || {};
@@ -75,7 +78,7 @@ export const Footer = () => {
   return (
     <footer className="relative text-white print:hidden">
       {/* Wave rising from the page into the footer */}
-      <div className="leading-none bg-ivory" aria-hidden="true">
+      <div className={overMap ? 'pointer-events-none relative z-10 -mt-12 leading-none md:-mt-20' : 'leading-none bg-ivory'} aria-hidden="true">
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="block w-full h-12 md:h-20">
           <path d="M0,50 C240,100 480,0 720,40 C960,80 1200,10 1440,50 L1440,90 L0,90 Z" fill="#0B2C4A" />
           <path d="M0,62 C260,20 500,90 760,56 C1000,24 1220,80 1440,48 L1440,90 L0,90 Z" fill="#021527" />

@@ -8,7 +8,7 @@ export const AdminStudyMaterials = () => {
   const { studyMaterials, api } = useData();
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    title: '', category: 'Notes', type: 'PDF Document', size: '5 MB', downloadUrl: '#', previewText: ''
+    title: '', category: 'IMU CET', type: 'PDF Document', size: '', downloadUrl: '', previewText: ''
   });
 
   const handleSubmit = (e) => {
@@ -56,12 +56,12 @@ export const AdminStudyMaterials = () => {
             <form onSubmit={handleSubmit} className="space-y-3 text-xs">
               <input type="text" required placeholder="Title" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <select value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full p-2.5 border rounded-xl">
-                <option value="Notes">Notes</option>
-                <option value="Previous Papers">Previous Papers</option>
-                <option value="Practice Sets">Practice Sets</option>
-                <option value="Videos">Videos</option>
+                <option value="IMU CET">IMU CET</option>
+                <option value="General Knowledge">General Knowledge</option>
+                <option value="Course Notes">Course Notes</option>
               </select>
-              <input type="text" required placeholder="File Size (e.g. 4.8 MB)" value={formData.size} onChange={e => setFormData({ ...formData, size: e.target.value })} className="w-full p-2.5 border rounded-xl" />
+              <input type="url" placeholder="Google Drive link (https://drive.google.com/...)" value={formData.downloadUrl} onChange={e => setFormData({ ...formData, downloadUrl: e.target.value })} className="w-full p-2.5 border rounded-xl" />
+              <input type="text" placeholder="File size, optional (e.g. 4.8 MB)" value={formData.size} onChange={e => setFormData({ ...formData, size: e.target.value })} className="w-full p-2.5 border rounded-xl" />
               <textarea rows="3" placeholder="Preview Summary" value={formData.previewText} onChange={e => setFormData({ ...formData, previewText: e.target.value })} className="w-full p-2.5 border rounded-xl"></textarea>
               <button type="submit" className="w-full bg-terracotta text-navy-deep font-bold py-3 rounded-xl uppercase">Save Material</button>
             </form>
