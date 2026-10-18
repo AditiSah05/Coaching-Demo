@@ -57,15 +57,15 @@ const stripHeavy = (name, rec) => {
   return out;
 };
 
-export function listRecords(name, { q = '' } = {}) {
+export async function listRecords(name, { q = '' } = {}) {
   const def = COLLECTIONS[name];
-  let list = read()[name].map((r) => stripHeavy(name, r));
+  let list = (await read([name]))[name].map((r) => stripHeavy(name, r));
   const needle = q.trim().toLowerCase();
   if (needle) list = list.filter((r) => JSON.stringify(r).toLowerCase().includes(needle));
   return sortRecords(list, def.sort);
 }
 
-export const getRecord = (name, id) => read()[name].find((r) => r.id === id) || null;
+export const getRecord = async (name, id) => (await read([name]))[name].find((r) => r.id === id) || null;
 
 export async function createRecord(name, input, user) {
   const def = COLLECTIONS[name];
@@ -86,7 +86,7 @@ export async function createRecord(name, input, user) {
 
 export async function updateRecord(name, id, input, user) {
   const def = COLLECTIONS[name];
-  const existing = getRecord(name, id);
+  const existing = await getRecord(name, id);
   if (!existing) return fail(404, 'Not found.');
   const { value, errors } = cleanRecord(def.fields, input, { partial: true });
   if (Object.keys(errors).length) return fail(422, 'Please fix the highlighted fields.', errors);
@@ -130,7 +130,7 @@ export async function saveSingleton(name, input, user) {
     }
     logActivity(db, user, `Updated ${def.label.toLowerCase()}`, '');
   });
-  return { record: read()[name] };
+  return { record: (await read([name]))[name] };
 }
 
 // ---- forms filled in by visitors on the public site ----

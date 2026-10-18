@@ -12,7 +12,7 @@ export async function GET(request, { params }) {
   if (!def) return json({ error: 'Unknown section.' }, 404);
   const g = await guard(request, def.area);
   if (g.response) return g.response;
-  return json({ record: read()[name] });
+  return json({ record: (await read([name]))[name] });
 }
 
 export async function PUT(request, { params }) {

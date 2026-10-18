@@ -8,3 +8,8 @@ dist-ssr
 
 # Live admin database and uploads
 data/
+
+# Cloudflare
+.open-next
+.wrangler
+.dev.vars

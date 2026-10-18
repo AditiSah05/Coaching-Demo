@@ -1,24 +1,31 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import crypto from 'node:crypto';
-import { read, mutate, newId, DATA_DIR } from './store';
+import { read, mutate, newId, cfEnv } from './store';
 import { can } from '../shared/schema';
 
 export const COOKIE = 'pma_admin';
 const SESSION_HOURS = 12;
 
-// ---- passwords (scrypt) ----
-export const hashPassword = (password) => {
-  const salt = crypto.randomBytes(16);
-  const hash = crypto.scryptSync(password, salt, 64);
-  return `scrypt$${salt.toString('hex')}$${hash.toString('hex')}`;
+// Web Crypto only, so this runs the same on Node and on Cloudflare Workers.
+const enc = new TextEncoder();
+const toHex = (u8) => [...u8].map((b) => b.toString(16).padStart(2, '0')).join('');
+const fromHex = (h) => Uint8Array.from(h.match(/../g) || [], (x) => parseInt(x, 16));
+const toB64 = (u8) => btoa(String.fromCharCode(...u8)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const fromB64 = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
+const same = (a, b) => { if (a.length !== b.length) return false; let d = 0; for (let i = 0; i < a.length; i++) d |= a[i] ^ b[i]; return d === 0; };
+
+// ---- passwords (PBKDF2-SHA256; 100,000 rounds is the most Workers allows) ----
+const ROUNDS = 100000;
+const derive = async (password, salt) => {
+  const key = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
+  return new Uint8Array(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: ROUNDS }, key, 256));
 };
-export const verifyPassword = (password, stored) => {
+export const hashPassword = async (password) => {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  return `pbkdf2$${toHex(salt)}$${toHex(await derive(password, salt))}`;
+};
+export const verifyPassword = async (password, stored) => {
   const [alg, saltHex, hashHex] = String(stored || '').split('$');
-  if (alg !== 'scrypt' || !saltHex || !hashHex) return false;
-  const expected = Buffer.from(hashHex, 'hex');
-  const actual = crypto.scryptSync(password, Buffer.from(saltHex, 'hex'), expected.length);
-  return crypto.timingSafeEqual(expected, actual);
+  if (alg !== 'pbkdf2' || !saltHex || !hashHex) return false;
+  return same(fromHex(hashHex), await derive(password, fromHex(saltHex)));
 };
 
 export const passwordProblem = (pw) => {
@@ -29,30 +36,36 @@ export const passwordProblem = (pw) => {
 };
 
 // ---- signed session cookie ----
+// Secret: SESSION_SECRET if set, otherwise a random one made once and kept in the database.
 let secretCache;
-const secret = () => {
+const secret = async () => {
   if (secretCache) return secretCache;
-  if (process.env.SESSION_SECRET) return (secretCache = process.env.SESSION_SECRET);
-  const file = path.join(DATA_DIR, '.session-secret');
-  if (!fs.existsSync(file)) { fs.mkdirSync(DATA_DIR, { recursive: true }); fs.writeFileSync(file, crypto.randomBytes(32).toString('hex'), { mode: 0o600 }); }
-  return (secretCache = fs.readFileSync(file, 'utf8').trim());
+  const fromEnv = process.env.SESSION_SECRET || cfEnv()?.SESSION_SECRET;
+  if (fromEnv) return (secretCache = fromEnv);
+  let s = (await read(['secret'])).secret;
+  if (!s) s = await mutate((db) => (db.secret ||= toHex(crypto.getRandomValues(new Uint8Array(32)))));
+  return (secretCache = s);
 };
-const b64 = (b) => Buffer.from(b).toString('base64url');
-const sign = (payload) => {
-  const body = b64(JSON.stringify(payload));
-  return `${body}.${crypto.createHmac('sha256', secret()).update(body).digest('base64url')}`;
+const hmac = async (body) => {
+  const key = await crypto.subtle.importKey('raw', enc.encode(await secret()), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  return new Uint8Array(await crypto.subtle.sign('HMAC', key, enc.encode(body)));
 };
-const unsign = (token) => {
+const sign = async (payload) => {
+  const body = toB64(enc.encode(JSON.stringify(payload)));
+  return `${body}.${toB64(await hmac(body))}`;
+};
+const unsign = async (token) => {
   const [body, sig] = String(token || '').split('.');
   if (!body || !sig) return null;
-  const good = crypto.createHmac('sha256', secret()).update(body).digest('base64url');
-  const a = Buffer.from(sig); const b = Buffer.from(good);
-  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
-  try { const p = JSON.parse(Buffer.from(body, 'base64url').toString()); return p.exp > Date.now() ? p : null; } catch { return null; }
+  try {
+    if (!same(fromB64(sig), await hmac(body))) return null;
+    const p = JSON.parse(new TextDecoder().decode(fromB64(body)));
+    return p.exp > Date.now() ? p : null;
+  } catch { return null; }
 };
 
-export const sessionCookie = (userId) => {
-  const token = sign({ uid: userId, exp: Date.now() + SESSION_HOURS * 3600 * 1000 });
+export const sessionCookie = async (userId) => {
+  const token = await sign({ uid: userId, exp: Date.now() + SESSION_HOURS * 3600 * 1000 });
   const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
   return `${COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_HOURS * 3600}${secure}`;
 };
@@ -63,25 +76,31 @@ export const publicUser = (u) => u && { id: u.id, name: u.name, email: u.email, 
 
 // First start: make the owner account. Set ADMIN_EMAIL and ADMIN_PASSWORD to choose it; otherwise the
 // old demo login is used and the admin is forced to change the password on first sign-in.
+let ownerReady = false;
 export async function ensureOwner() {
-  if (read().users.length) return;
+  if (ownerReady) return;
+  if ((await read(['users'])).users?.length) return (ownerReady = true);
+  const env = cfEnv() || {};
+  const email = process.env.ADMIN_EMAIL || env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD || env.ADMIN_PASSWORD;
+  const fromEnv = !!(email && password);
+  const passwordHash = await hashPassword(fromEnv ? password : 'Admin@123');
   await mutate((db) => {
     if (db.users.length) return;
-    const fromEnv = process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD;
     db.users.push({
       id: newId('usr'), name: 'Administrator', role: 'superadmin', active: true,
-      email: (fromEnv ? process.env.ADMIN_EMAIL : 'admin@pacificmarine.demo').toLowerCase(),
-      passwordHash: hashPassword(fromEnv ? process.env.ADMIN_PASSWORD : 'Admin@123'),
-      mustChangePassword: !fromEnv, createdAt: new Date().toISOString(),
+      email: (fromEnv ? email : 'admin@pacificmarine.demo').toLowerCase(),
+      passwordHash, mustChangePassword: !fromEnv, createdAt: new Date().toISOString(),
     });
   });
+  ownerReady = true;
 }
 
 // ---- who is calling ----
-export const currentUser = (request) => {
-  const p = unsign(request.cookies.get(COOKIE)?.value);
+export const currentUser = async (request) => {
+  const p = await unsign(request.cookies.get(COOKIE)?.value);
   if (!p) return null;
-  const u = read().users.find((x) => x.id === p.uid);
+  const u = (await read(['users'])).users.find((x) => x.id === p.uid);
   return u && u.active ? u : null;
 };
 
@@ -99,7 +118,7 @@ export const json = (data, status = 200, headers) => Response.json(data, { statu
 export async function guard(request, area) {
   await ensureOwner();
   if (request.method !== 'GET' && !sameOrigin(request)) return { response: json({ error: 'Blocked: request came from another site.' }, 403) };
-  const user = currentUser(request);
+  const user = await currentUser(request);
   if (!user) return { response: json({ error: 'Please sign in.' }, 401) };
   if (area && !can(user.role, area)) return { response: json({ error: 'Your role cannot do this.' }, 403) };
   return { user };

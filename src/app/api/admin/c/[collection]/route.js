@@ -11,7 +11,7 @@ export async function GET(request, { params }) {
   if (!def) return json({ error: 'Unknown section.' }, 404);
   const g = await guard(request, def.area);
   if (g.response) return g.response;
-  return json({ records: listRecords(collection, { q: request.nextUrl.searchParams.get('q') || '' }) });
+  return json({ records: await listRecords(collection, { q: request.nextUrl.searchParams.get('q') || '' }) });
 }
 
 export async function POST(request, { params }) {

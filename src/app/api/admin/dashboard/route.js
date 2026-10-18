@@ -11,7 +11,7 @@ const tally = (list, key) => list.reduce((m, r) => ({ ...m, [r[key] || 'Other']:
 export async function GET(request) {
   const g = await guard(request, 'dashboard');
   if (g.response) return g.response;
-  const db = read();
+  const db = await read();
   const role = g.user.role;
   const out = { counts: {}, series: [], recent: {}, breakdown: {}, attention: [], health: [] };
 

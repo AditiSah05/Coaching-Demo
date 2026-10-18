@@ -1,4 +1,4 @@
-import { read, sortRecords } from './store';
+import { read, sortRecords, PUBLIC_KEYS } from './store';
 import { COLLECTIONS } from '../shared/schema';
 
 const vis = (list) => list.filter((x) => x.visible !== false);
@@ -10,8 +10,8 @@ const uniqueTopics = (list, key = 'topic') => {
 };
 
 // Everything the public website needs, and nothing private: no drafts, no pending reviews, no enquiries.
-export function publicContent() {
-  const db = read();
+export async function publicContent() {
+  const db = await read(PUBLIC_KEYS);
   const blogs = sorted('blogs', db.blogs.filter((b) => b.status === 'published'))
     .map(({ content, ...b }) => ({ slug: b.slug, title: b.title, date: b.date, topic: b.topic, excerpt: b.excerpt, cover: b.cover, minutes: b.minutes }));
 
@@ -44,4 +44,4 @@ export function publicContent() {
   };
 }
 
-export const publishedPost = (slug) => read().blogs.find((b) => b.slug === slug && b.status === 'published') || null;
+export const publishedPost = async (slug) => (await read(['blogs'])).blogs.find((b) => b.slug === slug && b.status === 'published') || null;

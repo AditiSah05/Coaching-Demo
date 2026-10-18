@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const post = publishedPost(slug);
+  const post = await publishedPost(slug);
   if (!post) return {};
   return {
     title: `${post.title} | Pacific Marine Academy`,
@@ -23,10 +23,10 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
   const { slug } = await params;
-  const post = publishedPost(slug);
+  const post = await publishedPost(slug);
   if (!post) notFound();
   const html = post.content;
-  const blogPosts = publicContent().blogs;
+  const blogPosts = (await publicContent()).blogs;
 
   const related = [
     ...blogPosts.filter((p) => p.slug !== slug && p.topic === post.topic),

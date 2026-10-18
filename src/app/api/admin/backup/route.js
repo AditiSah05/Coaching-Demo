@@ -10,7 +10,7 @@ const CONTENT = ['settings', 'banners', 'courses', 'blogs', 'gallery', 'videos',
 export async function GET(request) {
   const g = await guard(request, 'backup');
   if (g.response) return g.response;
-  const db = read();
+  const db = await read();
   const data = Object.fromEntries(CONTENT.map((k) => [k, db[k]]));
   return new Response(JSON.stringify({ exportedAt: new Date().toISOString(), data }, null, 1), {
     headers: { 'Content-Type': 'application/json', 'Content-Disposition': `attachment; filename="pma-backup-${new Date().toISOString().slice(0, 10)}.json"`, 'Cache-Control': 'no-store' },

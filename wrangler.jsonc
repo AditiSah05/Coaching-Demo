@@ -1,0 +1,22 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "pacific-marine-academy",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2026-05-01",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{ "binding": "WORKER_SELF_REFERENCE", "service": "pacific-marine-academy" }
+	],
+	// No ids on purpose: `wrangler deploy` creates the database and bucket in the account you are logged in to.
+	"d1_databases": [
+		{ "binding": "DB", "database_name": "pacific-marine-academy-db" }
+	],
+	"r2_buckets": [
+		{ "binding": "UPLOADS", "bucket_name": "pacific-marine-academy-uploads" }
+	],
+	"observability": { "enabled": true }
+}

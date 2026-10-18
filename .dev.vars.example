@@ -1,0 +1,4 @@
+# Copy to .dev.vars for `npm run cf:preview`. On Cloudflare set these with `npx wrangler secret put NAME`.
+ADMIN_EMAIL=you@example.com
+ADMIN_PASSWORD=choose-a-strong-password
+SESSION_SECRET=any-long-random-string

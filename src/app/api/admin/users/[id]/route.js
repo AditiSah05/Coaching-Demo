@@ -11,6 +11,7 @@ export async function PUT(request, { params }) {
   const { id } = await params;
   const b = await readJson(request, 3000);
   let err = ''; let user;
+  const newHash = b?.password ? await hashPassword(b.password) : null;
   await mutate((db) => {
     user = db.users.find((u) => u.id === id);
     if (!user) { err = 'Not found.'; return; }
@@ -23,7 +24,7 @@ export async function PUT(request, { params }) {
     if (b?.password) {
       const p = passwordProblem(b.password);
       if (p) { err = p; return; }
-      user.passwordHash = hashPassword(b.password); user.mustChangePassword = true;
+      user.passwordHash = newHash; user.mustChangePassword = true;
     }
     logActivity(db, g.user, 'Edited user', user.name);
   });

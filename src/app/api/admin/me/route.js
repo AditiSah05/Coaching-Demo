@@ -5,6 +5,6 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
   await ensureOwner();
-  const user = currentUser(request);
+  const user = await currentUser(request);
   return user ? json({ user: publicUser(user) }) : json({ user: null }, 401);
 }

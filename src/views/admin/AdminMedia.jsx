@@ -42,7 +42,7 @@ export const AdminMedia = () => {
               <img src={m.url} alt={m.name} loading="lazy" className="aspect-square w-full bg-ivory object-cover" />
               <div className="p-3">
                 <p className="truncate text-sm font-semibold text-navy-deep" title={m.name}>{m.name}</p>
-                <p className="text-xs text-ink/55">{m.width}×{m.height} · {kb(m.size)} · {fmtDate(m.createdAt)}</p>
+                <p className="text-xs text-ink/55">{m.width ? `${m.width}×${m.height} · ` : ""}{kb(m.size)} · {fmtDate(m.createdAt)}</p>
                 <div className="mt-2 flex gap-1.5">
                   <button onClick={() => copy(m)} className={`inline-flex min-h-[34px] flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-navy-deep/20 text-xs font-semibold text-navy-deep hover:bg-gold-light ${focus}`}><Copy className="h-3.5 w-3.5" /> Copy link</button>
                   <button onClick={() => remove(m)} aria-label={`Delete ${m.name}`} className={`inline-flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-lg text-red-600 hover:bg-red-50 ${focus}`}><Trash2 className="h-4 w-4" /></button>

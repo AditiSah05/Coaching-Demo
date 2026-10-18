@@ -6,7 +6,7 @@ import { read } from '../server/store';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
-  const seo = read().settings.seo || {};
+  const seo = (await read(['settings'])).settings.seo || {};
   const title = seo.title || 'Pacific Marine Academy';
   const description = seo.description || '';
   return {
@@ -19,7 +19,7 @@ export async function generateMetadata() {
 
 export const viewport = { width: 'device-width', initialScale: 1, maximumScale: 5 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="en" className="scroll-smooth">
       <head>
@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-ivory text-ink font-sans antialiased selection:bg-terracotta selection:text-white">
-        <Providers initialData={publicContent()}>{children}</Providers>
+        <Providers initialData={await publicContent()}>{children}</Providers>
       </body>
     </html>
   );

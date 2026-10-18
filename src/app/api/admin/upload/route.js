@@ -7,6 +7,6 @@ export async function POST(request) {
   if (g.response) return g.response;
   let form;
   try { form = await request.formData(); } catch { return json({ error: 'Invalid upload.' }, 400); }
-  const r = await saveImage(form.get('file'), g.user);
+  const r = await saveImage(form.get('file'), g.user, { width: form.get('width'), height: form.get('height') });
   return r.error ? json({ error: r.error }, 422) : json({ media: r.item });
 }

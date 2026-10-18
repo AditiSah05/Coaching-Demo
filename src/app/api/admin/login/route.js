@@ -9,10 +9,10 @@ export async function POST(request) {
   if (limited(`login:${ip}`, 8, 15 * 60 * 1000)) return json({ error: 'Too many attempts. Please wait 15 minutes.' }, 429);
   const body = await readJson(request, 2000);
   const email = String(body?.email || '').trim().toLowerCase();
-  const user = read().users.find((u) => u.email === email);
+  const user = (await read(['users'])).users.find((u) => u.email === email);
   // Same answer for "no such user" and "wrong password", and the same work, so neither can be told apart.
-  const ok = user && user.active && verifyPassword(String(body?.password || ''), user.passwordHash);
+  const ok = user && user.active && (await verifyPassword(String(body?.password || ''), user.passwordHash));
   if (!ok) return json({ error: 'Incorrect email or password.' }, 401);
   await mutate((db) => { db.users.find((u) => u.id === user.id).lastLoginAt = new Date().toISOString(); });
-  return json({ user: publicUser(user) }, 200, { 'Set-Cookie': sessionCookie(user.id) });
+  return json({ user: publicUser(user) }, 200, { 'Set-Cookie': await sessionCookie(user.id) });
 }

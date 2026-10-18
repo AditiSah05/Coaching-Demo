@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(request) {
   const g = await guard(request, 'users');
   if (g.response) return g.response;
-  return json({ users: read().users.map(publicUser) });
+  return json({ users: (await read(['users'])).users.map(publicUser) });
 }
 
 export async function POST(request) {
@@ -22,11 +22,12 @@ export async function POST(request) {
   if (!ROLES[b?.role]) return json({ error: 'Choose a role.' }, 422);
   const problem = passwordProblem(b?.password);
   if (problem) return json({ error: problem }, 422);
+  const passwordHash = await hashPassword(b.password);
   let err = '';
   let user;
   await mutate((db) => {
     if (db.users.some((u) => u.email === email)) { err = 'That email already has an account.'; return; }
-    user = { id: newId('usr'), name, email, role: b.role, active: true, passwordHash: hashPassword(b.password), mustChangePassword: true, createdAt: new Date().toISOString() };
+    user = { id: newId('usr'), name, email, role: b.role, active: true, passwordHash, mustChangePassword: true, createdAt: new Date().toISOString() };
     db.users.push(user);
     logActivity(db, g.user, 'Added user', `${name} (${ROLES[b.role].label})`);
   });

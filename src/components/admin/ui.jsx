@@ -212,9 +212,27 @@ export const SchemaField = ({ field, value, onChange, error, suggestions = [], i
 };
 
 // ---------- images: upload, pick from the library, or paste a link ----------
-export const uploadImage = async (file) => {
+// Shrinks a photo in the browser (max 1800px, WebP) so uploads are small and the server needs no image tools.
+const shrink = async (file) => {
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return { file };
+  try {
+    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    const scale = Math.min(1, 1800 / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * scale); const h = Math.round(bmp.height * scale);
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    canvas.getContext('2d').drawImage(bmp, 0, 0, w, h);
+    const blob = await new Promise((done) => canvas.toBlob(done, 'image/webp', 0.82));
+    if (!blob || blob.type !== 'image/webp') return { file, w: bmp.width, h: bmp.height };
+    return { file: new File([blob], `${file.name.replace(/\.[^.]+$/, '')}.webp`, { type: 'image/webp' }), w, h };
+  } catch { return { file }; }
+};
+
+export const uploadImage = async (original) => {
+  const { file, w, h } = await shrink(original);
   const form = new FormData();
   form.append('file', file);
+  if (w) { form.append('width', w); form.append('height', h); }
   return (await request('/api/admin/upload', { method: 'POST', form })).media;
 };
 

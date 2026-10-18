@@ -16,7 +16,7 @@ async function setup(request, params) {
 export async function GET(request, { params }) {
   const s = await setup(request, params);
   if (s.response) return s.response;
-  const rec = getRecord(s.collection, s.id);
+  const rec = await getRecord(s.collection, s.id);
   return rec ? json({ record: rec }) : json({ error: 'Not found.' }, 404);
 }
 

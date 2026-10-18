@@ -15,6 +15,6 @@ export async function DELETE(request, { params }) {
     logActivity(db, g.user, 'Deleted image', gone.name);
   });
   if (!gone) return json({ error: 'Not found.' }, 404);
-  removeFile(gone.file);
+  await removeFile(gone.file);
   return json({ ok: true });
 }

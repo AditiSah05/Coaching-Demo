@@ -6,13 +6,14 @@ export async function POST(request) {
   const g = await guard(request);
   if (g.response) return g.response;
   const body = await readJson(request, 2000);
-  if (!verifyPassword(String(body?.current || ''), g.user.passwordHash)) return json({ error: 'Your current password is not correct.' }, 422);
+  if (!(await verifyPassword(String(body?.current || ''), g.user.passwordHash))) return json({ error: 'Your current password is not correct.' }, 422);
   const problem = passwordProblem(body?.next);
   if (problem) return json({ error: problem }, 422);
   if (body.next === body.current) return json({ error: 'Choose a different password.' }, 422);
+  const passwordHash = await hashPassword(body.next);
   await mutate((db) => {
     const u = db.users.find((x) => x.id === g.user.id);
-    u.passwordHash = hashPassword(body.next);
+    u.passwordHash = passwordHash;
     u.mustChangePassword = false;
     logActivity(db, g.user, 'Changed own password', '');
   });

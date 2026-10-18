@@ -61,10 +61,10 @@ Researched from how institute and admissions sites are run day to day. Grouped b
 | Setting | Purpose |
 |---|---|
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Owner account created on first start. If unset: `admin@pacificmarine.demo` / `Admin@123`, and a password change is forced at first login. |
-| `SESSION_SECRET` | Signs login cookies. If unset, a random one is saved in `data/.session-secret`. |
+| `SESSION_SECRET` | Signs login cookies. If unset, a random one is created once and kept in the database. |
 | `DATA_DIR` | Where `db.json` and `uploads/` live. Default `./data`. Back this folder up. |
 
-Host needs a persistent disk and a long-running Node process (not serverless).
+Hosting: a Node server with a persistent disk, or Cloudflare (see `DEPLOY-CLOUDFLARE.md`).
 
 ## 6. Verified (local, API level)
 
