@@ -156,6 +156,8 @@ export const AdmissionForm = () => {
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [submittedData, setSubmittedData] = useState(null);
+  const [sending, setSending] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -238,17 +240,21 @@ export const AdmissionForm = () => {
 
   const prevStep = () => goTo(Math.max(step - 1, 1));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateStep()) {
-      const selectedCourseObj = courses.find(c => c.title === formData.courseName);
-      const submissionPayload = {
-        ...formData,
-        courseId: selectedCourseObj?.id || 'course-custom'
-      };
-      const result = api.submitAdmission(submissionPayload);
+    setFormError('');
+    if (!validateStep()) return;
+    setSending(true);
+    try {
+      const result = await api.submitAdmission({ ...formData, website: '' });
       setSubmittedData(result);
       window.scrollTo({ top: 0 });
+    } catch (err) {
+      // The server checks again; show what it found next to the fields it names.
+      setErrors(err.fields || {});
+      setFormError(err.message);
+    } finally {
+      setSending(false);
     }
   };
 
@@ -602,12 +608,16 @@ export const AdmissionForm = () => {
                   Continue
                 </button>
               ) : (
-                <button
-                  type="submit"
-                  className={`rounded-full bg-navy-deep px-9 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-light ${focusRing}`}
-                >
-                  Submit application
-                </button>
+                <div className="flex flex-col items-end gap-2">
+                  {formError && <p role="alert" className="text-sm font-medium text-red-700">{formError}</p>}
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className={`rounded-full bg-navy-deep px-9 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-light disabled:cursor-wait disabled:opacity-60 ${focusRing}`}
+                  >
+                    {sending ? 'Submitting…' : 'Submit application'}
+                  </button>
+                </div>
               )}
             </div>
           </form>

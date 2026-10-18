@@ -1,161 +1,108 @@
 "use client";
 
-import React from 'react';
-import Link from "next/link";
-import { UserCheck, MessageSquare, Users, Award, BookOpen, ArrowRight } from 'lucide-react';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-import { useData } from '../../context/DataContext';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { MessageSquare, UserCheck, Star, Newspaper, ArrowRight, AlertTriangle, CheckCircle2, TrendingUp, TrendingDown } from 'lucide-react';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts';
+import { request } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
+import { Card, PageHeader, Spinner, Badge, statusTone, ago, focus, useFeedback } from '../../components/admin/ui';
+
+const Stat = ({ icon: Icon, label, value, sub, href, delta }) => (
+  <Link href={href} className={`group block rounded-2xl border border-navy-deep/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-chunky ${focus}`}>
+    <div className="flex items-start justify-between">
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-light text-goldtext"><Icon className="h-5 w-5" /></span>
+      {delta != null && delta !== 0 && (
+        <span className={`inline-flex items-center gap-1 text-xs font-semibold ${delta > 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+          {delta > 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}{Math.abs(delta)} vs last week
+        </span>
+      )}
+    </div>
+    <p className="mt-4 font-serif text-4xl font-semibold text-navy-deep">{value}</p>
+    <p className="mt-1 text-sm font-semibold text-navy-deep">{label}</p>
+    {sub && <p className="text-xs text-ink/55">{sub}</p>}
+  </Link>
+);
+
+const List = ({ title, href, items, render, empty }) => (
+  <Card>
+    <div className="mb-3 flex items-center justify-between">
+      <h2 className="font-serif text-xl font-semibold text-navy-deep">{title}</h2>
+      <Link href={href} className={`inline-flex items-center gap-1 text-xs font-semibold text-navy-deep underline decoration-gold underline-offset-2 ${focus}`}>View all <ArrowRight className="h-3 w-3" /></Link>
+    </div>
+    {items?.length ? <ul className="divide-y divide-navy-deep/10">{items.map(render)}</ul> : <p className="py-6 text-center text-sm text-ink/50">{empty}</p>}
+  </Card>
+);
 
 export const AdminDashboard = () => {
-  const { admissions, enquiries, leads, results, courses } = useData();
+  const { user } = useAuth();
+  const { toast } = useFeedback();
+  const [d, setD] = useState(null);
 
-  // Monthly admissions sample chart dataset
-  const monthlyData = [
-    { month: 'Oct', admissions: 12 },
-    { month: 'Nov', admissions: 18 },
-    { month: 'Dec', admissions: 25 },
-    { month: 'Jan', admissions: 34 },
-    { month: 'Feb', admissions: 42 },
-  ];
+  useEffect(() => { request('/api/admin/dashboard').then(setD).catch((e) => toast(e.message, 'error')); }, [toast]);
+  if (!d) return <Spinner />;
+  const c = d.counts;
+  const hasChart = c.enquiries || c.admissions;
 
   return (
-    <div className="space-y-8">
-      
-      {/* Title */}
-      <div>
-        <h1 className="font-serif text-3xl font-extrabold text-navy-deep">Academy Overview Dashboard</h1>
-        <p className="text-xs text-ink/70">Welcome back, Captain Administrator. Here is your institute activity stream.</p>
+    <div className="space-y-6">
+      <PageHeader title={`Welcome, ${user.name.split(' ')[0]}`} subtitle="What is happening at the academy, and what needs you." />
+
+      {d.attention.length > 0 ? (
+        <Card className="border-gold/50 bg-gold-light/40">
+          <h2 className="mb-2 flex items-center gap-2 font-serif text-xl font-semibold text-navy-deep"><AlertTriangle className="h-5 w-5 text-goldtext" /> Needs your attention</h2>
+          <ul className="flex flex-wrap gap-2">
+            {d.attention.map((a) => <li key={a.text}><Link href={a.link} className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold ${focus} ${a.urgent ? 'bg-red-600 text-white' : 'bg-white text-navy-deep hover:bg-navy-deep hover:text-white'}`}>{a.text} <ArrowRight className="h-3.5 w-3.5" /></Link></li>)}
+          </ul>
+        </Card>
+      ) : (
+        <Card className="flex items-center gap-3 text-sm text-ink/70"><CheckCircle2 className="h-5 w-5 text-emerald-600" /> Everything is up to date. Nothing is waiting for you.</Card>
+      )}
+
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {c.enquiries && <Stat icon={MessageSquare} label="Enquiries" value={c.enquiries.total} sub={`${c.enquiries.open} new, ${c.enquiries.week} this week`} href="/admin/enquiries" delta={c.enquiries.week - c.enquiries.prevWeek} />}
+        {c.admissions && <Stat icon={UserCheck} label="Admission applications" value={c.admissions.total} sub={`${c.admissions.open} pending, ${c.admissions.week} this week`} href="/admin/admissions" delta={c.admissions.week - c.admissions.prevWeek} />}
+        {c.reviews && <Stat icon={Star} label="Reviews" value={c.reviews.approved} sub={`${c.reviews.open} waiting for approval`} href="/admin/reviews" />}
+        {c.blogs && <Stat icon={Newspaper} label="Blog posts" value={c.blogs.total} sub={`${c.blogs.drafts} draft${c.blogs.drafts === 1 ? '' : 's'}`} href="/admin/blogs" />}
       </div>
 
-      {/* Quick Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold text-ink/60 uppercase tracking-wider block">Total Applications</span>
-            <span className="font-serif text-3xl font-bold text-navy-deep block mt-1">{admissions.length}</span>
-            <span className="text-[10px] text-seagreen font-semibold">Active Portal Logs</span>
+      {hasChart && (
+        <Card>
+          <h2 className="font-serif text-xl font-semibold text-navy-deep">Last 14 days</h2>
+          <p className="mb-3 text-xs text-ink/55">New enquiries and admission applications per day.</p>
+          <div className="h-64" role="img" aria-label="Line chart of enquiries and admissions over the last 14 days">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={d.series} margin={{ top: 5, right: 8, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(2,21,39,0.08)" />
+                <XAxis dataKey="day" tick={{ fontSize: 11, fill: '#3A3A3A' }} tickLine={false} />
+                <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: '#3A3A3A' }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ borderRadius: 12, border: '1px solid rgba(2,21,39,0.1)', fontSize: 13 }} />
+                <Legend wrapperStyle={{ fontSize: 12 }} />
+                {c.enquiries && <Area type="monotone" dataKey="enquiries" name="Enquiries" stroke="#BFA888" fill="#BFA888" fillOpacity={0.25} strokeWidth={2} />}
+                {c.admissions && <Area type="monotone" dataKey="admissions" name="Admissions" stroke="#021527" fill="#021527" fillOpacity={0.12} strokeWidth={2} />}
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-sea-blue/20 text-navy-deep flex items-center justify-center">
-            <UserCheck className="w-6 h-6" />
-          </div>
-        </div>
+        </Card>
+      )}
 
-        <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold text-ink/60 uppercase tracking-wider block">Direct Enquiries</span>
-            <span className="font-serif text-3xl font-bold text-navy-deep block mt-1">{enquiries.length}</span>
-            <span className="text-[10px] text-goldtext font-semibold">Leads Pending Call</span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-terracotta/20 text-goldtext flex items-center justify-center">
-            <MessageSquare className="w-6 h-6" />
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold text-ink/60 uppercase tracking-wider block">Study Hub Leads</span>
-            <span className="font-serif text-3xl font-bold text-navy-deep block mt-1">{leads.length}</span>
-            <span className="text-[10px] text-seagreen font-semibold">Downloads Unlocked</span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-gold/20 text-navy-deep flex items-center justify-center">
-            <Users className="w-6 h-6" />
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold text-ink/60 uppercase tracking-wider block">Published Results</span>
-            <span className="font-serif text-3xl font-bold text-navy-deep block mt-1">{results.length}</span>
-            <span className="text-[10px] text-sea-blue font-semibold">Rank Merit Records</span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-navy-light/20 text-navy-deep flex items-center justify-center">
-            <Award className="w-6 h-6" />
-          </div>
-        </div>
-
+      <div className="grid gap-6 lg:grid-cols-2">
+        {d.recent.enquiries && <List title="Latest enquiries" href="/admin/enquiries" items={d.recent.enquiries} empty="No enquiries yet." render={(e) => (
+          <li key={e.id} className="flex items-center justify-between gap-3 py-3"><div className="min-w-0"><p className="truncate text-sm font-semibold text-navy-deep">{e.name}</p><p className="truncate text-xs text-ink/55">{e.course || 'General'} · {e.phone}</p></div><div className="shrink-0 text-right"><Badge tone={statusTone(e.status)}>{e.status}</Badge><p className="mt-1 text-[11px] text-ink/45">{ago(e.createdAt)}</p></div></li>
+        )} />}
+        {d.recent.admissions && <List title="Latest applications" href="/admin/admissions" items={d.recent.admissions} empty="No applications yet." render={(a) => (
+          <li key={a.id} className="flex items-center justify-between gap-3 py-3"><div className="min-w-0"><p className="truncate text-sm font-semibold text-navy-deep">{a.fullName}</p><p className="truncate text-xs text-ink/55">{a.courseName} · {a.phone}</p></div><div className="shrink-0 text-right"><Badge tone={statusTone(a.status)}>{a.status}</Badge><p className="mt-1 text-[11px] text-ink/45">{ago(a.createdAt)}</p></div></li>
+        )} />}
+        {d.recent.reviews && <List title="Reviews to approve" href="/admin/reviews" items={d.recent.reviews} empty="No reviews waiting." render={(r) => (
+          <li key={r.id} className="py-3"><p className="text-sm font-semibold text-navy-deep">{r.name} <span className="text-goldtext">{'★'.repeat(r.rating)}</span></p><p className="line-clamp-2 text-xs text-ink/65">{r.text}</p></li>
+        )} />}
+        {d.health.length > 0 && (
+          <Card>
+            <h2 className="mb-3 font-serif text-xl font-semibold text-navy-deep">Site checklist</h2>
+            <ul className="space-y-2">{d.health.map((h) => <li key={h.text}><Link href={h.link} className={`flex items-center justify-between gap-3 rounded-lg bg-ivory px-3.5 py-2.5 text-sm text-navy-deep hover:bg-gold-light ${focus}`}>{h.text} <ArrowRight className="h-4 w-4 shrink-0" /></Link></li>)}</ul>
+          </Card>
+        )}
       </div>
-
-      {/* Chart Section */}
-      <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky space-y-4">
-        <div className="flex items-center justify-between border-b pb-3">
-          <h2 className="font-serif text-xl font-bold text-navy-deep">Monthly Cadet Admissions Growth</h2>
-          <span className="text-xs text-sea-blue font-bold">2025-26 Session</span>
-        </div>
-
-        <div className="h-64 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={monthlyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-              <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#3A3A3A' }} />
-              <YAxis tick={{ fontSize: 12, fill: '#3A3A3A' }} />
-              <Tooltip
-                contentStyle={{ backgroundColor: '#021527', color: '#FFF', borderRadius: '12px', border: 'none' }}
-              />
-              <Bar dataKey="admissions" fill="#BFA888" radius={[8, 8, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Recent Activity Tables Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        {/* Recent Admissions */}
-        <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky space-y-4">
-          <div className="flex items-center justify-between border-b pb-3">
-            <h3 className="font-serif text-lg font-bold text-navy-deep">Recent Admission Forms</h3>
-            <Link href="/admin/admissions" className="text-xs text-goldtext font-bold flex items-center gap-1">
-              <span>View All</span> <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="space-y-3">
-            {admissions.slice(0, 4).map((adm) => (
-              <div key={adm.id} className="p-3 bg-ivory rounded-2xl flex items-center justify-between text-xs border border-navy-deep/5">
-                <div>
-                  <span className="font-bold text-navy-deep block">{adm.fullName}</span>
-                  <span className="text-[10px] text-ink/60">{adm.courseName}</span>
-                </div>
-                <div className="text-right">
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                    adm.status === 'Approved' ? 'bg-seagreen text-white' : 'bg-gold text-navy-deep'
-                  }`}>
-                    {adm.status}
-                  </span>
-                  <span className="text-[10px] text-ink/50 block mt-0.5">{adm.id}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent Enquiries */}
-        <div className="bg-white p-6 rounded-3xl border-2 border-navy-deep/10 shadow-chunky space-y-4">
-          <div className="flex items-center justify-between border-b pb-3">
-            <h3 className="font-serif text-lg font-bold text-navy-deep">Recent Contact Enquiries</h3>
-            <Link href="/admin/enquiries" className="text-xs text-goldtext font-bold flex items-center gap-1">
-              <span>View All</span> <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="space-y-3">
-            {enquiries.slice(0, 4).map((enq) => (
-              <div key={enq.id} className="p-3 bg-ivory rounded-2xl flex items-center justify-between text-xs border border-navy-deep/5">
-                <div>
-                  <span className="font-bold text-navy-deep block">{enq.name} ({enq.phone})</span>
-                  <span className="text-[10px] text-ink/60 line-clamp-1">{enq.message}</span>
-                </div>
-                <span className="bg-sea-blue/20 text-navy-deep font-bold px-2 py-0.5 rounded text-[10px] shrink-0">
-                  {enq.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-      </div>
-
     </div>
   );
 };

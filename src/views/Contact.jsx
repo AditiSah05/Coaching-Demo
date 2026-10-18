@@ -54,14 +54,17 @@ export const Contact = () => {
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const set = (key) => (e) => {
     setForm({ ...form, [key]: e.target.value });
     if (errors[key]) setErrors({ ...errors, [key]: undefined });
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
+    setFormError('');
     const next = {};
     if (!form.name.trim()) next.name = 'Please enter your name.';
     if (!form.phone.trim()) next.phone = 'Please enter your mobile number.';
@@ -71,8 +74,16 @@ export const Contact = () => {
       document.getElementById(next.name ? 'c-name' : 'c-phone')?.focus();
       return;
     }
-    api.submitEnquiry({ ...form, name: form.name.trim(), course: form.course || 'General guidance' });
-    setSent(true);
+    setSending(true);
+    try {
+      await api.submitEnquiry({ ...form, name: form.name.trim(), course: form.course || 'General guidance' });
+      setSent(true);
+    } catch (err) {
+      setErrors(err.fields || {});
+      setFormError(err.message);
+    } finally {
+      setSending(false);
+    }
   };
 
   const phone = settings?.phonePrimary;
@@ -149,6 +160,8 @@ export const Contact = () => {
                     </div>
                   ) : (
                     <form onSubmit={submit} noValidate className="mt-8 space-y-5">
+                      {/* hidden trap field: people never see it, spam bots fill it */}
+                      <input type="text" name="website" value={form.website || ''} onChange={set('website')} tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 opacity-0" />
                       <Field id="c-name" label="Your name *" error={errors.name}>
                         <input
                           id="c-name" autoComplete="name" value={form.name} onChange={set('name')}
@@ -182,8 +195,9 @@ export const Contact = () => {
                         <textarea id="c-msg" rows="4" value={form.message} onChange={set('message')} placeholder="For example, your 12th PCM percentage and what you would like to know." className={`${fieldBase} ${fieldOk}`} />
                       </Field>
 
-                      <button type="submit" className={`min-h-[52px] w-full cursor-pointer rounded-full bg-navy-deep px-9 text-sm font-semibold text-white transition-colors hover:bg-navy-light sm:w-auto ${focusRing}`}>
-                        Send enquiry
+                      {formError && <p role="alert" className="flex items-center gap-2 text-sm font-medium text-red-700"><AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" /> {formError}</p>}
+                      <button type="submit" disabled={sending} className={`min-h-[52px] w-full cursor-pointer disabled:cursor-wait disabled:opacity-60 rounded-full bg-navy-deep px-9 text-sm font-semibold text-white transition-colors hover:bg-navy-light sm:w-auto ${focusRing}`}>
+                        {sending ? 'Sending…' : 'Send enquiry'}
                       </button>
                     </form>
                   )}
@@ -205,7 +219,7 @@ export const Contact = () => {
                 <Clock className="mt-1 h-5 w-5 shrink-0 text-goldtext" aria-hidden="true" />
                 <div>
                   <h2 className="font-semibold text-navy-deep">Opening hours</h2>
-                  <p className="mt-1 text-[15px] leading-relaxed text-ink/75">Monday to Saturday<br />9:00 AM to 7:00 PM<br />Sunday closed</p>
+                  <p className="mt-1 text-[15px] leading-relaxed text-ink/75">{(settings?.hours?.length ? settings.hours : ['Please call to check the opening hours.']).map((h, i) => <React.Fragment key={i}>{i > 0 && <br />}{h}</React.Fragment>)}</p>
                 </div>
               </div>
             </div>

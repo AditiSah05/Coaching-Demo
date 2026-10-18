@@ -1,17 +1,21 @@
 import '../styles/index.css';
 import { Providers } from '../components/Providers';
+import { publicContent } from '../server/content';
+import { read } from '../server/store';
 
-export const metadata = {
-  title: 'Best IMU CET Coaching in Sikar | Pacific Marine Academy',
-  description: "Pacific Marine Academy, Sikar: IMU CET coaching, DNS sponsorship preparation and Merchant Navy interview training for aspiring cadets.",
-  keywords: 'IMU CET coaching Sikar, DNS sponsorship, Merchant Navy coaching, Diploma in Nautical Science, BSC Nautical Science, B.Tech Marine Engineering',
-  openGraph: {
-    title: 'Pacific Marine Academy - Best IMU CET Coaching in Sikar',
-    description: "India's best offline Merchant Navy coaching: IMU CET, DNS sponsorship and interview preparation.",
-    type: 'website',
-    images: ['/images/about-academy-image-01.png'],
-  },
-};
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata() {
+  const seo = read().settings.seo || {};
+  const title = seo.title || 'Pacific Marine Academy';
+  const description = seo.description || '';
+  return {
+    title,
+    description,
+    keywords: 'IMU CET coaching Sikar, DNS sponsorship, Merchant Navy coaching, Diploma in Nautical Science, BSC Nautical Science, B.Tech Marine Engineering',
+    openGraph: { title, description, type: 'website', images: ['/images/about-academy-image-01.png'] },
+  };
+}
 
 export const viewport = { width: 'device-width', initialScale: 1, maximumScale: 5 };
 
@@ -27,7 +31,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-ivory text-ink font-sans antialiased selection:bg-terracotta selection:text-white">
-        <Providers>{children}</Providers>
+        <Providers initialData={publicContent()}>{children}</Providers>
       </body>
     </html>
   );

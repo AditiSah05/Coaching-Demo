@@ -1,63 +1,55 @@
 "use client";
 
 import React, { useState } from 'react';
-import { User, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { request } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { ROLES } from '../../shared/schema';
+import { Button, Card, PageHeader, FieldShell, useFeedback, fmtDate, focus } from '../../components/admin/ui';
+
+const input = `w-full rounded-xl border border-navy-deep/20 bg-white px-3.5 py-2.5 text-sm ${focus}`;
 
 export const AdminProfile = () => {
-  const { session } = useAuth();
-  const [password, setPassword] = useState('');
-  const [toast, setToast] = useState('');
+  const { user, refresh } = useAuth();
+  const { toast } = useFeedback();
+  const router = useRouter();
+  const [f, setF] = useState({ current: '', next: '', again: '' });
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    setToast('Password updated for session!');
-    setPassword('');
-    setTimeout(() => setToast(''), 3000);
+  const submit = async (e) => {
+    e.preventDefault(); setError('');
+    if (f.next !== f.again) { setError('The two new passwords do not match.'); return; }
+    setSaving(true);
+    try {
+      await request('/api/admin/password', { method: 'POST', body: { current: f.current, next: f.next } });
+      toast('Password changed.'); setF({ current: '', next: '', again: '' });
+      const was = user.mustChangePassword; await refresh(); if (was) router.replace('/admin');
+    } catch (err) { setError(err.message); } finally { setSaving(false); }
   };
 
   return (
-    <div className="space-y-6">
-      {toast && (
-        <div className="bg-seagreen text-white p-3 rounded-xl text-xs font-bold flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4" /> {toast}
-        </div>
-      )}
-
-      <div>
-        <h1 className="font-serif text-2xl font-bold text-navy-deep">Admin Security Profile</h1>
-        <p className="text-xs text-ink/70">Manage administrator account credentials and session keys.</p>
-      </div>
-
-      <div className="bg-white rounded-3xl p-6 border-2 border-navy-deep/10 shadow-chunky max-w-md space-y-4 text-xs">
-        <div className="flex items-center gap-3 border-b pb-3">
-          <div className="w-12 h-12 rounded-full bg-navy-deep text-gold flex items-center justify-center font-serif font-bold text-lg">
-            CA
-          </div>
-          <div>
-            <h3 className="font-serif font-bold text-base text-navy-deep">{session?.user?.name || 'Captain Administrator'}</h3>
-            <p className="text-goldtext font-semibold">{session?.user?.email || 'admin@pacificmarine.demo'}</p>
-          </div>
-        </div>
-
-        <form onSubmit={handleUpdate} className="space-y-3">
-          <div>
-            <label className="block font-bold text-navy-deep mb-1">New Password</label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="Enter new password"
-              className="w-full p-2.5 border rounded-xl"
-            />
-          </div>
-
-          <button type="submit" className="w-full bg-navy-deep text-gold font-bold py-3 rounded-xl uppercase">
-            Update Security Password
-          </button>
+    <div className="max-w-2xl space-y-6">
+      <PageHeader title="My account" />
+      <Card>
+        <dl className="grid gap-4 text-sm sm:grid-cols-2">
+          <div><dt className="text-ink/55">Name</dt><dd className="font-semibold text-navy-deep">{user.name}</dd></div>
+          <div><dt className="text-ink/55">Email</dt><dd className="font-semibold text-navy-deep">{user.email}</dd></div>
+          <div><dt className="text-ink/55">Role</dt><dd className="font-semibold text-navy-deep">{ROLES[user.role]?.label}</dd></div>
+          <div><dt className="text-ink/55">Last sign-in</dt><dd className="font-semibold text-navy-deep">{user.lastLoginAt ? fmtDate(user.lastLoginAt, true) : 'This is your first'}</dd></div>
+        </dl>
+      </Card>
+      <Card>
+        <h2 className="font-serif text-xl font-semibold text-navy-deep">Change password</h2>
+        <form onSubmit={submit} className="mt-4 space-y-4" noValidate>
+          <FieldShell id="p-cur" label="Current password" required><input id="p-cur" type="password" autoComplete="current-password" className={input} value={f.current} onChange={set('current')} /></FieldShell>
+          <FieldShell id="p-new" label="New password" required help="At least 8 characters, with letters and numbers."><input id="p-new" type="password" autoComplete="new-password" className={input} value={f.next} onChange={set('next')} /></FieldShell>
+          <FieldShell id="p-again" label="New password again" required><input id="p-again" type="password" autoComplete="new-password" className={input} value={f.again} onChange={set('again')} /></FieldShell>
+          {error && <p role="alert" className="text-sm font-medium text-red-700">{error}</p>}
+          <Button type="submit" loading={saving}>Change password</Button>
         </form>
-      </div>
+      </Card>
     </div>
   );
 };

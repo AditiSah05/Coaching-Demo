@@ -1,18 +1,18 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Phone } from 'lucide-react';
-import { blogPosts } from '../../../../data/blogIndex';
-import { blogContent } from '../../../../data/blogContent';
+import { publicContent, publishedPost } from '../../../../server/content';
 import { formatDate } from '../../../../lib/blog';
 import { PostCover } from '../../../../components/blog/PostCover';
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
 
-export const generateStaticParams = () => blogPosts.map((p) => ({ slug: p.slug }));
+// Posts can be added, edited or unpublished from the admin at any time, so these pages are built on request.
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = publishedPost(slug);
   if (!post) return {};
   return {
     title: `${post.title} | Pacific Marine Academy`,
@@ -23,9 +23,10 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
-  const html = blogContent[slug];
-  if (!post || !html) notFound();
+  const post = publishedPost(slug);
+  if (!post) notFound();
+  const html = post.content;
+  const blogPosts = publicContent().blogs;
 
   const related = [
     ...blogPosts.filter((p) => p.slug !== slug && p.topic === post.topic),

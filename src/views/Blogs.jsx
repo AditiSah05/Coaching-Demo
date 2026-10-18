@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
-import { blogPosts, blogTopics } from '../data/blogIndex';
+import { useData } from '../context/DataContext';
 import { formatDate } from '../lib/blog';
 import { PostCover } from '../components/blog/PostCover';
 
@@ -22,6 +22,7 @@ const Meta = ({ post }) => (
 );
 
 export const Blogs = () => {
+  const { blogs: blogPosts, blogTopics } = useData();
   const [topic, setTopic] = useState('All');
   const [limit, setLimit] = useState(PAGE);
 

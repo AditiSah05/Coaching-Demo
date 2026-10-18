@@ -1,39 +1,42 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getAdminSession, loginAdmin as apiLogin, logoutAdmin as apiLogout } from '../services/api';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { request } from '../services/api';
 
 const AuthContext = createContext();
 
+// The signed-in admin, as the server sees it (a session cookie; nothing secret is kept in the browser).
 export const AuthProvider = ({ children }) => {
-  const [session, setSession] = useState(null);
+  const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
 
-  useEffect(() => {
-    setSession(getAdminSession());
+  const refresh = useCallback(async () => {
+    try { setUser((await request('/api/admin/me')).user); } catch { setUser(null); }
     setReady(true);
-    const handleAuthChange = () => {
-      setSession(getAdminSession());
-    };
-    window.addEventListener('pma_auth_changed', handleAuthChange);
-    return () => window.removeEventListener('pma_auth_changed', handleAuthChange);
   }, []);
 
-  const login = (email, password) => {
-    const res = apiLogin(email, password);
-    if (res.success) {
-      setSession(res.session);
+  // Only the admin area needs to know; public pages never wait for this.
+  useEffect(() => {
+    if (window.location.pathname.startsWith('/admin')) refresh(); else setReady(true);
+  }, [refresh]);
+
+  const login = async (email, password) => {
+    try {
+      const { user: u } = await request('/api/admin/login', { method: 'POST', body: { email, password } });
+      setUser(u);
+      return { success: true, user: u };
+    } catch (e) {
+      return { success: false, message: e.message };
     }
-    return res;
   };
 
-  const logout = () => {
-    apiLogout();
-    setSession(null);
+  const logout = async () => {
+    try { await request('/api/admin/logout', { method: 'POST' }); } catch { /* already signed out */ }
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ session, ready, isAuthenticated: !!session, login, logout }}>
+    <AuthContext.Provider value={{ user, session: user && { user }, ready, isAuthenticated: !!user, login, logout, refresh }}>
       {children}
     </AuthContext.Provider>
   );

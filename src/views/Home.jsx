@@ -20,7 +20,7 @@ import { VideoBackground } from '../components/common/VideoBackground';
 import { ScallopedBorder } from '../components/common/ScallopedBorder';
 
 export const Home = () => {
-  const { settings, courses, testimonials, faqs } = useData();
+  const { settings, courses, testimonials, faqs, faculty, videos } = useData();
   const [openFaq, setOpenFaq] = useState(0);
 
   // Hero Headline Word Reveal
@@ -224,10 +224,12 @@ export const Home = () => {
             </div>
 
             <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12 justify-items-center items-start">
-              {[
-                { img: '/images/home-image-11-hd.jpg', pos: '50% 6%', zoom: 1, filter: 'saturate(0.75)', name: 'Capt. Shubkaran Choudhary', tag: 'Co-Founder', line: 'Pacific Marine Academy' },
-                { img: '/images/home-image-12.webp', pos: '48% 4%', zoom: 1.2, filter: 'none', name: 'Mahipal Singh Jhuriya', tag: 'Founder', line: '2nd Engineer • Pacific Marine Academy' },
-              ].map((m) => (
+              {faculty.slice(0, 2).map((p) => ({
+                img: p.image,
+                // Framing that suits each portrait; new photos use the plain default.
+                ...({ '/images/home-image-11-hd.jpg': { pos: '50% 6%', zoom: 1, filter: 'saturate(0.75)' }, '/images/home-image-12.webp': { pos: '48% 4%', zoom: 1.2, filter: 'none' } }[p.image] || { pos: '50% 12%', zoom: 1, filter: 'none' }),
+                name: p.name, tag: p.role, line: [p.qualification, 'Pacific Marine Academy'].filter(Boolean).join(' • '),
+              })).map((m) => (
                 <div key={m.name} className="group flex w-full max-w-lg flex-col items-center">
                   <div className="relative aspect-square w-72 sm:w-80 lg:w-[27rem] drop-shadow-[0_18px_18px_rgba(2,21,39,0.35)]">
                     {/* rope: strands shaded so each twist reads as rounded */}
@@ -325,7 +327,7 @@ export const Home = () => {
 
       <AdmissionSteps />
 
-      <YouTubeShorts shorts={settings?.youtubeShorts} channelUrl={settings?.youtubeChannelUrl} limit={10} />
+      <YouTubeShorts shorts={videos.map((v) => v.id)} channelUrl={settings?.youtubeChannelUrl} limit={10} />
 
       <Testimonials items={testimonials} reviewsUrl={settings?.googleReviewsUrl} writeUrl={settings?.googleWriteReviewUrl} />
 

@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Play, ArrowDown, ArrowUpRight, ExternalLink, Phone } from 'lucide-react';
 import { useData } from '../context/DataContext';
-import { youtubeId } from '../lib/youtube';
-import { shortsMeta, topicOrder, featuredShort } from '../data/shortsMeta';
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
 const thumb = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
@@ -59,7 +57,7 @@ const RowCard = ({ v, onOpen }) => (
 );
 
 export const Videos = () => {
-  const { settings } = useData();
+  const { settings, videos, videoTopics } = useData();
   const channel = settings?.youtubeChannelUrl;
   const [topic, setTopic] = useState('All');
   const [open, setOpen] = useState(null);
@@ -68,14 +66,11 @@ export const Videos = () => {
   const opener = useRef(null);
   const row = useRef(null);
 
-  const all = (settings?.youtubeShorts || [])
-    .map(youtubeId)
-    .filter(Boolean)
-    .map((id) => ({ id, title: shortsMeta[id]?.title || 'YouTube Short', topic: shortsMeta[id]?.topic || 'More videos' }));
-  const topics = [...topicOrder.filter((t) => all.some((v) => v.topic === t)), ...(all.some((v) => v.topic === 'More videos') ? ['More videos'] : [])];
+  const all = videos;
+  const topics = videoTopics;
   const list = ['All', ...topics];
   const pool = topic === 'All' ? all : all.filter((v) => v.topic === topic);
-  const featured = all.find((v) => v.id === featuredShort) || all[0];
+  const featured = all.find((v) => v.featured) || all[0];
 
   const launch = (items, i, el) => { opener.current = el; setQueue(items); setOpen(i); };
   const close = useCallback(() => { setOpen(null); opener.current?.focus(); }, []);

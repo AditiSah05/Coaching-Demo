@@ -14,7 +14,8 @@
     "next": "^16.4.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "recharts": "^2.15.1"
+    "recharts": "^2.15.1",
+    "sanitize-html": "^2.18.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

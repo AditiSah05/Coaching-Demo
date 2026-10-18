@@ -2,12 +2,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight, Search } from 'lucide-react';
-import { resultPosters } from '../data/resultPosters';
+import { useData } from '../context/DataContext';
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
-
-const years = Object.keys(resultPosters).sort((a, b) => b - a);
-const total = years.reduce((n, y) => n + resultPosters[y].length, 0);
 
 // Everything shown is taken from the poster itself: who, which company, and any extra line printed on it.
 const titleOf = (p) => (p.names.length > 1 ? `${p.names.length} cadets` : p.names[0]);
@@ -18,6 +15,9 @@ const describe = (p) => {
 };
 
 export const Results = () => {
+  const { resultPosters } = useData();
+  const years = Object.keys(resultPosters).sort((a, b) => b - a);
+  const total = years.reduce((n, y) => n + resultPosters[y].length, 0);
   const [year, setYear] = useState('All');
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(null); // index into the posters currently shown

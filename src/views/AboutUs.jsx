@@ -1,175 +1,96 @@
 "use client";
 
 import React from 'react';
-import { Anchor, Compass, Award, ShieldCheck, Users, CheckCircle2, Building, Flame, MapPin } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowUpRight, Phone } from 'lucide-react';
 import { useData } from '../context/DataContext';
-import { ImageWithFallback } from '../components/common/ImageWithFallback';
-import { ScallopedBorder } from '../components/common/ScallopedBorder';
+
+const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
+const paragraphs = (t = '') => t.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
 
 export const AboutUs = () => {
-  const { faculty, settings } = useData();
+  const { settings, faculty } = useData();
+  const about = settings?.about || {};
 
   return (
-    <div className="bg-ivory text-ink">
-      
-      {/* Page Header */}
-      <section className="bg-navy-deep text-ivory py-16 sm:py-20 relative bg-maritime-pattern">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="badge-solid bg-terracotta/20 text-goldtext mb-3">La Nostra Storia</span>
-          <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mb-4">
-            About Pacific Marine Academy
-          </h1>
-          <p className="text-sm text-ivory/80 max-w-2xl mx-auto leading-relaxed">
-            For over 16 years, Pacific Marine Academy has stood as India's premier Merchant Navy entrance coaching institute, bridging ambitious cadets to high seas maritime careers.
-          </p>
+    <div className="min-h-screen bg-ivory text-ink">
+      <header className="border-b border-navy-deep/10">
+        <div className="mx-auto grid max-w-7xl items-end gap-8 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-20">
+          <div className="lg:col-span-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-goldtext">About the academy</p>
+            <h1 className="mt-4 text-balance font-serif text-5xl font-semibold leading-[1.04] tracking-tight text-navy-deep sm:text-6xl lg:text-7xl">
+              Your gateway to the Merchant Navy.
+            </h1>
+          </div>
+          <p className="max-w-md text-lg leading-relaxed text-ink/70 lg:col-span-4">{settings?.tagline}</p>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-          <ScallopedBorder fillColor="#F4F2ED" />
-        </div>
-      </section>
+      </header>
 
-      {/* Director's Message Card */}
-      <section className="py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-navy-deep/10 shadow-chunky grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            <div className="lg:col-span-4">
-              <div className="arch-image overflow-hidden border-4 border-gold shadow-lg bg-navy-dark">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80"
-                  alt="Director Capt. Rajeshwar S. Salunkhe"
-                  aspectRatio="aspect-[4/5]"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="mt-4 text-center">
-                <h3 className="font-serif text-lg font-bold text-navy-deep">Capt. Rajeshwar S. Salunkhe</h3>
-                <p className="text-xs font-semibold text-goldtext">Founder & Master Mariner (FG)</p>
-                <p className="text-[10px] text-ink/60">22 Years At Sea • 14 Years Maritime Educator</p>
-              </div>
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {about.story && (
+          <section className="grid gap-6 border-b border-navy-deep/15 py-14 lg:grid-cols-12 lg:gap-10 lg:py-20">
+            <h2 className="font-serif text-3xl font-semibold text-navy-deep lg:col-span-3">Our story</h2>
+            <div className="space-y-5 text-[17px] leading-[1.85] text-ink/80 lg:col-span-8">
+              {paragraphs(about.story).map((p, i) => <p key={i}>{p}</p>)}
             </div>
+          </section>
+        )}
 
-            <div className="lg:col-span-8 space-y-4 text-ink/80 text-xs sm:text-sm leading-relaxed">
-              <span className="badge-solid bg-navy-deep/10 text-navy-deep">Message From The Director</span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-navy-deep">
-                "Discipline, Integrity, And Nautical Excellence"
-              </h2>
-              <p>
-                Welcome to Pacific Marine Academy. When I first stepped onto a cargo ship three decades ago as a junior cadet, I realized that seamanship is not just a job—it is a way of life built on absolute discipline, sharp reflexes, and technical perfection.
-              </p>
-              <p>
-                We established PMA to eliminate the confusion and predatory agents surrounding Merchant Navy entry in India. Here, every cadet receives genuine, DG Shipping compliant coaching directly from veteran Master Mariners and Chief Engineers.
-              </p>
-              <p className="italic text-navy-deep font-semibold">
-                "Our promise: We do not sell dreams; we build mariners."
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Mission & Vision */}
-      <section className="py-16 bg-navy-deep text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
-            <div className="bg-navy-light/40 p-8 rounded-3xl border border-sea-blue/20">
-              <div className="w-12 h-12 rounded-2xl bg-terracotta text-navy-deep flex items-center justify-center mb-4">
-                <Compass className="w-6 h-6" />
+        {(about.mission || about.vision) && (
+          <section className="grid gap-10 border-b border-navy-deep/15 py-14 md:grid-cols-2 lg:py-20">
+            {about.mission && (
+              <div>
+                <h2 className="font-serif text-3xl font-semibold text-navy-deep">Our mission</h2>
+                <p className="mt-4 text-[17px] leading-[1.85] text-ink/80">{about.mission}</p>
               </div>
-              <h3 className="font-serif text-2xl font-bold text-white mb-3">Our Mission</h3>
-              <p className="text-xs text-ivory/80 leading-relaxed">
-                To empower Indian youth with world-class academic preparation for IMU-CET and shipping company sponsorship tests, ensuring 100% genuine placement pathways into top global fleets.
-              </p>
-            </div>
-
-            <div className="bg-navy-light/40 p-8 rounded-3xl border border-sea-blue/20">
-              <div className="w-12 h-12 rounded-2xl bg-gold text-ink flex items-center justify-center mb-4">
-                <Award className="w-6 h-6" />
+            )}
+            {about.vision && (
+              <div>
+                <h2 className="font-serif text-3xl font-semibold text-navy-deep">Our vision</h2>
+                <p className="mt-4 text-[17px] leading-[1.85] text-ink/80">{about.vision}</p>
               </div>
-              <h3 className="font-serif text-2xl font-bold text-white mb-3">Our Vision</h3>
-              <p className="text-xs text-ivory/80 leading-relaxed">
-                To be recognized globally as the gold-standard maritime entrance coaching academy, known for producing disciplined, high-ranking officers who uphold safety and nautical excellence worldwide.
-              </p>
-            </div>
+            )}
+          </section>
+        )}
 
+        {faculty.length > 0 && (
+          <section className="py-14 lg:py-20">
+            <h2 className="font-serif text-3xl font-semibold text-navy-deep sm:text-4xl">The people behind the academy</h2>
+            <ul className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+              {faculty.map((p) => (
+                <li key={p.id}>
+                  {p.image && (
+                    <span className="block aspect-[4/5] overflow-hidden rounded-2xl border border-navy-deep/10 bg-ivory-dark">
+                      <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover object-top" />
+                    </span>
+                  )}
+                  <h3 className="mt-5 font-serif text-2xl font-semibold text-navy-deep">{p.name}</h3>
+                  <p className="mt-1 text-sm font-semibold uppercase tracking-[0.14em] text-goldtext">{p.role}</p>
+                  {p.qualification && <p className="mt-1 text-sm text-ink/60">{p.qualification}</p>}
+                  {p.bio && <p className="mt-3 text-[15px] leading-relaxed text-ink/75">{p.bio}</p>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <section className="mb-16 grid items-center gap-6 rounded-3xl bg-navy-deep p-8 text-white sm:p-10 lg:mb-24 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <h2 className="font-serif text-3xl font-semibold leading-tight sm:text-4xl">Visit us in Sikar.</h2>
+            <p className="mt-3 max-w-xl text-lg leading-relaxed text-white/70">{settings?.address}</p>
           </div>
-        </div>
-      </section>
-
-      {/* Faculty Grid */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="badge-solid bg-terracotta/10 text-goldtext mb-2">Docenti Esperti</span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-deep">
-              Learn From Master Mariners & Engineers
-            </h2>
+          <div className="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+            <Link href="/contact" className={`inline-flex min-h-[48px] items-center gap-2 rounded-full bg-gold px-7 text-sm font-extrabold uppercase tracking-wider text-navy-deep transition hover:brightness-110 ${focusRing}`}>
+              Contact us <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            {settings?.phonePrimary && (
+              <a href={`tel:${settings.phonePrimary.replace(/\s/g, '')}`} className={`inline-flex min-h-[48px] items-center gap-2 rounded-full border border-white/25 px-7 text-sm font-semibold text-white transition-colors hover:border-gold hover:text-gold ${focusRing}`}>
+                <Phone className="h-4 w-4" /> {settings.phonePrimary}
+              </a>
+            )}
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {faculty.map((member) => (
-              <div key={member.id} className="bg-white rounded-3xl border border-navy-deep/10 p-5 shadow-chunky text-center flex flex-col justify-between">
-                <div>
-                  <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4 border border-sea-blue">
-                    <ImageWithFallback
-                      src={member.image}
-                      alt={member.name}
-                      aspectRatio="aspect-square"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <h3 className="font-serif text-base font-bold text-navy-deep mb-1">{member.name}</h3>
-                  <p className="text-xs font-semibold text-goldtext mb-2">{member.role}</p>
-                  <p className="text-[11px] text-ink/70 mb-2">{member.qualification}</p>
-                </div>
-                <div className="pt-3 border-t border-navy-deep/5 text-[10px] text-sea-blue font-bold">
-                  {member.specialization}
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* Milestones Timeline */}
-      <section className="py-20 bg-navy-deep text-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center mb-16">
-            <span className="badge-solid bg-gold/20 text-gold mb-2">I Nostri Traguardi</span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
-              PMA Academy Milestones
-            </h2>
-          </div>
-
-          <div className="space-y-8 relative before:absolute before:left-4 md:before:left-1/2 before:top-0 before:bottom-0 before:w-0.5 before:bg-sea-blue/30">
-            {[
-              { year: "2010", title: "Foundation in Navi Mumbai", desc: "Started with a modest classroom of 25 cadets under Capt. Salunkhe." },
-              { year: "2014", title: "First All-India Rank 01", desc: "Cadet achieved AIR 01 in IMU-CET, launching our national reputation." },
-              { year: "2018", title: "Simulator Wing Inauguration", desc: "Added state-of-the-art RADAR and Marine Engine simulator labs." },
-              { year: "2022", title: "Crossed 4,000 Placed Cadets", desc: "Partnered directly with 30+ leading international shipping companies." },
-              { year: "2026", title: "Digital & Residential Expansion", desc: "Launched full hybrid learning platform with smart hostel facility." }
-            ].map((milestone, idx) => (
-              <div key={idx} className={`relative flex flex-col md:flex-row items-center gap-6 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                <div className="w-8 h-8 rounded-full bg-terracotta text-navy-deep font-bold text-xs flex items-center justify-center shrink-0 z-10 shadow-terracotta">
-                  ⚓
-                </div>
-                <div className="bg-navy-light/50 p-6 rounded-2xl border border-sea-blue/20 w-full md:w-[45%]">
-                  <span className="font-serif text-xl font-bold text-gold block mb-1">{milestone.year}</span>
-                  <h4 className="font-serif text-base font-bold text-white mb-1">{milestone.title}</h4>
-                  <p className="text-xs text-ivory/70">{milestone.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
+        </section>
+      </main>
     </div>
   );
 };

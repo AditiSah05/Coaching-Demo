@@ -1,5 +1,3 @@
 import { AdminDashboard } from '../../../views/admin/AdminDashboard';
 
-export default function Page() {
-  return <AdminDashboard />;
-}
+export default function Page() { return <AdminDashboard />; }

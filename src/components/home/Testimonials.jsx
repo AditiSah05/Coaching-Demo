@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Star, ExternalLink, PenLine } from 'lucide-react';
+import { ReviewModal } from './ReviewModal';
 
 const MIN_RATING = 4;
 const FALLBACK_URL = 'https://www.google.com/maps/place/Pacific+Marine+Academy/@27.6306716,75.1597784,17z';
@@ -47,6 +48,7 @@ const Card = ({ item, url }) => (
 export const Testimonials = ({ items = [], reviewsUrl = '', writeUrl = '' }) => {
   const [live, setLive] = useState(null);
   const [links, setLinks] = useState({});
+  const [writing, setWriting] = useState(false);
 
   // Live Google reviews when the API is configured; otherwise the saved ones below.
   useEffect(() => {
@@ -62,11 +64,9 @@ export const Testimonials = ({ items = [], reviewsUrl = '', writeUrl = '' }) => 
     return () => { off = true; };
   }, []);
 
-  const list = (live ? live.reviews : items).filter((r) => (r.rating || 5) >= MIN_RATING);
-  if (!list.length) return null;
-
+  const list = (live ? [...items.filter((r) => r.source === 'website'), ...live.reviews] : items).filter((r) => (r.rating || 5) >= MIN_RATING);
   const url = reviewsUrl || links.url || FALLBACK_URL;
-  const reviewUrl = writeUrl || links.writeUrl || url;
+  const settingsWrite = writeUrl || links.writeUrl || '';
 
   return (
     <section className="overflow-hidden bg-white py-24 text-ink">
@@ -78,6 +78,8 @@ export const Testimonials = ({ items = [], reviewsUrl = '', writeUrl = '' }) => 
         <span className="mx-auto mt-6 block h-px w-16 bg-gold" aria-hidden="true" />
       </div>
 
+      {list.length > 0 && (
+        <>
       {/* One row. Each review appears once; the set repeats only so the loop is seamless. */}
       <div className="marquee-pause mt-14 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
         <div className="flex w-max animate-marquee-slow py-3">
@@ -89,14 +91,23 @@ export const Testimonials = ({ items = [], reviewsUrl = '', writeUrl = '' }) => 
         </div>
       </div>
 
+        </>
+      )}
+
       <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a href={reviewUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-navy-deep px-7 py-3.5 text-xs font-extrabold uppercase tracking-wider text-white transition-colors hover:bg-navy-light">
+        <button onClick={() => setWriting(true)} className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-navy-deep px-7 py-3.5 text-xs font-extrabold uppercase tracking-wider text-white transition-colors hover:bg-navy-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
           <PenLine className="h-4 w-4" /> Write a review
-        </a>
+        </button>
         <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-navy-deep/20 px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-navy-deep transition-colors hover:border-gold hover:bg-gold-light">
           Read all reviews on Google <ExternalLink className="h-4 w-4" />
         </a>
+        {settingsWrite && (
+          <a href={settingsWrite} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-navy-deep underline decoration-gold decoration-2 underline-offset-4">
+            Review us on Google <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        )}
       </div>
+      {writing && <ReviewModal onClose={() => setWriting(false)} />}
     </section>
   );
 };

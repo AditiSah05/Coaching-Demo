@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ArrowUpRight, Search } from 'lucide-react';
-import { examForms } from '../data/examForms';
+import { useData } from '../context/DataContext';
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
 
@@ -55,6 +55,7 @@ const FormTicket = ({ f }) => (
 );
 
 export const AvailableForms = () => {
+  const { examForms } = useData();
   const [query, setQuery] = useState('');
   const q = query.trim().toLowerCase();
   const shown = examForms.filter((f) => (!q || `${f.name} ${f.course}`.toLowerCase().includes(q)));
