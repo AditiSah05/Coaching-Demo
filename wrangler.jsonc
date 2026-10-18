@@ -15,8 +15,6 @@
 	"d1_databases": [
 		{ "binding": "DB", "database_name": "pacific-marine-academy-db" }
 	],
-	"r2_buckets": [
-		{ "binding": "UPLOADS", "bucket_name": "pacific-marine-academy-uploads" }
-	],
+	// R2 left out so this deploys on the free plan with no payment method. Add the r2_buckets block back to enable admin image uploads.
 	"observability": { "enabled": true }
 }

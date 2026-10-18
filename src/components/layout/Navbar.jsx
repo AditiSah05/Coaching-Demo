@@ -72,14 +72,14 @@ export const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden 2xl:flex items-center gap-0.5 2xl:ml-6">
+          <nav className="hidden xl:flex items-center gap-0.5 xl:ml-6">
             {navLinks.map((link) => {
               const isActive = isActiveLink(link);
               return (
                 <div key={link.path} className="relative group">
                   <Link
                     href={link.path}
-                    className={`relative whitespace-nowrap px-2.5 py-2 text-[12px] font-semibold uppercase tracking-[0.05em] transition-colors flex items-center gap-1 after:absolute after:inset-x-2.5 after:bottom-0 after:h-0.5 after:origin-left after:rounded-full after:bg-gold after:transition-transform after:duration-300 ${
+                    className={`relative whitespace-nowrap px-2 2xl:px-2.5 py-2 text-[12px] font-semibold uppercase tracking-[0.05em] transition-colors flex items-center gap-1 after:absolute after:inset-x-2 2xl:after:inset-x-2.5 after:bottom-0 after:h-0.5 after:origin-left after:rounded-full after:bg-gold after:transition-transform after:duration-300 ${
                       isActive ? 'text-gold after:scale-x-100' : 'text-white after:scale-x-0 hover:after:scale-x-100'
                     }`}
                   >
@@ -109,10 +109,10 @@ export const Navbar = () => {
           </nav>
 
           {/* Action CTAs */}
-          <div className="hidden sm:flex items-center gap-3 shrink-0 whitespace-nowrap 2xl:pl-3 2xl:border-l 2xl:border-white/10">
+          <div className="hidden sm:flex items-center gap-3 shrink-0 whitespace-nowrap xl:pl-3 xl:border-l xl:border-white/10">
             <a
               href={`tel:${settings?.phonePrimary}`}
-              className="flex items-center gap-2 text-xs font-bold text-white hover:text-gold transition-colors px-3.5 py-2.5 rounded-full border border-gold/40 hover:border-gold hover:bg-gold/5"
+              className="hidden 2xl:flex items-center gap-2 text-xs font-bold text-white hover:text-gold transition-colors px-3.5 py-2.5 rounded-full border border-gold/40 hover:border-gold hover:bg-gold/5"
             >
               <Phone className="w-3.5 h-3.5 text-gold" />
               <span>Call Us</span>
@@ -128,7 +128,7 @@ export const Navbar = () => {
           </div>
 
           {/* Mobile Menu Toggle Button */}
-          <div className="flex items-center gap-2 2xl:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <Link
               href="/admin/login"
               className="p-2 rounded-lg bg-navy-light text-sea-blue text-xs font-bold"
@@ -154,7 +154,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="relative 2xl:hidden bg-navy-dark border-t border-sea-blue/20 overflow-hidden"
+            className="relative xl:hidden bg-navy-dark border-t border-sea-blue/20 overflow-hidden"
           >
             <div className="px-4 pt-3 pb-6 space-y-1">
               <div className="px-3 py-2 text-xs font-bold text-sea-blue uppercase tracking-widest flex items-center gap-2 border-b border-navy-light mb-2">

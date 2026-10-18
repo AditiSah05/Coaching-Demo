@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  /* Desktop scaling: every rem-based size follows the window width, so the layout looks the same on a 1280, 1440 or 1920 screen
+     (at 1600px wide it is the normal 16px). Below 1024px the standard sizes and breakpoints apply. */
+  @media (min-width: 1024px) {
+    html { font-size: clamp(12px, 1vw, 17px); }
+  }
+
   body {
     font-family: 'Poppins', sans-serif;
     color: #3A3A3A;

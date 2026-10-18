@@ -72,17 +72,17 @@ export const AvailableForms = () => {
             </p>
           </div>
 
-          <div className="w-full sm:w-[34rem]">
+          <div className="w-full sm:w-80">
             <div className="relative w-full">
               <label htmlFor="form-search" className="sr-only">Search forms</label>
-              <Search className="pointer-events-none absolute left-6 top-1/2 h-5 w-5 -translate-y-1/2 text-ink/45" />
+              <Search className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/45" />
               <input
                 id="form-search"
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search an institute"
-                className="h-16 w-full rounded-full border border-navy-deep/15 bg-white pl-14 pr-6 text-lg placeholder:text-ink/35 focus:border-navy-deep focus:outline-none focus:ring-2 focus:ring-gold/50"
+                className="h-12 w-full rounded-full border border-navy-deep/15 bg-white pl-12 pr-5 text-base placeholder:text-ink/35 focus:border-navy-deep focus:outline-none focus:ring-2 focus:ring-gold/50"
               />
             </div>
           </div>
