@@ -26,8 +26,7 @@ export const Navbar = () => {
     { name: 'About Us', path: '/about' },
     { name: 'Our Courses', path: '/courses', children: [
       { name: 'IMU CET Preparation', path: '/courses/imu-cet-preparation' },
-      { name: 'DNS Sponsorship', path: '/courses/dns-sponsorship' },
-      { name: 'Diploma in Nautical Science', path: '/courses/diploma-in-nautical-science' },
+      { name: 'Diploma in Nautical Science (DNS)', path: '/courses/diploma-in-nautical-science' },
       { name: 'BSC Nautical Science', path: '/courses/bsc-nautical-science' },
       { name: 'B.Tech Marine Engineering', path: '/courses/btech-marine-engineering' },
     ] },

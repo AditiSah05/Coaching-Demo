@@ -15,6 +15,9 @@ import { Faq } from '../components/home/Faq';
 import { FreeMaterials } from '../components/home/FreeMaterials';
 import { Testimonials } from '../components/home/Testimonials';
 import { StatsBand } from '../components/home/StatsBand';
+import { SponsorshipForms } from '../components/home/SponsorshipForms';
+import { MockTest } from '../components/home/MockTest';
+import { CareerGuidance } from '../components/home/CareerGuidance';
 import { HeroPhoto } from '../components/common/HeroPhoto';
 import { VideoBackground } from '../components/common/VideoBackground';
 import { ScallopedBorder } from '../components/common/ScallopedBorder';
@@ -110,6 +113,8 @@ export const Home = () => {
           <ScallopedBorder fillColor="#F4F2ED" />
         </div>
       </section>
+
+      <SponsorshipForms />
 
       {/* --- WELCOME --- */}
       <section className="py-20 bg-ivory text-ink">
@@ -325,6 +330,8 @@ export const Home = () => {
 
       <SponsoredCadets />
 
+      <MockTest />
+
       <AdmissionSteps />
 
       <YouTubeShorts shorts={videos.map((v) => v.id)} channelUrl={settings?.youtubeChannelUrl} limit={10} />
@@ -332,6 +339,8 @@ export const Home = () => {
       <Testimonials items={testimonials} reviewsUrl={settings?.googleReviewsUrl} writeUrl={settings?.googleWriteReviewUrl} />
 
       <FreeMaterials />
+
+      <CareerGuidance />
 
       <Faq faqs={faqs} phone={settings?.phonePrimary} whatsapp={settings?.whatsapp} />
 

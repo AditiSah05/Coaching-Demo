@@ -12,15 +12,14 @@ const explore = [
   { label: 'Admission Form', path: '/admission' },
   { label: 'Results & Toppers', path: '/results' },
   { label: 'Study Materials', path: '/study-materials' },
-  { label: 'Downloadable Forms', path: '/forms' },
+  { label: 'Company Sponsorship Forms', path: '/forms' },
   { label: 'Gallery', path: '/gallery' },
   { label: 'Contact Us', path: '/contact' },
 ];
 
 const programs = [
   { label: 'IMU CET Preparation', path: '/courses/imu-cet-preparation' },
-  { label: 'DNS Sponsorship', path: '/courses/dns-sponsorship' },
-  { label: 'Diploma in Nautical Science', path: '/courses/diploma-in-nautical-science' },
+  { label: 'Diploma in Nautical Science (DNS)', path: '/courses/diploma-in-nautical-science' },
   { label: 'BSC Nautical Science', path: '/courses/bsc-nautical-science' },
   { label: 'B.Tech Marine Engineering', path: '/courses/btech-marine-engineering' },
 ];

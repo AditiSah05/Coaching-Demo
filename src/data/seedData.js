@@ -114,54 +114,30 @@ export const initialSeedData = {
       "featured": true
     },
     {
-      "id": "course-2",
-      "slug": "dns-sponsorship",
-      "title": "DNS Sponsorship",
+      "id": "course-3",
+      "slug": "diploma-in-nautical-science",
+      "title": "Diploma in Nautical Science (DNS)",
       "category": "Deck Cadets",
-      "duration": "",
-      "badge": "Sponsorship",
-      "image": "/images/home-image-07.webp",
-      "description": "A specialised program for the DNS sponsorship exam. Sponsorship is a job offer from a shipping company such as Maersk, Anglo-Eastern or Great Eastern Shipping, secured before joining the one-year Diploma in Nautical Science, guaranteeing a sea training berth and a job after training.",
-      "eligibility": "10+2 with PCM (45% average) and meeting DGS age and vision standards",
-      "targetExam": "Shipping-company sponsorship exams (written and interview)",
+      "duration": "1 year + 18 months onboard",
+      "badge": "Deck Officer Path",
+      "image": "/images/home-image-08.webp",
+      "description": "The Diploma in Nautical Science (DNS) is a one-year pre-sea training course, the first step for aspiring deck officers. After pre-sea training at an approved college, cadets complete 18 months of onboard training, then earn a B.Sc. in Applied Nautical Science from the Indian Maritime University. DNS sponsorship is a job offer from a shipping company such as Maersk, Anglo-Eastern or Great Eastern Shipping. We coach you for the sponsorship exam and interview as well as for admission through IMU CET.",
+      "eligibility": "10+2 from a recognised board with 60% average in PCM (55% for SC/ST candidates), or a B.Sc. with Physics, Chemistry and Mathematics. Age up to 25. No colour blindness, 6/6 vision in each eye, no eye glasses.",
+      "targetExam": "IMU CET and shipping-company sponsorship exams (written and interview)",
       "syllabus": [
-        "Physics",
-        "Chemistry",
-        "Mathematics",
-        "English",
-        "General Aptitude"
+        "Seamanship: rope work, anchoring and handling vessels",
+        "Safety: SOLAS, MARPOL, fire fighting, first aid and survival techniques",
+        "Bridge watch-keeping, cargo handling and ship maintenance (onboard phase)",
+        "Sponsorship exam subjects: Physics, Chemistry, Mathematics, English and General Aptitude"
       ],
       "highlights": [
+        "Curriculum aligned with Directorate General of Shipping (DGS) standards",
+        "Coaching and guidance to secure admission into a reputable maritime college",
         "Written exam coaching tailored to the patterns of various shipping companies",
         "Interview training with mock interviews on technical and HR questions",
         "Guidance for psychological tests and merchant navy medical examinations",
         "Structured study materials and a full test series",
         "Mentorship from professionals with extensive maritime experience"
-      ],
-      "fee": "Contact the academy for fees",
-      "mode": "Offline",
-      "featured": true
-    },
-    {
-      "id": "course-3",
-      "slug": "diploma-in-nautical-science",
-      "title": "Diploma in Nautical Science",
-      "category": "Deck Cadets",
-      "duration": "1 year + 18 months onboard",
-      "badge": "Deck Officer Path",
-      "image": "/images/home-image-08.webp",
-      "description": "The Diploma in Nautical Science (DNS) is a one-year pre-sea training course, the first step for aspiring deck officers. After pre-sea training at an approved college, cadets complete 18 months of onboard training, then earn a B.Sc. in Applied Nautical Science from the Indian Maritime University and become eligible for the Second Mate's Certificate of Competency.",
-      "eligibility": "10+2 from a recognised board with 45% average in PCM, or a B.Sc. with Physics, Chemistry and Mathematics. Age up to 25. No colour blindness, 6/6 vision in each eye, no eye glasses.",
-      "targetExam": "IMU CET and sponsorship exams for admission to approved maritime colleges",
-      "syllabus": [
-        "Seamanship: rope work, anchoring and handling vessels",
-        "Safety: SOLAS, MARPOL, fire fighting, first aid and survival techniques",
-        "Bridge watch-keeping, cargo handling and ship maintenance (onboard phase)"
-      ],
-      "highlights": [
-        "Curriculum aligned with Directorate General of Shipping (DGS) standards",
-        "Coaching and guidance to secure admission into a reputable maritime college",
-        "Preparation for sponsorship exams and interviews"
       ],
       "fee": "Contact the academy for fees",
       "mode": "Offline",
@@ -176,7 +152,7 @@ export const initialSeedData = {
       "badge": "Degree",
       "image": "/images/home-image-09.webp",
       "description": "A Bachelor of Science in Nautical Science is an undergraduate program covering the theoretical and practical aspects of operating a ship, designed to train future deck officers. It is a full-time, three-year residential course approved by the DG of Shipping, Government of India, followed by one year of sea training and the Second Mate's certificate.",
-      "eligibility": "10+2 from a recognised board with 45% average in PCM. Age up to 25 (30 for SC/ST). No colour blindness, 6/6 vision, no eye glasses.",
+      "eligibility": "10+2 from a recognised board with 60% average in PCM (55% for SC/ST candidates). Age up to 25 (30 for SC/ST). No colour blindness, 6/6 vision, no eye glasses.",
       "targetExam": "IMU CET",
       "syllabus": [
         "Navigation: celestial, electronic (GPS, radar) and chart work",
@@ -203,7 +179,7 @@ export const initialSeedData = {
       "badge": "Engine Side",
       "image": "/images/home-image-10.webp",
       "description": "A four-year undergraduate course and the gateway for aspiring engineers to join the merchant navy on the engine side, aligned with the STCW convention. Graduates join a ship as Junior or Trainee Engineer and can progress to Second Engineer and Chief Engineer.",
-      "eligibility": "10+2 with Physics, Chemistry and Mathematics, minimum 45% aggregate (some colleges require 60% in PCM) and 50% in English in 10th or 12th. Age up to 25 and merchant navy eyesight and fitness standards.",
+      "eligibility": "10+2 with Physics, Chemistry and Mathematics, minimum 60% aggregate in PCM (55% for SC/ST candidates) and 50% in English in 10th or 12th. Age up to 25 and merchant navy eyesight and fitness standards.",
       "targetExam": "IMU CET",
       "syllabus": [
         "Marine Machinery Systems",
@@ -652,12 +628,12 @@ export const initialSeedData = {
     {
       "id": "faq-3",
       "question": "What are the eligibility criteria for DNS and B.Sc. Nautical Science?",
-      "answer": "Pass in 10+2 from a recognised board with 45% average in PCM (Physics, Chemistry, Mathematics). Age limit is up to 25 years (30 for SC/ST in B.Sc. Nautical Science). No colour blindness and 6/6 vision in each eye; eye glasses are not permitted."
+      "answer": "Pass in 10+2 from a recognised board with 60% average in PCM (Physics, Chemistry, Mathematics), or 55% for SC/ST candidates. Age limit is up to 25 years (30 for SC/ST in B.Sc. Nautical Science). No colour blindness and 6/6 vision in each eye; eye glasses are not permitted."
     },
     {
       "id": "faq-4",
       "question": "What are the eligibility criteria for B.Tech Marine Engineering?",
-      "answer": "Candidates must have passed class XII with Physics, Chemistry and Mathematics and scored an aggregate of 45%, and the age should not be more than 25 years."
+      "answer": "Candidates must have passed class XII with Physics, Chemistry and Mathematics and scored an aggregate of 60% in PCM (55% for SC/ST candidates), and the age should not be more than 25 years."
     },
     {
       "id": "faq-5",

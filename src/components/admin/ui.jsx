@@ -122,14 +122,18 @@ export const ago = (iso) => {
 // ---------- modal ----------
 export const Modal = ({ title, onClose, children, footer, wide, narrow }) => {
   const ref = useRef(null);
+  // Callers pass a new onClose on every render. Keeping it in a ref lets the effect below run once,
+  // so typing in a field does not re-focus the dialog, which closed the phone keyboard after each word.
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const onKey = (e) => e.key === 'Escape' && onClose();
+    const onKey = (e) => e.key === 'Escape' && closeRef.current();
     window.addEventListener('keydown', onKey);
     ref.current?.focus();
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); };
-  }, [onClose]);
+  }, []);
   return (
     <div className="fixed inset-0 z-[200] flex items-start justify-center overflow-y-auto bg-navy-dark/70 p-4 backdrop-blur-sm sm:items-center" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={title} className={`relative my-4 flex max-h-[calc(100vh-2rem)] w-full flex-col rounded-2xl bg-white shadow-2xl outline-none ${narrow ? 'max-w-md' : wide ? 'max-w-5xl' : 'max-w-2xl'}`}>
