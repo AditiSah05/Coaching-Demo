@@ -18,22 +18,22 @@ const groupNotes = {
 const hasLink = (url = '') => /^https?:\/\//.test(url);
 
 const BookShowcase = () => {
-  const [i, setI] = useState(3);
+  const [i, setI] = useState(0);
   const photo = imuCetBook.photos[i];
   return (
-    <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-      <div className="lg:col-span-8">
-        <div className="flex min-h-[20rem] items-center justify-center overflow-hidden rounded-[1.75rem] border border-navy-deep/10 bg-white p-3 shadow-chunky-lg sm:p-5">
-          <img src={photo.src} alt={`IMU-CET preparation book: ${photo.label.toLowerCase()}`} className="max-h-[42rem] w-full rounded-xl object-contain" />
+    <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+      <div className="lg:col-span-5">
+        <div className="mx-auto flex aspect-[4/5] max-w-md items-center justify-center overflow-hidden rounded-[1.75rem] border border-navy-deep/10 bg-white p-4 shadow-chunky-lg">
+          <img src={photo.src} alt={`IMU-CET preparation book: ${photo.label.toLowerCase()}`} className="max-h-full w-auto max-w-full rounded-lg object-contain" />
         </div>
-        <div role="group" aria-label="Book photos" className="mt-5 flex justify-center gap-3">
+        <div role="group" aria-label="Book photos" className="mt-4 flex justify-center gap-3">
           {imuCetBook.photos.map((p, n) => (
             <button
               key={p.src}
               onClick={() => setI(n)}
               aria-label={`Show ${p.label.toLowerCase()}`}
               aria-pressed={n === i}
-              className={`h-20 w-20 cursor-pointer overflow-hidden rounded-xl border-2 bg-white p-0.5 transition-colors ${focusRing} ${n === i ? 'border-navy-deep' : 'border-navy-deep/15 hover:border-gold'}`}
+              className={`h-16 w-16 cursor-pointer overflow-hidden rounded-xl border-2 bg-white p-0.5 transition-colors ${focusRing} ${n === i ? 'border-navy-deep' : 'border-navy-deep/15 hover:border-gold'}`}
             >
               <img src={p.src} alt="" loading="lazy" className="h-full w-full rounded-lg object-cover" />
             </button>
@@ -41,8 +41,8 @@ const BookShowcase = () => {
         </div>
       </div>
 
-      <div className="lg:col-span-4">
-        <h2 id="book-heading" className="font-serif text-2xl font-semibold leading-tight text-navy-deep sm:text-3xl">{imuCetBook.title}</h2>
+      <div className="lg:col-span-7">
+        <h2 id="book-heading" className="font-serif text-3xl font-semibold leading-tight text-navy-deep sm:text-4xl">{imuCetBook.title}</h2>
         <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink/70">{imuCetBook.description}</p>
         <ul className="mt-6 space-y-3">
           {imuCetBook.includes.map((t) => (
