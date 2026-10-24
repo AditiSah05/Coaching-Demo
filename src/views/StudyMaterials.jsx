@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from "next/link";
-import { FileText, ArrowDownToLine, ArrowRight } from 'lucide-react';
+import { FileText, ArrowDownToLine, ArrowRight, ArrowUpRight, BookOpen } from 'lucide-react';
+import { imuCetBook } from '../data/book';
 import { useData } from '../context/DataContext';
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
@@ -97,6 +98,23 @@ export const StudyMaterials = () => {
             </ul>
           </section>
         ))}
+
+        <section aria-labelledby="book-heading" className="grid gap-6 border-t border-navy-deep/15 py-12 lg:grid-cols-12 lg:gap-10 lg:py-16">
+          <div className="lg:col-span-3">
+            <h2 id="book-heading" className="font-serif text-3xl font-semibold text-navy-deep">The book</h2>
+            <p className="mt-3 max-w-xs text-[15px] leading-relaxed text-ink/65">Our printed preparation book, for practising away from the screen.</p>
+          </div>
+          <article className="flex flex-col gap-6 rounded-[1.75rem] border border-navy-deep/10 bg-white p-8 shadow-chunky sm:flex-row sm:items-center lg:col-span-9">
+            <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-navy-deep text-gold"><BookOpen className="h-9 w-9" /></span>
+            <div className="min-w-0 flex-1">
+              <h3 className="font-serif text-2xl font-semibold leading-snug text-navy-deep sm:text-3xl">{imuCetBook.title}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-ink/65">{imuCetBook.description}</p>
+            </div>
+            <a href={imuCetBook.url} target="_blank" rel="noreferrer" className={`inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-full bg-navy-deep px-7 text-sm font-semibold text-white transition-colors hover:bg-navy-light ${focusRing}`}>
+              Buy on Amazon <ArrowUpRight className="h-4 w-4 text-gold" />
+            </a>
+          </article>
+        </section>
 
         <section className="grid items-center gap-8 border-t border-navy-deep/15 py-16 lg:grid-cols-12">
           <div className="lg:col-span-7">

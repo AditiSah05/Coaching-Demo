@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Check } from 'lucide-react';
 import { useData } from '../../context/DataContext';
+import { imuCetBook } from '../../data/book';
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
 const subjects = ['Physics', 'Chemistry', 'Mathematics', 'English', 'General Aptitude'];
@@ -38,6 +39,14 @@ export const MockTest = () => {
             >
               More free study material
             </Link>
+            <a
+              href={imuCetBook.url}
+              target="_blank"
+              rel="noreferrer"
+              className={`inline-flex items-center gap-2 rounded-full border border-navy-deep/25 px-7 py-4 text-sm font-semibold text-navy-deep transition-colors hover:border-gold hover:bg-gold-light ${focusRing}`}
+            >
+              Get the IMU-CET book <ArrowUpRight className="h-4 w-4" />
+            </a>
           </div>
         </div>
 
