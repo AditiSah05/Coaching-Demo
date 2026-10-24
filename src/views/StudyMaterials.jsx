@@ -1,8 +1,8 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from "next/link";
-import { FileText, ArrowDownToLine, ArrowRight, ArrowUpRight, BookOpen } from 'lucide-react';
+import { FileText, ArrowDownToLine, ArrowRight, ArrowUpRight, Check } from 'lucide-react';
 import { imuCetBook } from '../data/book';
 import { useData } from '../context/DataContext';
 
@@ -16,6 +16,46 @@ const groupNotes = {
 
 // Each material opens its Google Drive link, where the PDF can be downloaded.
 const hasLink = (url = '') => /^https?:\/\//.test(url);
+
+const BookShowcase = () => {
+  const [i, setI] = useState(0);
+  const photo = imuCetBook.photos[i];
+  return (
+    <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+      <div className="lg:col-span-5">
+        <div className="mx-auto flex aspect-[4/5] max-w-md items-center justify-center overflow-hidden rounded-[1.75rem] border border-navy-deep/10 bg-white p-4 shadow-chunky-lg">
+          <img src={photo.src} alt={`IMU-CET preparation book: ${photo.label.toLowerCase()}`} className="max-h-full w-auto max-w-full rounded-lg object-contain" />
+        </div>
+        <div role="group" aria-label="Book photos" className="mt-4 flex justify-center gap-3">
+          {imuCetBook.photos.map((p, n) => (
+            <button
+              key={p.src}
+              onClick={() => setI(n)}
+              aria-label={`Show ${p.label.toLowerCase()}`}
+              aria-pressed={n === i}
+              className={`h-16 w-16 cursor-pointer overflow-hidden rounded-xl border-2 bg-white p-0.5 transition-colors ${focusRing} ${n === i ? 'border-navy-deep' : 'border-navy-deep/15 hover:border-gold'}`}
+            >
+              <img src={p.src} alt="" loading="lazy" className="h-full w-full rounded-lg object-cover" />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="lg:col-span-7">
+        <h2 id="book-heading" className="font-serif text-3xl font-semibold leading-tight text-navy-deep sm:text-4xl">{imuCetBook.title}</h2>
+        <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink/70">{imuCetBook.description}</p>
+        <ul className="mt-6 space-y-3">
+          {imuCetBook.includes.map((t) => (
+            <li key={t} className="flex items-start gap-3 text-[17px] text-navy-deep"><Check className="mt-1 h-5 w-5 shrink-0 text-goldtext" aria-hidden="true" />{t}</li>
+          ))}
+        </ul>
+        <a href={imuCetBook.url} target="_blank" rel="noreferrer" className={`mt-8 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-navy-deep px-8 text-sm font-semibold text-white transition-colors hover:bg-navy-light ${focusRing}`}>
+          Buy on Amazon <ArrowUpRight className="h-4 w-4 text-gold" />
+        </a>
+      </div>
+    </div>
+  );
+};
 
 const Row = ({ item, index }) => {
   const ready = hasLink(item.downloadUrl);
@@ -99,21 +139,8 @@ export const StudyMaterials = () => {
           </section>
         ))}
 
-        <section aria-labelledby="book-heading" className="grid gap-6 border-t border-navy-deep/15 py-12 lg:grid-cols-12 lg:gap-10 lg:py-16">
-          <div className="lg:col-span-3">
-            <h2 id="book-heading" className="font-serif text-3xl font-semibold text-navy-deep">The book</h2>
-            <p className="mt-3 max-w-xs text-[15px] leading-relaxed text-ink/65">Our printed preparation book, for practising away from the screen.</p>
-          </div>
-          <article className="flex flex-col gap-6 rounded-[1.75rem] border border-navy-deep/10 bg-white p-8 shadow-chunky sm:flex-row sm:items-center lg:col-span-9">
-            <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-navy-deep text-gold"><BookOpen className="h-9 w-9" /></span>
-            <div className="min-w-0 flex-1">
-              <h3 className="font-serif text-2xl font-semibold leading-snug text-navy-deep sm:text-3xl">{imuCetBook.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-ink/65">{imuCetBook.description}</p>
-            </div>
-            <a href={imuCetBook.url} target="_blank" rel="noreferrer" className={`inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-full bg-navy-deep px-7 text-sm font-semibold text-white transition-colors hover:bg-navy-light ${focusRing}`}>
-              Buy on Amazon <ArrowUpRight className="h-4 w-4 text-gold" />
-            </a>
-          </article>
+        <section aria-labelledby="book-heading" className="border-t border-navy-deep/15 py-12 lg:py-16">
+          <BookShowcase />
         </section>
 
         <section className="grid items-center gap-8 border-t border-navy-deep/15 py-16 lg:grid-cols-12">

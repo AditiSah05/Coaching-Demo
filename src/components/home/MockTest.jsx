@@ -45,6 +45,7 @@ export const MockTest = () => {
               rel="noreferrer"
               className={`inline-flex items-center gap-2 rounded-full border border-navy-deep/25 px-7 py-4 text-sm font-semibold text-navy-deep transition-colors hover:border-gold hover:bg-gold-light ${focusRing}`}
             >
+              <img src={imuCetBook.photos[0].src} alt="" className="-ml-2 h-9 w-auto rounded-sm shadow" />
               Get the IMU-CET book <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
