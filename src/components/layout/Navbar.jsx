@@ -128,12 +128,6 @@ export const Navbar = () => {
 
           {/* Mobile Menu Toggle Button */}
           <div className="flex items-center gap-2 xl:hidden">
-            <Link
-              href="/admin/login"
-              className="p-2 rounded-lg bg-navy-light text-sea-blue text-xs font-bold"
-            >
-              Admin
-            </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2.5 rounded-xl bg-navy-light text-white hover:text-gold transition-colors focus:outline-none"

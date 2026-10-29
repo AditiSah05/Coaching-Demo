@@ -94,9 +94,9 @@ export const Contact = () => {
   return (
     <div className="min-h-screen bg-ivory text-ink">
       <main className="mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 lg:px-8 lg:pb-24 lg:pt-20">
-        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
           {/* Title, what happens next, quick contact */}
-          <div className="lg:col-span-5">
+          <div className="min-w-0 lg:col-span-5">
             <header>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-goldtext">Contact</p>
               <h1 className="mt-4 text-balance font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-navy-deep">
@@ -133,7 +133,7 @@ export const Contact = () => {
           </div>
 
           {/* Enquiry form, with where to find us just below */}
-          <div className="lg:col-span-7">
+          <div className="min-w-0 lg:col-span-7">
           <section aria-labelledby="enquiry-heading">
             <div className="overflow-hidden rounded-3xl border border-navy-deep/10 bg-white shadow-chunky-lg">
               <div className="h-1.5 bg-gold" aria-hidden="true" />
@@ -170,7 +170,7 @@ export const Contact = () => {
                         />
                       </Field>
 
-                      <div className="grid gap-5 sm:grid-cols-2">
+                      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                         <Field id="c-phone" label="Mobile number *" error={errors.phone}>
                           <input
                             id="c-phone" type="tel" inputMode="tel" autoComplete="tel" value={form.phone} onChange={set('phone')}
@@ -207,7 +207,7 @@ export const Contact = () => {
           </section>
 
           <section aria-label="Visit the academy" className="mt-10 border-t border-navy-deep/15 pt-8">
-            <div className="grid gap-7 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-7 sm:grid-cols-2">
               <div className="flex gap-4">
                 <MapPin className="mt-1 h-5 w-5 shrink-0 text-goldtext" aria-hidden="true" />
                 <div>

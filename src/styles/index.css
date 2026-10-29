@@ -187,3 +187,10 @@ body::after {
 .prose-pma table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 0.95rem; line-height: 1.5; }
 .prose-pma th, .prose-pma td { border: 1px solid rgb(2 21 39 / 0.15); padding: 0.65em 0.9em; text-align: left; vertical-align: top; }
 .prose-pma th { background: #F4F2ED; color: #021527; font-weight: 600; }
+
+/* Phones: a grid with no explicit mobile column count sizes itself to its widest item, so one long email or word
+   can stretch the whole page past the screen. Give those grids one shrinkable column and let their items shrink. */
+@media (max-width: 639px) {
+  .grid:not([class^="grid-cols-"]):not([class*=" grid-cols-"]) { grid-template-columns: minmax(0, 1fr); }
+  .grid > * { min-width: 0; }
+}
