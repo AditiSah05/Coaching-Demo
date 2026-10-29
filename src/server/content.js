@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { read, sortRecords, PUBLIC_KEYS } from './store';
 import { COLLECTIONS } from '../shared/schema';
 
@@ -10,7 +11,8 @@ const uniqueTopics = (list, key = 'topic') => {
 };
 
 // Everything the public website needs, and nothing private: no drafts, no pending reviews, no enquiries.
-export async function publicContent() {
+// `cache` makes the layout, the page title and the page itself share one database read per visit instead of three.
+export const publicContent = cache(async function publicContent() {
   const db = await read(PUBLIC_KEYS);
   const blogs = sorted('blogs', db.blogs.filter((b) => b.status === 'published'))
     .map(({ content, ...b }) => ({ slug: b.slug, title: b.title, date: b.date, topic: b.topic, excerpt: b.excerpt, cover: b.cover, minutes: b.minutes }));
@@ -42,6 +44,6 @@ export async function publicContent() {
     faqs: sorted('faqs', vis(db.faqs)),
     testimonials: reviews,
   };
-}
+});
 
 export const publishedPost = async (slug) => (await read(['blogs'])).blogs.find((b) => b.slug === slug && b.status === 'published') || null;

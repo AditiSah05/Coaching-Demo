@@ -1,13 +1,12 @@
 import '../styles/index.css';
 import { Providers } from '../components/Providers';
 import { publicContent } from '../server/content';
-import { read } from '../server/store';
 import { siteUrl, SITE_NAME, jsonLd, organizationLd } from '../lib/seo';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
-  const seo = (await read(['settings'])).settings.seo || {};
+  const seo = (await publicContent()).settings.seo || {};
   const base = await siteUrl();
   const title = seo.title || 'Best IMU CET Coaching in Sikar | Pacific Marine Academy';
   const description = seo.description || '';
