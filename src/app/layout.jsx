@@ -2,26 +2,36 @@ import '../styles/index.css';
 import { Providers } from '../components/Providers';
 import { publicContent } from '../server/content';
 import { read } from '../server/store';
+import { siteUrl, SITE_NAME, jsonLd, organizationLd } from '../lib/seo';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const seo = (await read(['settings'])).settings.seo || {};
-  const title = seo.title || 'Pacific Marine Academy';
+  const base = await siteUrl();
+  const title = seo.title || 'Best IMU CET Coaching in Sikar | Pacific Marine Academy';
   const description = seo.description || '';
   return {
-    title,
+    metadataBase: new URL(base),
+    // Pages set a short title; the academy name is added after it.
+    title: { default: title, template: `%s | ${SITE_NAME}` },
     description,
     keywords: 'IMU CET coaching Sikar, DNS sponsorship, Merchant Navy coaching, Diploma in Nautical Science, BSC Nautical Science, B.Tech Marine Engineering',
-    openGraph: { title, description, type: 'website', images: ['/images/about-academy-image-01.png'] },
+    applicationName: SITE_NAME,
+    alternates: { canonical: './' },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
+    openGraph: { siteName: SITE_NAME, locale: 'en_IN', type: 'website', title, description, images: [{ url: '/images/about-academy-image-01.png', alt: SITE_NAME }] },
+    twitter: { card: 'summary_large_image', title, description, images: ['/images/about-academy-image-01.png'] },
   };
 }
 
 export const viewport = { width: 'device-width', initialScale: 1, maximumScale: 5 };
 
 export default async function RootLayout({ children }) {
+  const data = await publicContent();
+  const base = await siteUrl();
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en-IN" className="scroll-smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -31,7 +41,8 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body className="bg-ivory text-ink font-sans antialiased selection:bg-terracotta selection:text-white">
-        <Providers initialData={await publicContent()}>{children}</Providers>
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(organizationLd(data.settings, base))} />
+        <Providers initialData={data}>{children}</Providers>
       </body>
     </html>
   );

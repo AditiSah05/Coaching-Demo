@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Phone } from 'lucide-react';
 import { publicContent, publishedPost } from '../../../../server/content';
 import { formatDate } from '../../../../lib/blog';
 import { PostCover } from '../../../../components/blog/PostCover';
+import { siteUrl, jsonLd, breadcrumbLd, pageMeta, SITE_NAME } from '../../../../lib/seo';
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
 
@@ -14,11 +15,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = await publishedPost(slug);
   if (!post) return {};
-  return {
-    title: `${post.title} | Pacific Marine Academy`,
-    description: post.excerpt,
-    openGraph: { title: post.title, description: post.excerpt, type: 'article', publishedTime: post.date, images: post.cover ? [post.cover] : undefined },
-  };
+  return pageMeta(post.title, post.excerpt, { type: 'article', publishedTime: post.date, images: post.cover ? [post.cover] : undefined });
 }
 
 export default async function Page({ params }) {
@@ -26,6 +23,19 @@ export default async function Page({ params }) {
   const post = await publishedPost(slug);
   if (!post) notFound();
   const html = post.content;
+  const base = await siteUrl();
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    dateModified: post.updatedAt || post.date,
+    image: post.cover ? (post.cover.startsWith('http') ? post.cover : `${base}${post.cover}`) : undefined,
+    mainEntityOfPage: `${base}/blogs/${slug}`,
+    author: { '@type': 'Organization', name: SITE_NAME },
+    publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: `${base}/logo.png` } },
+  };
   const blogPosts = (await publicContent()).blogs;
 
   const related = [
@@ -35,6 +45,8 @@ export default async function Page({ params }) {
 
   return (
     <div className="min-h-screen bg-ivory text-ink">
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(articleLd)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbLd(base, [['Home', '/'], ['Blog', '/blogs'], [post.title, `/blogs/${slug}`]]))} />
       <article>
         <header className="border-b border-navy-deep/10">
           <div className="mx-auto max-w-3xl px-4 pb-10 pt-10 sm:px-6 lg:pb-12 lg:pt-14">
