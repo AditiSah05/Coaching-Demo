@@ -58,7 +58,7 @@ const Shell = ({ children }) => {
   const [recent, setRecent] = useState([]);
   const last = useRef(null);
 
-  useEffect(() => { if (ready && !user) router.replace('/admin/login'); }, [ready, user, router]);
+  useEffect(() => { if (ready && !user) window.location.replace('/admin/enter'); }, [ready, user, router]);
   useEffect(() => { if (user?.mustChangePassword && pathname !== '/admin/profile') router.replace('/admin/profile'); }, [user, pathname, router]);
   useEffect(() => { setDrawer(false); setBell(false); }, [pathname]);
 
@@ -136,7 +136,7 @@ const Shell = ({ children }) => {
         </Link>
         <div className="flex gap-2">
           <a href="/" target="_blank" rel="noopener noreferrer" className={`flex min-h-[38px] flex-1 items-center justify-center gap-1.5 rounded-lg bg-white/10 text-xs font-semibold hover:bg-white/20 ${focus}`}>View site <ExternalLink className="h-3 w-3" /></a>
-          <button onClick={async () => { await logout(); router.replace('/admin/login'); }} className={`flex min-h-[38px] flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-white/10 text-xs font-semibold hover:bg-red-500 ${focus}`}><LogOut className="h-3.5 w-3.5" /> Sign out</button>
+          <button onClick={async () => { await logout(); window.location.assign('/admin/enter'); }} className={`flex min-h-[38px] flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-white/10 text-xs font-semibold hover:bg-red-500 ${focus}`}><LogOut className="h-3.5 w-3.5" /> Sign out</button>
         </div>
       </div>
     </div>

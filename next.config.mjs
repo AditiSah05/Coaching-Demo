@@ -15,12 +15,12 @@ const moved = [
   ['/blog', '/blogs'],
 ];
 
-// The admin's secret entry address, e.g. ADMIN_ENTRY=my-secret-word makes https://site/my-secret-word the way in.
+// The admin's secret entry address, e.g. ADMIN_ENTRY=my-secret-word puts the admin sign-in page at https://site/my-secret-word.
 const entry = (process.env.ADMIN_ENTRY || '').replace(/^\/+|\/+$/g, '');
 
 export default {
   async rewrites() {
-    return entry ? [{ source: `/${entry}`, destination: '/admin/enter' }] : [];
+    return entry ? [{ source: `/${entry}`, destination: '/admin/login' }] : [];
   },
   async redirects() {
     return moved.flatMap(([from, to]) => [

@@ -7,7 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
 
-export const AdminLogin = () => {
+export const AdminLogin = ({ gate = '' }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -18,7 +18,7 @@ export const AdminLogin = () => {
   const submit = async (e) => {
     e.preventDefault();
     setError(''); setBusy(true);
-    const res = await login(email, password);
+    const res = await login(email, password, gate);
     setBusy(false);
     if (res.success) router.replace(res.user.mustChangePassword ? '/admin/profile' : '/admin');
     else setError(res.message);

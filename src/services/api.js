@@ -4,12 +4,12 @@ export class ApiError extends Error {
   constructor(message, status, fields) { super(message); this.status = status; this.fields = fields || {}; }
 }
 
-export async function request(url, { method = 'GET', body, form } = {}) {
+export async function request(url, { method = 'GET', body, form, headers } = {}) {
   const res = await fetch(url, {
     method,
     credentials: 'same-origin',
     cache: 'no-store',
-    headers: body ? { 'Content-Type': 'application/json' } : undefined,
+    headers: body || headers ? { ...(body ? { 'Content-Type': 'application/json' } : {}), ...headers } : undefined,
     body: form || (body ? JSON.stringify(body) : undefined),
   });
   let data = null;

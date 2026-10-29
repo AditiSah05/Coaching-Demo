@@ -20,9 +20,9 @@ export const AuthProvider = ({ children }) => {
     if (window.location.pathname.startsWith('/admin')) refresh(); else setReady(true);
   }, [refresh]);
 
-  const login = async (email, password) => {
+  const login = async (email, password, gate) => {
     try {
-      const { user: u } = await request('/api/admin/login', { method: 'POST', body: { email, password } });
+      const { user: u } = await request('/api/admin/login', { method: 'POST', body: { email, password }, headers: gate ? { 'x-admin-gate': gate } : undefined });
       setUser(u);
       return { success: true, user: u };
     } catch (e) {
