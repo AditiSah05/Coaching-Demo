@@ -1,0 +1,8 @@
+# Not needed to build or run the site (anchored to the project root so src/data is kept)
+/images
+/data
+/docs
+/.open-next
+/.wrangler
+/.dev.vars
+/pacificmarineacademy-site.md

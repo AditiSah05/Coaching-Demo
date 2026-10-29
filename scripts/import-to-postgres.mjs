@@ -3,16 +3,21 @@
 //   1. npx wrangler d1 execute pacific-marine-academy-db --remote --json --command "SELECT key, value FROM store" > d1-dump.json
 //   2. DATABASE_URL="postgres://..." node scripts/import-to-postgres.mjs d1-dump.json
 //
+// Add --skip=users,notifications,activity to leave those out.
 // It refuses to run if the database already has content, unless you add --force (which replaces it).
 import fs from 'node:fs';
 import postgres from 'postgres';
 
-const [file, flag] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const file = args.find((a) => !a.startsWith('--'));
+const flag = args.includes('--force') ? '--force' : '';
+// --skip=users,activity leaves those sections out (for example, to create a fresh admin account from ADMIN_EMAIL).
+const skip = (args.find((a) => a.startsWith('--skip=')) || '').slice(7).split(',').filter(Boolean);
 const url = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 if (!file || !url) { console.error('Usage: DATABASE_URL=... node scripts/import-to-postgres.mjs d1-dump.json [--force]'); process.exit(1); }
 
 const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
-const rows = (Array.isArray(parsed) ? parsed[0] : parsed).results || [];
+const rows = ((Array.isArray(parsed) ? parsed[0] : parsed).results || []).filter((r) => !skip.includes(r.key));
 if (!rows.length) { console.error('No rows found in the export.'); process.exit(1); }
 
 const sql = postgres(url, { max: 1, prepare: false, onnotice: () => {} });
