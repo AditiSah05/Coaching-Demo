@@ -1,11 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { mutate, newId, cfEnv, dataDir } from './store';
+import { mutate, newId, cfEnv, dataDir, pgUrl, pgSql } from './store';
 import { slugify } from '../shared/schema';
 
 export const MAX_BYTES = 8 * 1024 * 1024;
 
-// Images are stored in R2 on Cloudflare (binding `UPLOADS`), or in DATA_DIR/uploads anywhere else.
+// Images are stored in R2 on Cloudflare (binding `UPLOADS`), in the Postgres `uploads` table when DATABASE_URL is set,
+// or in DATA_DIR/uploads anywhere else.
 const bucket = () => cfEnv()?.UPLOADS || null;
 const dir = () => path.join(dataDir(), 'uploads');
 
@@ -33,6 +34,7 @@ export async function saveImage(file, user, dims = {}) {
   const name = `${Date.now().toString(36)}-${base}.${ext}`;
   const r = bucket();
   if (r) await r.put(name, buf, { httpMetadata: { contentType: TYPES[ext] } });
+  else if (pgUrl()) { const sql = await pgSql(); await sql`INSERT INTO uploads (name, type, data) VALUES (${name}, ${TYPES[ext]}, ${Buffer.from(buf)})`; }
   else { fs.mkdirSync(dir(), { recursive: true }); fs.writeFileSync(path.join(dir(), name), buf); }
 
   const n = (v) => { const x = Math.round(Number(v)); return x > 0 && x < 20000 ? x : 0; };
@@ -45,6 +47,7 @@ export async function removeFile(file) {
   const name = path.basename(file);
   const r = bucket();
   if (r) { await r.delete(name); return; }
+  if (pgUrl()) { const sql = await pgSql(); await sql`DELETE FROM uploads WHERE name = ${name}`; return; }
   const p = path.join(dir(), name);
   if (fs.existsSync(p)) fs.unlinkSync(p);
 }
@@ -55,6 +58,7 @@ export async function readUpload(file) {
   const type = TYPES[name.split('.').pop().toLowerCase()] || 'application/octet-stream';
   const r = bucket();
   if (r) { const o = await r.get(name); return o ? { body: o.body, type } : null; }
+  if (pgUrl()) { const sql = await pgSql(); const [row] = await sql`SELECT data FROM uploads WHERE name = ${name}`; return row ? { body: row.data, type } : null; }
   const p = path.join(dir(), name);
   return fs.existsSync(p) ? { body: fs.readFileSync(p), type } : null;
 }

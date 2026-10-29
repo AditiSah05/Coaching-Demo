@@ -5,6 +5,7 @@ import { buildSeed } from './seed';
 
 // Two backends behind one API:
 //  - Cloudflare: D1 (one row per top-level key, see `store` table). Used whenever a `DB` binding exists.
+//  - Postgres (Vercel + Neon, or any Postgres): used when DATABASE_URL is set.
 //  - Anywhere else (local dev, a VPS): a JSON file in DATA_DIR.
 // Everything is async so both look the same to callers.
 
@@ -80,6 +81,67 @@ async function d1Mutate(db, fn) {
   throw new Error('The site is busy. Please try again.');
 }
 
+// ================= Postgres (Vercel, Neon, any Postgres) =================
+// Used when DATABASE_URL (or POSTGRES_URL) is set and there is no D1 binding. Same one-row-per-key layout as D1.
+export const pgUrl = () => process.env.DATABASE_URL || process.env.POSTGRES_URL || null;
+
+// One connection pool per server process, kept on globalThis so a module reload (dev mode) does not open a second set.
+// The promise is stored, not the client, so two requests arriving together cannot each create one.
+const pgState = (globalThis.__pmaPg ??= { ready: null });
+export function pgSql() {
+  pgState.ready ??= (async () => {
+    const { default: postgres } = await import('postgres');
+    // prepare: false keeps it working behind a connection pooler (Neon's pooled address).
+    const sql = postgres(pgUrl(), { max: Number(process.env.PG_POOL_MAX) || 3, idle_timeout: 10, prepare: false, onnotice: () => {} });
+    await sql`CREATE TABLE IF NOT EXISTS store (key TEXT PRIMARY KEY, value TEXT NOT NULL)`;
+    await sql`CREATE TABLE IF NOT EXISTS uploads (name TEXT PRIMARY KEY, type TEXT NOT NULL, data BYTEA NOT NULL)`;
+    return sql;
+  })().catch((e) => { pgState.ready = null; throw e; });
+  return pgState.ready;
+}
+
+async function pgLoad(keys) {
+  const sql = await pgSql();
+  const want = keys ? [...new Set([...keys, LOCK])] : null;
+  const q = () => (want ? sql`SELECT key, value FROM store WHERE key = ANY(${sql.array(want)})` : sql`SELECT key, value FROM store`);
+  let rows = await q();
+
+  if (!rows.some((r) => r.key === LOCK)) {
+    // First start: write the starting content. ON CONFLICT DO NOTHING so two first requests cannot clash.
+    const seed = buildSeed();
+    await sql.begin(async (tx) => {
+      for (const [k, v] of Object.entries(seed)) await tx`INSERT INTO store (key, value) VALUES (${k}, ${JSON.stringify(v)}) ON CONFLICT (key) DO NOTHING`;
+      await tx`INSERT INTO store (key, value) VALUES (${LOCK}, ${token()}) ON CONFLICT (key) DO NOTHING`;
+    });
+    rows = await q();
+  }
+
+  const raw = {}; const data = {};
+  for (const r of rows) { raw[r.key] = r.value; if (r.key !== LOCK) data[r.key] = JSON.parse(r.value); }
+  return { data, raw, lock: raw[LOCK] };
+}
+
+async function pgMutate(fn) {
+  const sql = await pgSql();
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const { data, raw, lock } = await pgLoad();
+    const added = missingKeys(data);
+    const result = await fn(data);
+    const changed = Object.keys(data).filter((k) => JSON.stringify(data[k]) !== raw[k] || added.includes(k));
+    if (!changed.length) return result;
+
+    // The lock row only updates if nobody else wrote since we read. If it did not, nothing is written and we try again.
+    const saved = await sql.begin(async (tx) => {
+      const res = await tx`UPDATE store SET value = ${token()} WHERE key = ${LOCK} AND value = ${lock}`;
+      if (res.count !== 1) return false;
+      for (const k of changed) await tx`INSERT INTO store (key, value) VALUES (${k}, ${JSON.stringify(data[k])}) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`;
+      return true;
+    });
+    if (saved) return result;
+  }
+  throw new Error('The site is busy. Please try again.');
+}
+
 // ================= file =================
 const g = globalThis;
 g.__pma ??= { db: null, queue: Promise.resolve() };
@@ -113,6 +175,7 @@ function fileLoad() {
 export async function read(keys) {
   const db = d1();
   if (db) return (await d1Load(db, keys)).data;
+  if (pgUrl()) return (await pgLoad(keys)).data;
   return fileLoad();
 }
 
@@ -121,6 +184,7 @@ export async function read(keys) {
 export function mutate(fn) {
   const db = d1();
   if (db) return d1Mutate(db, fn);
+  if (pgUrl()) return pgMutate(fn);
   const run = g.__pma.queue.then(async () => {
     const data = fileLoad();
     const result = await fn(data);

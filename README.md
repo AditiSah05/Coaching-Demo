@@ -29,7 +29,7 @@ A modern, responsive React web application and admin management dashboard for **
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Analytics**: Recharts
-- **Deployment Ready**: deploy to Vercel as-is (no rewrites needed)
+- **Deployment**: Vercel + Neon Postgres (`docs/DEPLOY-VERCEL.md`) or Cloudflare Workers (`docs/DEPLOY-CLOUDFLARE.md`)
 
 ## Getting Started
 
