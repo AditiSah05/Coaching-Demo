@@ -110,6 +110,8 @@ export const Footer = () => {
 
               <Link
                 href="/admission"
+                // Already on the admission page: the link points here, so scroll to the top of the form instead of doing nothing.
+                onClick={(e) => { if (window.location.pathname === '/admission') { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}
                 className="group inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-xs font-extrabold uppercase tracking-wider text-navy-deep transition-colors hover:bg-gold-hover"
               >
                 Enrol Now

@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Check, Upload, Printer, ArrowLeft } from 'lucide-react';
+import { Check, Printer, ArrowLeft } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 const steps = [
   { title: 'Personal details', note: 'Enter your name as it appears on your 10th certificate.' },
   { title: 'Academics', note: 'Your marks decide which courses you can join.' },
   { title: 'Course and batch', note: 'Choose the course and the timing that suits you.' },
-  { title: 'Documents', note: 'Upload a marksheet if you have one. This step is optional.' },
+  { title: 'Documents', note: 'Nothing to upload. Keep your marksheets ready for your visit.' },
   { title: 'Review', note: 'Check everything before you submit.' },
 ];
 
@@ -173,8 +173,7 @@ export const AdmissionForm = () => {
     englishPercentage: '',
     courseName: preSelectedCourse || (courses[0]?.title || ''),
     batchPreference: 'Morning Regular Batch',
-    hostelRequired: 'Yes',
-    documentProof: ''
+    hostelRequired: 'Yes'
   });
 
   useEffect(() => {
@@ -196,17 +195,6 @@ export const AdmissionForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, documentProof: reader.result }));
-      };
-      reader.readAsDataURL(file);
     }
   };
 
@@ -530,27 +518,14 @@ export const AdmissionForm = () => {
 
               {/* STEP 4 */}
               {step === 4 && (
-                <div>
-                  <label
-                    htmlFor="documentProof"
-                    className="flex cursor-pointer flex-col items-center gap-3 rounded-2xl border-2 border-dashed border-navy-deep/25 bg-ivory px-6 py-12 text-center transition-colors hover:border-gold hover:bg-gold-light/40"
-                  >
-                    <Upload className="h-8 w-8 text-goldtext" />
-                    <span className="text-lg font-semibold text-navy-deep">Choose your 10th or 12th marksheet</span>
-                    <span className="text-sm text-ink/60">Photo or PDF. You can skip this and bring it to the academy.</span>
-                  </label>
-                  <input id="documentProof" type="file" accept="image/*,.pdf" onChange={handleFileUpload} className="sr-only" />
-
-                  {formData.documentProof && (
-                    <div className="mt-5 flex items-center gap-4 rounded-2xl border border-navy-deep/10 bg-white p-4">
-                      {formData.documentProof.startsWith('data:image') ? (
-                        <img src={formData.documentProof} alt="Uploaded marksheet" className="h-20 w-20 rounded-lg object-cover" />
-                      ) : (
-                        <span className="flex h-20 w-20 items-center justify-center rounded-lg bg-ivory text-sm font-semibold text-navy-deep">PDF</span>
-                      )}
-                      <p className="flex items-center gap-2 text-[15px] font-semibold text-navy-deep"><Check className="h-5 w-5 text-seagreen" /> Marksheet added</p>
-                    </div>
-                  )}
+                <div className="rounded-2xl border border-navy-deep/10 bg-ivory p-6 sm:p-8">
+                  <h3 className="font-serif text-xl font-semibold text-navy-deep">Bring your marksheets to the academy</h3>
+                  <ul className="mt-5 space-y-3">
+                    {['10th marksheet', '12th marksheet'].map((t) => (
+                      <li key={t} className="flex items-start gap-3 text-[17px] text-navy-deep"><Check className="mt-1 h-5 w-5 shrink-0 text-goldtext" aria-hidden="true" />{t}</li>
+                    ))}
+                  </ul>
+                  <p className="mt-5 text-[15px] leading-relaxed text-ink/60">Our admissions desk will check them with you and tell you if anything else is needed. You do not need to send anything online.</p>
                 </div>
               )}
 
@@ -576,8 +551,7 @@ export const AdmissionForm = () => {
                       ['Course', formData.courseName],
                       ['Batch', formData.batchPreference],
                       ['Hostel', formData.hostelRequired === 'Yes' ? 'Needed' : 'Not needed'],
-                      ['Marksheet', formData.documentProof ? 'Added' : 'Not added'],
-                    ]} />
+                                    ]} />
                   </div>
 
                   <label htmlFor="declaration" className="flex cursor-pointer items-start gap-3 text-[15px] leading-relaxed text-navy-deep">
