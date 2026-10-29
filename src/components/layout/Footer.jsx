@@ -184,8 +184,6 @@ export const Footer = () => {
                 <a href="https://westmere.io" target="_blank" rel="noreferrer" className="text-white/70 underline underline-offset-2 transition-colors hover:text-gold">westmere</a>.
               </p>
               <div className="flex items-center gap-4">
-                <Link href="/admin/login" className="transition-colors hover:text-gold">Admin Portal</Link>
-                <span className="text-gold/40">•</span>
                 <span className="font-semibold text-gold">Sikar, Rajasthan</span>
                 <a
                   href="#top"
