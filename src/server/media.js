@@ -5,8 +5,13 @@ import { slugify } from '../shared/schema';
 
 export const MAX_BYTES = 8 * 1024 * 1024;
 
-// Images are stored in R2 on Cloudflare (binding `UPLOADS`), in the Postgres `uploads` table when DATABASE_URL is set,
-// or in DATA_DIR/uploads anywhere else.
+// Where new images go, first match wins:
+//  1. Cloudflare R2 (binding `UPLOADS`)
+//  2. Vercel Blob (BLOB_READ_WRITE_TOKEN): served straight from Vercel's CDN, never touches the database
+//  3. the Postgres `uploads` table (DATABASE_URL), then DATA_DIR/uploads
+// Images saved earlier keep working: `/uploads/...` addresses are still read from the place they were saved.
+const blobOn = () => !!process.env.BLOB_READ_WRITE_TOKEN;
+const isBlobUrl = (v) => /^https:\/\/[^/]+\.blob\.vercel-storage\.com\//.test(String(v));
 const bucket = () => cfEnv()?.UPLOADS || null;
 const dir = () => path.join(dataDir(), 'uploads');
 
@@ -33,17 +38,24 @@ export async function saveImage(file, user, dims = {}) {
   const base = slugify(String(file.name || 'image').replace(/\.[^.]+$/, '')) || 'image';
   const name = `${Date.now().toString(36)}-${base}.${ext}`;
   const r = bucket();
+  let url = `/uploads/${name}`;
+  let stored = name;
   if (r) await r.put(name, buf, { httpMetadata: { contentType: TYPES[ext] } });
-  else if (pgUrl()) { const sql = await pgSql(); await sql`INSERT INTO uploads (name, type, data) VALUES (${name}, ${TYPES[ext]}, ${Buffer.from(buf)})`; }
+  else if (blobOn()) {
+    const { put } = await import('@vercel/blob');
+    const b = await put(`uploads/${name}`, buf, { access: 'public', contentType: TYPES[ext], addRandomSuffix: false, cacheControlMaxAge: 31536000 });
+    url = b.url; stored = b.url;
+  } else if (pgUrl()) { const sql = await pgSql(); await sql`INSERT INTO uploads (name, type, data) VALUES (${name}, ${TYPES[ext]}, ${Buffer.from(buf)})`; }
   else { fs.mkdirSync(dir(), { recursive: true }); fs.writeFileSync(path.join(dir(), name), buf); }
 
   const n = (v) => { const x = Math.round(Number(v)); return x > 0 && x < 20000 ? x : 0; };
-  const item = { id: newId('med'), file: name, url: `/uploads/${name}`, name: String(file.name || name).slice(0, 120), width: n(dims.width), height: n(dims.height), size: buf.length, createdAt: new Date().toISOString(), uploadedBy: user?.name || '' };
+  const item = { id: newId('med'), file: stored, url, name: String(file.name || name).slice(0, 120), width: n(dims.width), height: n(dims.height), size: buf.length, createdAt: new Date().toISOString(), uploadedBy: user?.name || '' };
   await mutate((db) => { db.media.unshift(item); });
   return { item };
 }
 
 export async function removeFile(file) {
+  if (isBlobUrl(file)) { const { del } = await import('@vercel/blob'); await del(file); return; }
   const name = path.basename(file);
   const r = bucket();
   if (r) { await r.delete(name); return; }

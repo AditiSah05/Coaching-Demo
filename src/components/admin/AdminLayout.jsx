@@ -62,11 +62,13 @@ const Shell = ({ children }) => {
   useEffect(() => { if (user?.mustChangePassword && pathname !== '/admin/profile') router.replace('/admin/profile'); }, [user, pathname, router]);
   useEffect(() => { setDrawer(false); setBell(false); }, [pathname]);
 
-  // Check for new notifications every 20 seconds, and show the count in the browser tab.
+  // Check for new notifications every minute while the tab is visible, and show the count in the browser tab.
+  // Not while the tab is hidden: an open tab left overnight would otherwise keep the database awake all night.
   useEffect(() => {
     if (!user) return undefined;
     let stop = false;
     const poll = async () => {
+      if (document.hidden) return;
       try {
         const d = await request('/api/admin/notifications');
         if (stop) return;
@@ -80,7 +82,7 @@ const Shell = ({ children }) => {
       } catch { /* a missed check is fine; the next one retries */ }
     };
     poll();
-    const t = setInterval(poll, 20000);
+    const t = setInterval(poll, 60000);
     const onFocus = () => poll();
     window.addEventListener('focus', onFocus);
     return () => { stop = true; clearInterval(t); window.removeEventListener('focus', onFocus); };

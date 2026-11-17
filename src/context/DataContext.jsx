@@ -1,18 +1,15 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import { api } from '../services/api';
 
 const DataContext = createContext();
 
-// The server sends the site content with the page, so there is no flash of old content.
-// After that it is fetched again on every page change and when the tab regains focus,
-// so something the admin just saved shows up without a manual reload.
+// The server sends the site content with the page. Pages are cached and rebuilt when the admin saves, so there is
+// nothing to fetch again on every page change (that used to cost a database read each time).
+// `refreshData` is still there for a screen that wants to reload the content by hand.
 export const DataProvider = ({ initialData, children }) => {
   const [data, setData] = useState(initialData);
-  const pathname = usePathname();
-  const first = useRef(true);
 
   const refreshData = useCallback(async () => {
     try {
@@ -20,17 +17,6 @@ export const DataProvider = ({ initialData, children }) => {
       if (res.ok) setData(await res.json());
     } catch { /* offline: keep what is already shown */ }
   }, []);
-
-  useEffect(() => {
-    if (first.current) { first.current = false; return; }
-    refreshData();
-  }, [pathname, refreshData]);
-
-  useEffect(() => {
-    const onFocus = () => refreshData();
-    window.addEventListener('focus', onFocus);
-    return () => window.removeEventListener('focus', onFocus);
-  }, [refreshData]);
 
   return <DataContext.Provider value={{ ...data, refreshData, api }}>{children}</DataContext.Provider>;
 };

@@ -1,21 +1,10 @@
-import { headers } from 'next/headers';
-
 export const SITE_NAME = 'Pacific Marine Academy';
 const FALLBACK_URL = 'https://pacificmarineacademy.com';
 
-// The address search engines should use. Set SITE_URL to fix it; otherwise it is taken from the request,
-// so canonical links always match the domain the page is actually served on.
+// The address search engines should use: SITE_URL if set, otherwise the real domain. It must not depend on the
+// request, because reading request headers makes Next.js render every page on every visit instead of caching it.
 export async function siteUrl() {
-  if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/+$/, '');
-  try {
-    const h = await headers();
-    const host = h.get('x-forwarded-host') || h.get('host');
-    if (host) {
-      const proto = h.get('x-forwarded-proto') || (/^(localhost|127\.)/.test(host) ? 'http' : 'https');
-      return `${proto}://${host}`;
-    }
-  } catch { /* no request (build step): use the fallback */ }
-  return FALLBACK_URL;
+  return (process.env.SITE_URL || FALLBACK_URL).replace(/\/+$/, '');
 }
 
 // Keeps a description inside the length search results show (about 155 characters), cut at a word.

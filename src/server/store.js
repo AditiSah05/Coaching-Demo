@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { revalidatePath } from 'next/cache';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { buildSeed } from './seed';
 
@@ -23,6 +24,15 @@ const token = () => [...crypto.getRandomValues(new Uint8Array(12))].map((b) => b
 
 // Keys the public website needs. Reading only these keeps a page view to a few small D1 rows.
 export const PUBLIC_KEYS = ['settings', 'banners', 'courses', 'blogs', 'gallery', 'videos', 'studyMaterials', 'forms', 'resultPosters', 'faculty', 'faqs', 'reviews'];
+
+// Public pages are cached by Next.js and Vercel. After a save that changed something visitors can see, throw the cached
+// pages away so the next visit rebuilds them with the new content. Saves that only touch enquiries, accounts, the
+// activity log and so on leave the cache alone.
+const PUBLIC_SET = new Set(PUBLIC_KEYS);
+function revalidatePublic(changedKeys) {
+  if (!changedKeys.some((k) => PUBLIC_SET.has(k))) return;
+  try { revalidatePath('/', 'layout'); } catch { /* not inside a request (a script): nothing is cached */ }
+}
 
 // Fills in anything a newer version of the site added. Returns the keys that were missing.
 const missingKeys = (db) => {
@@ -103,7 +113,7 @@ async function d1Mutate(db, fn) {
     }
     const res = await db.batch(stmts);
     dropCache();
-    if (res[0].meta.changes === 1) return result;
+    if (res[0].meta.changes === 1) { revalidatePublic(changed); return result; }
     // Someone else saved first: read again and redo this change on top of theirs.
   }
   throw new Error('The site is busy. Please try again.');
@@ -165,7 +175,7 @@ async function pgMutate(fn) {
       return true;
     });
     dropCache();
-    if (saved) return result;
+    if (saved) { revalidatePublic(changed); return result; }
   }
   throw new Error('The site is busy. Please try again.');
 }
@@ -215,8 +225,10 @@ export function mutate(fn) {
   if (pgUrl()) return pgMutate(fn);
   const run = g.__pma.queue.then(async () => {
     const data = fileLoad();
+    const before = Object.fromEntries(PUBLIC_KEYS.map((k) => [k, JSON.stringify(data[k])]));
     const result = await fn(data);
     fileWrite(data);
+    revalidatePublic(PUBLIC_KEYS.filter((k) => JSON.stringify(data[k]) !== before[k]));
     return result;
   });
   g.__pma.queue = run.catch(() => {});

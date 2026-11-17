@@ -1,7 +1,7 @@
 import { read } from '../server/store';
 import { siteUrl } from '../lib/seo';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 const pages = [
   ['/', 1, 'weekly'], ['/courses', 0.9, 'monthly'], ['/admission', 0.9, 'monthly'], ['/results', 0.8, 'monthly'],

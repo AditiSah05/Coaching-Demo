@@ -32,7 +32,9 @@ Vercel project, Settings, Domains, add `pacificmarineacademy.com` and `www.pacif
 Keep any existing `MX` and `TXT` records so email keeps working. The old WordPress site stops being reachable once the domain points here, so back it up first.
 
 ## Things to know
-- **Images:** admin uploads are stored in the database (the `uploads` table), resized to 1800 px WebP in the browser. Keep an eye on the Neon free storage (0.5 GB).
+- **Pages are cached.** Public pages are built once and served from Vercel's CDN (revalidated every hour as a safety net). Saving in the admin rebuilds them right away (`revalidatePublic` in `src/server/store.js`), so visitors see edits and approved reviews at once, and a visit normally costs no database read at all. If the database is down, the cached pages keep being served.
+- **Images:** with a Vercel Blob store connected (`BLOB_READ_WRITE_TOKEN`, created from Storage, Blob), new uploads go to Blob and are served from Vercel's CDN, never from the database. Without it they fall back to the database `uploads` table. They are resized to 1800 px WebP in the browser first.
+- **Moving older images out of the database:** `DATABASE_URL=... BLOB_READ_WRITE_TOKEN=... node scripts/move-uploads-to-blob.mjs` (add `--dry-run` first, `--delete-old` once the site shows them).
 - **Neon connection:** use the pooled address Neon gives you; the site is set up for it.
 - **Rate limits** on login and forms are kept in memory per server instance, so they are best-effort.
 - **Backups:** Admin, Backup downloads all content as JSON. Neon also keeps point-in-time history on its plans.

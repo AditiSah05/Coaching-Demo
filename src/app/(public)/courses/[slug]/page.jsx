@@ -1,9 +1,14 @@
 import { notFound, redirect } from 'next/navigation';
 import { CourseDetail } from '../../../../views/CourseDetail';
 import { read } from '../../../../server/store';
+import { publicContent } from '../../../../server/content';
 import { siteUrl, trim, jsonLd, breadcrumbLd, pageMeta, SITE_NAME } from '../../../../lib/seo';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  return (await publicContent()).courses.filter((c) => c.slug).map((c) => ({ slug: c.slug }));
+}
 
 const findCourse = async (slug) => (await read(['courses'])).courses.find((c) => c.slug === slug || c.id === slug) || null;
 

@@ -12,6 +12,7 @@
     "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
+    "@vercel/blob": "^2.9.0",
     "framer-motion": "^11.18.2",
     "lucide-react": "^0.475.0",
     "next": "^16.4.2",

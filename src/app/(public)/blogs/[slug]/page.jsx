@@ -8,8 +8,13 @@ import { siteUrl, jsonLd, breadcrumbLd, pageMeta, SITE_NAME } from '../../../../
 
 const focusRing = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
 
-// Posts can be added, edited or unpublished from the admin at any time, so these pages are built on request.
-export const dynamic = 'force-dynamic';
+// Cached; rebuilt when a post is saved in the admin.
+export const revalidate = 3600;
+
+// Listing the posts here is what lets Next.js build and cache each one; a post published later is built on its first visit.
+export async function generateStaticParams() {
+  return (await publicContent()).blogs.map((b) => ({ slug: b.slug }));
+}
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;

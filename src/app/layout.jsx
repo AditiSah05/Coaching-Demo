@@ -3,7 +3,9 @@ import { Providers } from '../components/Providers';
 import { publicContent } from '../server/content';
 import { siteUrl, SITE_NAME, jsonLd, organizationLd } from '../lib/seo';
 
-export const dynamic = 'force-dynamic';
+// Pages are cached and rebuilt when something is saved in the admin (see revalidatePublic in server/store.js).
+// The hour is only a safety net.
+export const revalidate = 3600;
 
 export async function generateMetadata() {
   const seo = (await publicContent()).settings.seo || {};
