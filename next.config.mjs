@@ -23,9 +23,13 @@ export default {
     return entry ? [{ source: `/${entry}`, destination: '/admin/login' }] : [];
   },
   async redirects() {
-    return moved.flatMap(([from, to]) => [
-      { source: from, destination: to, permanent: true },
-      { source: `${from}/`, destination: to, permanent: true },
-    ]);
+    return [
+      ...moved.flatMap(([from, to]) => [
+        { source: from, destination: to, permanent: true },
+        { source: `${from}/`, destination: to, permanent: true },
+      ]),
+      // Answered here, before the page runs, so it does not need the database.
+      { source: '/courses/dns-sponsorship', destination: '/courses/diploma-in-nautical-science', permanent: false },
+    ];
   },
 };
