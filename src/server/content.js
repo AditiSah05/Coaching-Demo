@@ -1,6 +1,15 @@
 import { cache } from 'react';
 import { read, sortRecords, PUBLIC_KEYS } from './store';
 import { COLLECTIONS } from '../shared/schema';
+import { buildSeed } from './seed';
+
+// If the database cannot be reached and no saved copy exists, show the starting content instead of an error page.
+// Edits made in the admin are missing until the database is back, but the site stays up.
+const readOrSeed = (keys) => read(keys).catch((e) => {
+  console.error('Database unavailable, showing the starting content:', e?.message);
+  const seed = buildSeed();
+  return Object.fromEntries(keys.map((k) => [k, seed[k]]));
+});
 
 const vis = (list) => list.filter((x) => x.visible !== false);
 const sorted = (name, list) => sortRecords(list, COLLECTIONS[name].sort);
@@ -13,7 +22,7 @@ const uniqueTopics = (list, key = 'topic') => {
 // Everything the public website needs, and nothing private: no drafts, no pending reviews, no enquiries.
 // `cache` makes the layout, the page title and the page itself share one database read per visit instead of three.
 export const publicContent = cache(async function publicContent() {
-  const db = await read(PUBLIC_KEYS);
+  const db = await readOrSeed(PUBLIC_KEYS);
   const blogs = sorted('blogs', db.blogs.filter((b) => b.status === 'published'))
     .map(({ content, ...b }) => ({ slug: b.slug, title: b.title, date: b.date, topic: b.topic, excerpt: b.excerpt, cover: b.cover, minutes: b.minutes }));
 
@@ -46,4 +55,4 @@ export const publicContent = cache(async function publicContent() {
   };
 });
 
-export const publishedPost = async (slug) => (await read(['blogs'])).blogs.find((b) => b.slug === slug && b.status === 'published') || null;
+export const publishedPost = async (slug) => (await readOrSeed(['blogs'])).blogs.find((b) => b.slug === slug && b.status === 'published') || null;

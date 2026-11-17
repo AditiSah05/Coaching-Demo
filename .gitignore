@@ -7,9 +7,11 @@ dist-ssr
 .next
 
 # Live admin database and uploads
-data/
+/data/
 
 # Cloudflare
 .open-next
 .wrangler
 .dev.vars
+.vercel
+.env*

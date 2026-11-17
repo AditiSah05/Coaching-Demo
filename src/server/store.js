@@ -32,37 +32,64 @@ const missingKeys = (db) => {
   return added;
 };
 
+// ================= shared read cache =================
+// A page view used to download every section (about 200 KB) from the database. Now the whole database has one tiny
+// "version" row (LOCK) that changes on every save. We keep the sections we have read, check that one row, and only
+// download again when it has changed. On an error we serve the copy we have rather than failing the page.
+const rc = (globalThis.__pmaRc ??= { lock: null, at: 0, raw: {}, all: false });
+const LOCK_CHECK_MS = 3000; // other servers see a save within this long
+export const dropCache = () => { rc.lock = null; rc.at = 0; rc.raw = {}; rc.all = false; };
+
+async function cachedLoad(src, keys, { fresh = false } = {}) {
+  const want = keys ? [...new Set(keys)] : null;
+  const have = () => (want ? want.every((k) => k in rc.raw) : rc.all);
+  const out = () => {
+    const raw = {}; const data = {};
+    for (const k of want || Object.keys(rc.raw)) if (rc.raw[k] != null) { raw[k] = rc.raw[k]; data[k] = JSON.parse(rc.raw[k]); }
+    return { data, raw, lock: rc.lock };
+  };
+  try {
+    if (fresh || !have() || Date.now() - rc.at >= LOCK_CHECK_MS) {
+      let lock = await src.lock();
+      if (lock == null) { await src.seed(); lock = await src.lock(); } // first start: write the starting content
+      if (lock !== rc.lock) { rc.lock = lock; rc.raw = {}; rc.all = false; }
+      rc.at = Date.now();
+      if (!have()) {
+        const missing = want ? want.filter((k) => !(k in rc.raw)) : null;
+        for (const r of await src.rows(missing)) rc.raw[r.key] = r.value;
+        if (missing) for (const k of missing) rc.raw[k] ??= null; else rc.all = true;
+      }
+    }
+    return out();
+  } catch (e) {
+    if (!fresh && have()) { console.error('Database unreachable, serving the saved copy:', e?.message); return out(); }
+    throw e;
+  }
+}
+
 // ================= D1 =================
 let d1Ready = false;
-async function d1Init(db) {
-  if (d1Ready) return;
-  await db.prepare('CREATE TABLE IF NOT EXISTS store (key TEXT PRIMARY KEY, value TEXT NOT NULL)').run();
-  d1Ready = true;
-}
-
-async function d1Load(db, keys) {
-  await d1Init(db);
-  const want = keys ? [...new Set([...keys, LOCK])] : null;
-  const sql = want ? `SELECT key, value FROM store WHERE key IN (${want.map(() => '?').join(',')})` : 'SELECT key, value FROM store';
-  let rows = (await (want ? db.prepare(sql).bind(...want) : db.prepare(sql)).all()).results;
-
-  if (!rows.some((r) => r.key === LOCK)) {
-    // First start: write the starting content. INSERT OR IGNORE so two first requests cannot clash.
-    const seed = buildSeed();
-    const stmts = Object.entries(seed).map(([k, v]) => db.prepare('INSERT OR IGNORE INTO store (key, value) VALUES (?, ?)').bind(k, JSON.stringify(v)));
+const d1Src = (db) => ({
+  async lock() {
+    if (!d1Ready) { await db.prepare('CREATE TABLE IF NOT EXISTS store (key TEXT PRIMARY KEY, value TEXT NOT NULL)').run(); d1Ready = true; }
+    return (await db.prepare('SELECT value FROM store WHERE key = ?').bind(LOCK).first('value')) ?? null;
+  },
+  async rows(want) {
+    const q = want ? db.prepare(`SELECT key, value FROM store WHERE key IN (${want.map(() => '?').join(',')})`).bind(...want) : db.prepare('SELECT key, value FROM store WHERE key <> ?').bind(LOCK);
+    return (await q.all()).results;
+  },
+  async seed() {
+    // INSERT OR IGNORE so two first requests cannot clash.
+    const stmts = Object.entries(buildSeed()).map(([k, v]) => db.prepare('INSERT OR IGNORE INTO store (key, value) VALUES (?, ?)').bind(k, JSON.stringify(v)));
     stmts.push(db.prepare('INSERT OR IGNORE INTO store (key, value) VALUES (?, ?)').bind(LOCK, token()));
     await db.batch(stmts);
-    rows = (await (want ? db.prepare(sql).bind(...want) : db.prepare(sql)).all()).results;
-  }
-
-  const raw = {}; const data = {};
-  for (const r of rows) { raw[r.key] = r.value; if (r.key !== LOCK) data[r.key] = JSON.parse(r.value); }
-  return { data, raw, lock: raw[LOCK] };
-}
+  },
+});
 
 async function d1Mutate(db, fn) {
+  const src = d1Src(db);
   for (let attempt = 0; attempt < 6; attempt++) {
-    const { data, raw, lock } = await d1Load(db);
+    const { data, raw, lock } = await cachedLoad(src, null, { fresh: true });
     const added = missingKeys(data);
     const result = await fn(data);
     const changed = Object.keys(data).filter((k) => JSON.stringify(data[k]) !== raw[k] || added.includes(k));
@@ -75,6 +102,7 @@ async function d1Mutate(db, fn) {
       stmts.push(db.prepare(`INSERT INTO store (key, value) SELECT ?1, ?2 WHERE EXISTS (SELECT 1 FROM store WHERE key = '${LOCK}' AND value = ?3) ON CONFLICT(key) DO UPDATE SET value = ?2`).bind(k, JSON.stringify(data[k]), next));
     }
     const res = await db.batch(stmts);
+    dropCache();
     if (res[0].meta.changes === 1) return result;
     // Someone else saved first: read again and redo this change on top of theirs.
   }
@@ -92,7 +120,7 @@ export function pgSql() {
   pgState.ready ??= (async () => {
     const { default: postgres } = await import('postgres');
     // prepare: false keeps it working behind a connection pooler (Neon's pooled address).
-    const sql = postgres(pgUrl(), { max: Number(process.env.PG_POOL_MAX) || 3, idle_timeout: 10, prepare: false, onnotice: () => {} });
+    const sql = postgres(pgUrl(), { max: Number(process.env.PG_POOL_MAX) || 3, idle_timeout: 10, prepare: false, connect_timeout: 10, onnotice: () => {} });
     await sql`CREATE TABLE IF NOT EXISTS store (key TEXT PRIMARY KEY, value TEXT NOT NULL)`;
     await sql`CREATE TABLE IF NOT EXISTS uploads (name TEXT PRIMARY KEY, type TEXT NOT NULL, data BYTEA NOT NULL)`;
     return sql;
@@ -100,31 +128,30 @@ export function pgSql() {
   return pgState.ready;
 }
 
-async function pgLoad(keys) {
-  const sql = await pgSql();
-  const want = keys ? [...new Set([...keys, LOCK])] : null;
-  const q = () => (want ? sql`SELECT key, value FROM store WHERE key = ANY(${sql.array(want)})` : sql`SELECT key, value FROM store`);
-  let rows = await q();
-
-  if (!rows.some((r) => r.key === LOCK)) {
-    // First start: write the starting content. ON CONFLICT DO NOTHING so two first requests cannot clash.
-    const seed = buildSeed();
+const pgSrc = {
+  async lock() {
+    const sql = await pgSql();
+    const [r] = await sql`SELECT value FROM store WHERE key = ${LOCK}`;
+    return r?.value ?? null;
+  },
+  async rows(want) {
+    const sql = await pgSql();
+    return want ? sql`SELECT key, value FROM store WHERE key = ANY(${sql.array(want)})` : sql`SELECT key, value FROM store WHERE key <> ${LOCK}`;
+  },
+  async seed() {
+    // ON CONFLICT DO NOTHING so two first requests cannot clash.
+    const sql = await pgSql();
     await sql.begin(async (tx) => {
-      for (const [k, v] of Object.entries(seed)) await tx`INSERT INTO store (key, value) VALUES (${k}, ${JSON.stringify(v)}) ON CONFLICT (key) DO NOTHING`;
+      for (const [k, v] of Object.entries(buildSeed())) await tx`INSERT INTO store (key, value) VALUES (${k}, ${JSON.stringify(v)}) ON CONFLICT (key) DO NOTHING`;
       await tx`INSERT INTO store (key, value) VALUES (${LOCK}, ${token()}) ON CONFLICT (key) DO NOTHING`;
     });
-    rows = await q();
-  }
-
-  const raw = {}; const data = {};
-  for (const r of rows) { raw[r.key] = r.value; if (r.key !== LOCK) data[r.key] = JSON.parse(r.value); }
-  return { data, raw, lock: raw[LOCK] };
-}
+  },
+};
 
 async function pgMutate(fn) {
   const sql = await pgSql();
   for (let attempt = 0; attempt < 6; attempt++) {
-    const { data, raw, lock } = await pgLoad();
+    const { data, raw, lock } = await cachedLoad(pgSrc, null, { fresh: true });
     const added = missingKeys(data);
     const result = await fn(data);
     const changed = Object.keys(data).filter((k) => JSON.stringify(data[k]) !== raw[k] || added.includes(k));
@@ -137,6 +164,7 @@ async function pgMutate(fn) {
       for (const k of changed) await tx`INSERT INTO store (key, value) VALUES (${k}, ${JSON.stringify(data[k])}) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`;
       return true;
     });
+    dropCache();
     if (saved) return result;
   }
   throw new Error('The site is busy. Please try again.');
@@ -174,8 +202,8 @@ function fileLoad() {
 // Read-only view. Do not change what it returns; use `mutate` for writes.
 export async function read(keys) {
   const db = d1();
-  if (db) return (await d1Load(db, keys)).data;
-  if (pgUrl()) return (await pgLoad(keys)).data;
+  if (db) return (await cachedLoad(d1Src(db), keys)).data;
+  if (pgUrl()) return (await cachedLoad(pgSrc, keys)).data;
   return fileLoad();
 }
 
