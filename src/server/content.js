@@ -6,7 +6,7 @@ import { buildSeed } from './seed';
 // While the site is being built there may be no database to ask (or it may be over quota), so the starting content is
 // used. At runtime the error is passed on instead: Next.js then keeps serving the last good cached page rather than
 // replacing it with the starting content. `/api/content` asks for the fallback explicitly.
-const readOrSeed = (keys, { fallback = process.env.NEXT_PHASE === 'phase-production-build' } = {}) => read(keys).catch((e) => {
+export const readOrSeed = (keys, { fallback = process.env.NEXT_PHASE === 'phase-production-build' } = {}) => read(keys).catch((e) => {
   if (!fallback) throw e;
   console.error('Database unavailable, showing the starting content:', e?.message);
   const seed = buildSeed();

@@ -1,4 +1,4 @@
-import { read } from '../server/store';
+import { readOrSeed } from '../server/content';
 import { siteUrl } from '../lib/seo';
 
 export const revalidate = 3600;
@@ -11,7 +11,7 @@ const pages = [
 
 export default async function sitemap() {
   const base = await siteUrl();
-  const db = await read(['courses', 'blogs']);
+  const db = await readOrSeed(['courses', 'blogs'], { fallback: true });
   const now = new Date();
   return [
     ...pages.map(([path, priority, changeFrequency]) => ({ url: `${base}${path === '/' ? '' : path}` || base, lastModified: now, changeFrequency, priority })),
